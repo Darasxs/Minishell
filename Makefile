@@ -6,7 +6,7 @@
 #    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/09/09 12:16:24 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/09/09 18:24:00 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,10 @@ RM			=	rm -f
 
 FLAGS		=	-Wall -Wextra -Werror
 
+LFLAGS		=	-lreadline
+
 $(NAME):	$(OBJECTS)
-	$(CC) $(FLAGS) $(OBJECTS) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJECTS) $(LFLAGS) -o $(NAME)
 	@echo "$(COLOUR_GREEN)$(NAME) built successfully!$(COLOUR_END)"
 
 %.o:			%.c minishell.h
