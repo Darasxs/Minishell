@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
+#    By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/09/09 18:24:00 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/09/10 09:50:45 by dpaluszk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ COLOUR_END		=	\033[0m
 
 NAME		=	minishell
 
-SOURCE		=	minishell.c
+SOURCE		=	minishell.c utils1.c ft_split.c
 
 OBJECTS		=	$(SOURCE:.c=.o)
 
