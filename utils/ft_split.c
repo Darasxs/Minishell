@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:50:01 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/10 09:50:29 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:22:24 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-static size_t	ft_count_words(const char *s, char c)
+static size_t	ft_count_words(char *s, char c)
 {
 	size_t	i;
 	size_t	counter;
@@ -31,7 +31,7 @@ static size_t	ft_count_words(const char *s, char c)
 	return (counter);
 }
 
-static size_t	ft_count_length(const char *s, char c)
+static size_t	ft_count_length(char *s, char c)
 {
 	size_t	i;
 
@@ -41,7 +41,7 @@ static size_t	ft_count_length(const char *s, char c)
 	return (i);
 }
 
-static char	*ft_copying_words(const char *s, char c)
+static char	*ft_copying_words(char *s, char c)
 {
 	size_t	len;
 	char	*new;
@@ -67,7 +67,7 @@ static void	ft_free_memory(char **s)
 	free(s);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	char	**new;
 	size_t	split;

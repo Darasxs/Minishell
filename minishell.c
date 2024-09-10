@@ -3,68 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/10 10:54:49 by dpaluszk         ###   ########.fr       */
+/*   Created: 2024/09/10 15:48:50 by paprzyby          #+#    #+#             */
+/*   Updated: 2024/09/10 16:38:36 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*initializing_prompt(void)
+void	printing_prompt(minishell_t *line)
 {
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
+		ft_error("Error while finding the current work directory\n");
+	line->prompt = malloc(ft_strlen(cwd) + 4);
+	if (!line->prompt)
 	{
-		perror("Error with cwd.\n");
-		exit(EXIT_FAILURE);
+		free(cwd);
+		ft_error("Error while allocating memory\n");
 	}
-	return (cwd);
+	ft_strlcpy(line->prompt, cwd, ft_strlen(line->prompt) + ft_strlen(cwd) + 1);
+	ft_strlcat(line->prompt, " % ", ft_strlen(line->prompt) + 4);
+	line->input = readline(line->prompt); //this function already prints by itself
+	free(cwd);
 }
 
-int	main(void)
+void	input_check(minishell_t *line)
 {
-	char	*reading_line;
-	char	*pwd;
-	char	*prompt;
-	char	**argv;
-	pid_t	pid;
-
-	while (1)
-	{
-		pwd = initializing_prompt();
-		prompt = malloc(ft_strlen(pwd) + 4);
-		if (!prompt)
-			return (free(pwd), 1);
-		ft_strcpy(prompt, pwd);
-		ft_strcat(prompt, " % ");
-		reading_line = readline(prompt);
-		if (reading_line)
-		{
-			argv = ft_split(reading_line, " "); // musimy uwolnic gdzies pamiec z tego splita, chyba na koncu petli
-			printf("%s\n", reading_line);
-			pid = fork();
-			if(pid == 0) // 0 oznacza child process
-			{
-				// tu trzeba zaimplementowac execve, i uzyc funkcji ktora wyszukuje PATH (sciezke) funkcji
-			}
-			else if(pid < 0)
-			{
-				perror("Error occured while forking.\n");
-				// nie wiem czy tu trzeba cos uwolnic itp.
-			}
-			else if (pid > 0) // parent process
-				wait(NULL); 
-			// tu mozna jeszcze uzyc funkcji waitpid, wait3, wait4, poczytaj o tym w manualu; nie wiem ktora najlepiej uzyc, 
-			//wait(NULL) czeka na zakonczenie jakiegokolwiek child procesu
-
-			free(reading_line);
-		}
-		free(pwd);
-		free(prompt);
-	}
-	return (0);
+	if (line->input[0] == '\0') //checks if the user just used enter without typing anything
+		return ;
+	else if (ft_strncmp(line->input, "exit") == 0) //checks if the user typed exit, if so, it exits the whole program with exit
+		exit(EXIT_SUCCESS);
+	else
+		printf("%s\n", line->input); //else prints out user input
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/10 09:50:40 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:33:56 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,19 @@
 
 typedef struct minishell_s
 {
-	/* data */
+	char	*prompt;
+	char	*input;
+	char	**argv;
 }		minishell_t;
 
+void	printing_prompt(minishell_t *line);
+void	input_check(minishell_t *line);
+char	**ft_split(char *s, char c);
 size_t	ft_strlen(char *str);
-char	*initializing_prompt(void);
-char	*ft_strcat(char *dst, const char *src);
-char	*ft_strcpy(char *dst, const char *src);
-char	**ft_split(char const *s, char c);
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
+size_t	ft_strlcat(char *dest, char *src, size_t size);
+int		ft_strncmp(const char *s1, const char *s2);
+void	ft_error(char *str);
+void	print_beginning(void);
 
 #endif
