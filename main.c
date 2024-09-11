@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/10 16:38:48 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/11 16:29:17 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,30 @@ void	print_beginning(void)
 	printf("┖┈┈┈┈┈┈┈୨♡୧┈┈┈┈┈┈┈┚\n");
 }
 
+char	*find_path(const char *path)
+{
+	char	*result;
+
+	result = getenv(path);
+	return (result);
+}
+
+void	execute_command(minishell_t *line)
+{
+	char	*path;
+
+	path = find_path(line->split[0]);
+	if (!path)
+		ft_error("Command not found.\n");
+	if (execve(path, line->split, NULL) == -1)
+		ft_error("Execution failed.\n");
+	// free(path); ???
+}
+
 int	main(void)
 {
 	minishell_t	*line;
+	pid_t		pid;
 
 	line = malloc(sizeof(minishell_t));
 	if (!line)
@@ -31,56 +52,24 @@ int	main(void)
 	print_beginning();
 	while (1)
 	{
-		printing_prompt(line); // prints only the location we are in (prints prompt)
-		input_check(line); // checks the input of the user (whats behind after)
-		free(line->input);
-		free(line->prompt);
+		printing_prompt(line);
+		if (line->input)
+		{
+			pid = fork();
+			if (pid == 0)
+			{
+				execute_command(line);
+			}
+			else if (pid < 0)
+			{
+				free_split(line->split);
+				ft_error("Error occured while forking.\n");
+			}
+			else if (pid > 0)
+				wait(NULL);
+		}
+		cleanup(line);
 	}
 	free(line);
 	return (0);
 }
-
-//int	main(void)
-//{
-//	char	*reading_line;
-//	char	*prompt;
-//	char	**argv;
-//	pid_t	pid;
-
-//	while (1)
-//	{
-//		prompt = initializing_prompt();
-//		reading_line = readline(prompt);
-//		if (reading_line)
-//		{
-//			argv = ft_split(reading_line, ' ');
-//			printf("%s\n", reading_line);
-//			pid = fork();
-//			if(pid == 0)
-//			{
-//				// tu trzeba zaimplementowac execve, i uzyc funkcji ktora wyszukuje PATH (sciezke) funkcji
-//			}
-//			else if(pid < 0)
-//			{
-//				while (*argv)
-//				{
-//					free(&argv);
-//					argv++;
-//				}
-//				free(reading_line);
-//				perror("Error occured while forking.\n");
-//			}
-//			else if (pid > 0)
-//				wait(NULL);
-//			while (*argv)
-//			{
-//				free(&argv);
-//				argv++;
-//			}
-//			free(reading_line);
-
-//		free(prompt);
-//		}
-//	}
-//	return (0);
-//}
