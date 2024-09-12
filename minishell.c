@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 15:48:50 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/11 18:03:15 by dpaluszk         ###   ########.fr       */
+/*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
+/*   Updated: 2024/09/12 08:43:41 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,81 @@ void	printing_prompt(minishell_t *line)
 		free(cwd);
 		ft_error("Error while allocating memory\n");
 	}
-	ft_strlcpy(line->prompt, cwd, ft_strlen(cwd) + 4); // changed this
+	ft_strlcpy(line->prompt, cwd, ft_strlen(cwd) + 4);
 	ft_strlcat(line->prompt, " % ", ft_strlen(line->prompt) + 4);
 	line->input = readline(line->prompt);
-	line->split = ft_split(line->input, ' ');
+	line->split_commands = ft_split(line->input, ' ');
 	free(cwd);
 }
 
-//void	input_check(minishell_t *line)
-//{
-//	if (line->input[0] == '\0') //checks if the user just used enter without typing anything
-//		return ;
-//	else if (ft_strncmp(line->input, "exit") == 0) //checks if the user typed exit, if so, it exits the whole program with exit
-//		exit(EXIT_SUCCESS);
-//	else
-//		printf("%s\n", line->input); //else prints out user input
-//}
+char	*find_path(char *path, minishell_t *line)
+{
+	char	*full_path;
+	int		i;
+
+	i = 0;
+	while (line->split_env[i])
+	{
+		full_path = malloc(ft_strlen(line->split_env[i]) + ft_strlen(path) + 2);
+		if(!full_path)
+			return(free(full_path), NULL);
+		ft_strlcpy(full_path, path, ft_strlen(path) + 1);
+		ft_strlcat(full_path, "/", ft_strlen(full_path) + 1);
+		ft_strlcat(full_path, line->split_env[i], ft_strlen(full_path) + ft_strlen(line->split_env[i]) + 1);
+		printf("%s\n", full_path);
+		if(access(full_path, X_OK) == 0)
+		{
+			printf("%s\n", full_path);
+			free_split(line->split_env);
+			return (full_path);
+		}
+		free(full_path);
+		full_path = NULL;
+		i++;
+	}
+	free_split(line->split_env);
+	return(NULL);
+}
+
+void	execute_command(minishell_t *line)
+{
+	char	*path;
+
+	line->env = getenv("PATH");
+	if (!line->env)
+		return ;
+	line->split_env = ft_split(line->env, ':');
+	if (!line->split_env)
+		return ;
+	path = find_path(line->split_commands[0], line);
+	if (!path)
+		ft_error("Command not found\n");
+	if (execve(path, line->split_commands, NULL) == -1)
+	{
+		ft_error("Execution failed\n");
+		free(path);
+	}
+	free(path);
+}
+
+void	minishell(minishell_t *line)
+{
+	pid_t	pid;
+
+	printing_prompt(line);
+	if (line->input)
+	{
+		add_history(line->input);
+		pid = fork();
+		if (pid == 0)
+			execute_command(line);
+		else if (pid < 0)
+		{
+			free_split(line->split_commands);
+			ft_error("Error occured while forking\n");
+		}
+		else if (pid > 0)
+			wait(NULL);
+	}
+	cleanup(line);
+}

@@ -6,7 +6,7 @@
 #    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/09/10 15:49:39 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/09/12 07:43:49 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ NAME		=	minishell
 
 SOURCE		=	minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				utils/ft_strlcpy.c utils/ft_strlen.c utils/ft_strncmp.c \
-				ft_error.c main.c
+				ft_error.c main.c ft_free.c
 
 OBJECTS		=	$(SOURCE:.c=.o)
 
