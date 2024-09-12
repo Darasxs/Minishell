@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/12 09:55:37 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/12 15:00:41 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,13 @@ size_t		ft_strlen(char *str);
 size_t		ft_strlcpy(char *dst, char *src, size_t dstsize);
 size_t		ft_strlcat(char *dest, char *src, size_t size);
 int			ft_strncmp(const char *s1, const char *s2, size_t len);
-void		ft_error(char *str);
+void		ft_error(char *str, char *info);
 void		print_beginning(void);
 void		free_split(char **split);
 void		cleanup(minishell_t *line);
 void		execute_command(minishell_t *line);
 char		*find_path(char *path, minishell_t *line);
 void		minishell(minishell_t *line);
+void		cd(minishell_t *line);
 
 #endif

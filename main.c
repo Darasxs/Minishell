@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/12 10:16:16 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/12 15:08:56 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ int	main(void)
 	return (0);
 }
 
-//commands that are not working:
-//cd
+//things that are not working:
 //man (WARNING: terminal is not fully functional -  (press RETURN))
 //clear
 //exit
+//pipes
+//>>
 
 //tgetent(NULL, getenv("TERM"));
 //lflag -lncurses

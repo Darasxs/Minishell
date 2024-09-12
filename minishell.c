@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/12 10:44:58 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/12 15:03:58 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	printing_prompt(minishell_t *line)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		ft_error("Error while finding the current work directory\n");
+		ft_error("Error while finding the current work directory\n", NULL);
 	line->prompt = malloc(ft_strlen(cwd) + 4);
 	if (!line->prompt)
 	{
 		free(cwd);
-		ft_error("Error while allocating memory\n");
+		ft_error("Error while allocating memory\n", NULL);
 	}
 	ft_strlcpy(line->prompt, cwd, ft_strlen(cwd) + 4);
 	ft_strlcat(line->prompt, " % ", ft_strlen(line->prompt) + 4);
@@ -59,22 +59,6 @@ char	*find_path(char *path, minishell_t *line)
 	return(NULL);
 }
 
-void	cd(minishell_t *line)
-{
-	if (!line->split_commands[1])
-		printf("cd\n");
-	else if (line->split_commands[1][1] == '.')
-		printf("cd ..\n");
-	else if (line->split_commands[1][0] == '.')
-		printf("cd .\n");
-	//functions to use:
-	//chdir()
-	//opendir()
-	//readdir()
-	//closedir()
-	//execve()
-}
-
 void	execute_command(minishell_t *line)
 {
 	char	*path;
@@ -85,18 +69,18 @@ void	execute_command(minishell_t *line)
 	line->split_env = ft_split(line->env, ':');
 	if (!line->split_env)
 		return ;
-	if (ft_strncmp(line->split_commands[0], "cd", ft_strlen(line->split_commands[0]) + 3) == 0) //case dla cd
+	if (ft_strncmp(line->split_commands[0], "cd", ft_strlen(line->split_commands[0]) + 3) == 0)
 	{
 		cd(line);
-		//free(path);
 		return ;
 	}
-	path = find_path(line->split_commands[0], line);
+	else
+		path = find_path(line->split_commands[0], line);
 	if (!path)
-		ft_error("Command not found\n");
+		ft_error("Command not found\n", NULL);
 	if (execve(path, line->split_commands, NULL) == -1)
 	{
-		ft_error("Execution failed\n");
+		ft_error("Execution failed\n", NULL);
 		free(path);
 	}
 	free(path);
@@ -116,7 +100,7 @@ void	minishell(minishell_t *line)
 		else if (pid < 0)
 		{
 			free_split(line->split_commands);
-			ft_error("Error occured while forking\n");
+			ft_error("Error occured while forking\n", NULL);
 		}
 		else if (pid > 0)
 			wait(NULL);
