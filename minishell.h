@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/12 08:41:11 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/12 09:55:37 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/_types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <term.h>
 
 typedef struct minishell_s
 {

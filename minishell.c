@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/12 08:43:41 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:44:58 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ char	*find_path(char *path, minishell_t *line)
 		full_path = malloc(ft_strlen(line->split_env[i]) + ft_strlen(path) + 2);
 		if(!full_path)
 			return(free(full_path), NULL);
-		ft_strlcpy(full_path, path, ft_strlen(path) + 1);
-		ft_strlcat(full_path, "/", ft_strlen(full_path) + 1);
-		ft_strlcat(full_path, line->split_env[i], ft_strlen(full_path) + ft_strlen(line->split_env[i]) + 1);
-		printf("%s\n", full_path);
+		ft_strlcpy(full_path, line->split_env[i], ft_strlen(line->split_env[i]) + 1);
+		ft_strlcat(full_path, "/", ft_strlen(full_path) + 2);
+		ft_strlcat(full_path, path, ft_strlen(full_path) + ft_strlen(path) + 1);
 		if(access(full_path, X_OK) == 0)
 		{
-			printf("%s\n", full_path);
 			free_split(line->split_env);
 			return (full_path);
 		}
@@ -59,6 +57,22 @@ char	*find_path(char *path, minishell_t *line)
 	}
 	free_split(line->split_env);
 	return(NULL);
+}
+
+void	cd(minishell_t *line)
+{
+	if (!line->split_commands[1])
+		printf("cd\n");
+	else if (line->split_commands[1][1] == '.')
+		printf("cd ..\n");
+	else if (line->split_commands[1][0] == '.')
+		printf("cd .\n");
+	//functions to use:
+	//chdir()
+	//opendir()
+	//readdir()
+	//closedir()
+	//execve()
 }
 
 void	execute_command(minishell_t *line)
@@ -71,6 +85,12 @@ void	execute_command(minishell_t *line)
 	line->split_env = ft_split(line->env, ':');
 	if (!line->split_env)
 		return ;
+	if (ft_strncmp(line->split_commands[0], "cd", ft_strlen(line->split_commands[0]) + 3) == 0) //case dla cd
+	{
+		cd(line);
+		//free(path);
+		return ;
+	}
 	path = find_path(line->split_commands[0], line);
 	if (!path)
 		ft_error("Command not found\n");
