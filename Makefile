@@ -6,7 +6,7 @@
 #    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/09/12 14:39:31 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/09/12 16:10:15 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ RM			=	rm -f
 
 FLAGS		=	-Wall -Wextra -Werror
 
-LFLAGS		=	-lreadline
+LFLAGS		=	-lreadline -lncurses
 
 $(NAME):	$(OBJECTS)
 	$(CC) $(FLAGS) $(OBJECTS) $(LFLAGS) -o $(NAME)
