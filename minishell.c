@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/12 15:03:58 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/13 17:04:24 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,23 @@
 void	printing_prompt(minishell_t *line)
 {
 	char	*cwd;
+	char	**split_cwd;
+	size_t	i;
 
+	i = 0;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		ft_error("Error while finding the current work directory\n", NULL);
-	line->prompt = malloc(ft_strlen(cwd) + 4);
+	split_cwd = ft_split(cwd, '/');
+	while(split_cwd[i])
+		i++;
+	line->prompt = malloc(ft_strlen(split_cwd[i - 1]) + 4);
 	if (!line->prompt)
 	{
-		free(cwd);
+		free(split_cwd);
 		ft_error("Error while allocating memory\n", NULL);
 	}
-	ft_strlcpy(line->prompt, cwd, ft_strlen(cwd) + 4);
+	ft_strlcpy(line->prompt, split_cwd[i - 1], ft_strlen(cwd) + 4);
 	ft_strlcat(line->prompt, " % ", ft_strlen(line->prompt) + 4);
 	line->input = readline(line->prompt);
 	line->split_commands = ft_split(line->input, ' ');
@@ -69,13 +75,9 @@ void	execute_command(minishell_t *line)
 	line->split_env = ft_split(line->env, ':');
 	if (!line->split_env)
 		return ;
-	if (ft_strncmp(line->split_commands[0], "cd", ft_strlen(line->split_commands[0]) + 3) == 0)
-	{
-		cd(line);
+	if(check_builtin_commands(line))
 		return ;
-	}
-	else
-		path = find_path(line->split_commands[0], line);
+	path = find_path(line->split_commands[0], line);
 	if (!path)
 		ft_error("Command not found\n", NULL);
 	if (execve(path, line->split_commands, NULL) == -1)
