@@ -6,7 +6,11 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/09/13 16:50:49 by dpaluszk         ###   ########.fr       */
+=======
+/*   Updated: 2024/09/14 11:03:13 by dpaluszk         ###   ########.fr       */
+>>>>>>> a676fef945bb72bb7f5dc42bd3003f276151f681
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +36,6 @@ typedef struct minishell_s
 	char	**split_commands;
 	char	*env;
 	char	**split_env;
-	char	*old_term;
 }			minishell_t;
 
 void		printing_prompt(minishell_t *line);
