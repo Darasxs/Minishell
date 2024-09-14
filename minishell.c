@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/09/13 17:04:24 by dpaluszk         ###   ########.fr       */
-=======
-/*   Updated: 2024/09/14 11:03:06 by dpaluszk         ###   ########.fr       */
->>>>>>> a676fef945bb72bb7f5dc42bd3003f276151f681
+/*   Updated: 2024/09/14 11:27:11 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +25,14 @@ void	prompt_helper(char **cwd, char **user_name)
 void	printing_prompt(minishell_t *line)
 {
 	char	*cwd;
-<<<<<<< HEAD
-=======
 	char	*user_name;
->>>>>>> a676fef945bb72bb7f5dc42bd3003f276151f681
 	char	**split_cwd;
 	size_t	i;
 
 	i = 0;
-<<<<<<< HEAD
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		ft_error("Error while finding the current work directory\n", NULL);
-	split_cwd = ft_split(cwd, '/');
-	while(split_cwd[i])
-=======
 	prompt_helper(&cwd, &user_name);
 	split_cwd = ft_split(cwd, '/');
 	while (split_cwd[i])
->>>>>>> a676fef945bb72bb7f5dc42bd3003f276151f681
 		i++;
 	line->prompt = malloc(ft_strlen(split_cwd[i - 1]) + 4);
 	if (!line->prompt)
@@ -55,14 +40,10 @@ void	printing_prompt(minishell_t *line)
 		free(split_cwd);
 		ft_error("Error while allocating memory\n", NULL);
 	}
-<<<<<<< HEAD
-	ft_strlcpy(line->prompt, split_cwd[i - 1], ft_strlen(cwd) + 4);
-=======
 	ft_strlcpy(line->prompt, user_name, ft_strlen(user_name) + 1);
 	ft_strlcat(line->prompt, " @ ", ft_strlen(line->prompt) + 4);
 	ft_strlcat(line->prompt, split_cwd[i - 1], ft_strlen(line->prompt)
 		+ ft_strlen(split_cwd[i - 1]) + 1);
->>>>>>> a676fef945bb72bb7f5dc42bd3003f276151f681
 	ft_strlcat(line->prompt, " % ", ft_strlen(line->prompt) + 4);
 	line->input = readline(line->prompt);
 	line->split_commands = ft_split(line->input, ' ');
@@ -107,11 +88,7 @@ void	execute_command(minishell_t *line)
 	line->split_env = ft_split(line->env, ':');
 	if (!line->split_env)
 		return ;
-<<<<<<< HEAD
-	if(check_builtin_commands(line))
-=======
 	if (check_builtin_commands(line))
->>>>>>> a676fef945bb72bb7f5dc42bd3003f276151f681
 		return ;
 	path = find_path(line->split_commands[0], line);
 	if (!path)
