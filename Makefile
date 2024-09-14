@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+         #
+#    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/09/13 16:59:05 by dpaluszk         ###   ########.fr        #
+#    Updated: 2024/09/14 11:35:59 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ RM			=	rm -f
 
 FLAGS		=	-Wall -Wextra -Werror -g
 
-LFLAGS		=	-lreadline -lncurses
+LFLAGS		=	-lreadline
 
 $(NAME):	$(OBJECTS)
 	$(CC) $(FLAGS) $(OBJECTS) $(LFLAGS) -o $(NAME)
