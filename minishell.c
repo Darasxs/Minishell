@@ -6,11 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/09/13 17:04:24 by dpaluszk         ###   ########.fr       */
-=======
-/*   Updated: 2024/09/14 11:03:06 by dpaluszk         ###   ########.fr       */
->>>>>>> a676fef945bb72bb7f5dc42bd3003f276151f681
+/*   Updated: 2024/09/14 11:36:20 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,3 +122,5 @@ void	minishell(minishell_t *line)
 	}
 	cleanup(line);
 }
+
+//need to check how to exit the child process and parent procces
