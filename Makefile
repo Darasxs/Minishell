@@ -6,7 +6,7 @@
 #    By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/09/13 16:59:05 by dpaluszk         ###   ########.fr        #
+#    Updated: 2024/09/16 08:13:22 by dpaluszk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ RM			=	rm -f
 
 FLAGS		=	-Wall -Wextra -Werror -g
 
-LFLAGS		=	-lreadline -lncurses
+LFLAGS		=	-lreadline
 
 $(NAME):	$(OBJECTS)
 	$(CC) $(FLAGS) $(OBJECTS) $(LFLAGS) -o $(NAME)

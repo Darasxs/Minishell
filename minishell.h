@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/14 11:03:13 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/16 08:13:32 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,5 @@ char		*find_path(char *path, minishell_t *line);
 void		minishell(minishell_t *line);
 void		cd(minishell_t *line);
 bool		check_builtin_commands(minishell_t *line);
-//void		term_init(minishell_t *line);
 
 #endif

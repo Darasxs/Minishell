@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:33:06 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/13 16:41:47 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/16 08:14:17 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 bool	check_builtin_commands(minishell_t *line)
 {
+	if (!line->split_commands[0])
+		return (false);
 	if (ft_strncmp(line->split_commands[0], "cd", ft_strlen(line->split_commands[0]) + 3) == 0)
 	{
 		cd(line);
 		return (true);
 	}
-
+	if (ft_strncmp(line->split_commands[0], "exit", ft_strlen(line->split_commands[0]) + 6) == 0)
+		return (true);
 //	else if (ft_strncmp(line->split_commands[0], "export", ft_strlen(line->split_commands[0]) + 7) == 0)
 //	{
 //		export(line);
@@ -35,12 +38,6 @@ bool	check_builtin_commands(minishell_t *line)
 //	else if (ft_strncmp(line->split_commands[0], "env", ft_strlen(line->split_commands[0]) + 4) == 0)
 //	{
 //		env(line);
-//		Return (True);
-//	}
-
-//	else if (ft_strncmp(line->split_commands[0], "exit", ft_strlen(line->split_commands[0]) + 5) == 0)
-//	{
-//		exit(line);
 //		Return (True);
 //	}
 	return (false);

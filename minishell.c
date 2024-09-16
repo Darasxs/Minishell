@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/14 11:03:06 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/16 08:13:26 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,3 +122,5 @@ void	minishell(minishell_t *line)
 	}
 	cleanup(line);
 }
+
+//need to check how to exit the child process and parent procces
