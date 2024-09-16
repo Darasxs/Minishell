@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+         #
+#    By: daras <daras@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/09/16 08:13:22 by dpaluszk         ###   ########.fr        #
+#    Updated: 2024/09/16 15:36:50 by daras            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,10 +21,11 @@ NAME		=	minishell
 SOURCE		=	minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				utils/ft_strlcpy.c utils/ft_strlen.c utils/ft_strncmp.c \
 				ft_error.c main.c ft_free.c builtin_commands/cd.c builtin_commands/checking.c \
+				path.c prompt.c
 
 OBJECTS		=	$(SOURCE:.c=.o)
 
-CC			=	cc
+CC			=	gcc
 
 RM			=	rm -f
 
