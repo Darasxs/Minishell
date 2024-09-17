@@ -6,7 +6,7 @@
 /*   By: daras <daras@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/16 15:42:58 by daras            ###   ########.fr       */
+/*   Updated: 2024/09/17 10:17:06 by daras            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,21 @@ void	preparing_execution(minishell_t *line)
 		ft_error("Command not found\n", NULL);
 }
 
-void	execute_command(minishell_t *line)
+void	execute_command(minishell_t *line, int input_fd, int output_fd)
 {
 	preparing_execution(line);
 	if(line->path)
 	{
+		if(input_fd != STDIN_FILENO)
+		{
+			dup2(input_fd, STDIN_FILENO);
+			close(input_fd);
+		}
+		if(output_fd != STDOUT_FILENO)
+		{
+			dup2(output_fd, STDOUT_FILENO);
+			close(output_fd);
+		}
 		if (execve(line->path, line->split_commands, NULL) == -1)
 		{
 			ft_error("Execution failed\n", NULL);
@@ -39,7 +49,7 @@ void	execute_command(minishell_t *line)
 void	minishell(minishell_t *line)
 {
 	pid_t	pid;
-	// int		fd[2];
+	int		fd[2];
 	char	**commands;
 	size_t	i;
 
@@ -52,9 +62,22 @@ void	minishell(minishell_t *line)
 		while(commands[i])
 		{
 			line->split_commands = ft_split(commands[i], ' ');
+			if(commands[i + 1])
+			{
+				if(pipe(fd) == -1)
+				{
+					free_split(commands);
+					ft_error("Error occured while creating pipe\n", NULL);
+				}
+			}
+			else
+				fd[1] = STDOUT_FILENO;
 			pid = fork();
 			if (pid == 0)
-				execute_command(line);
+			{
+				execute_command(line, STDIN_FILENO, fd[1]);
+				exit(0);	
+			}
 			else if (pid < 0)
 			{
 				free_split(line->split_commands);
@@ -63,8 +86,10 @@ void	minishell(minishell_t *line)
 			else if (pid > 0)
 			{
 				wait(NULL);
-				// close(fd[1]);
-				// fd = fd[0];
+				close(fd[1]);
+				if(fd[0] != STDIN_FILENO)
+					close(fd[0]);
+				fd[0] = STDIN_FILENO;
 			}
 			free_split(line->split_commands);
 			i++;

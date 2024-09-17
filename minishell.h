@@ -6,7 +6,7 @@
 /*   By: daras <daras@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/16 15:35:55 by daras            ###   ########.fr       */
+/*   Updated: 2024/09/17 09:34:31 by daras            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		ft_error(char *str, char *info);
 void		print_beginning(void);
 void		free_split(char **split);
 void		cleanup(minishell_t *line);
-void		execute_command(minishell_t *line);
+void		execute_command(minishell_t *line, int input_fd, int output_fd);
 void		preparing_execution(minishell_t *line);
 char		*find_path(char *path, minishell_t *line);
 void		path_preparation(minishell_t *line);
