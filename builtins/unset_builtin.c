@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/12 07:43:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/12 07:43:31 by paprzyby         ###   ########.fr       */
+/*   Created: 2024/09/17 15:57:34 by paprzyby          #+#    #+#             */
+/*   Updated: 2024/09/17 16:39:15 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	free_split(char **split)
+void	unset_builtin(minishell_t *line)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while(split[i])
+	while (ft_strncmp(line->split_commands[1], line->env_pointer[i], ft_strlen(line->env_pointer[i])) != 0)
 	{
-		free(split[i]);
+		printf("%s\n", line->env_pointer[i]);
 		i++;
 	}
-	free(split);
-}
-
-void	cleanup(minishell_t *line)
-{
-	free(line->input);
-	free(line->prompt);
+	if (line->env_pointer[i])
+		printf("(null)\n");
+	else
+		printf("not null\n");
 }

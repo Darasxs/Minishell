@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daras <daras@student.42.fr>                +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/17 09:34:31 by daras            ###   ########.fr       */
+/*   Updated: 2024/09/17 17:56:37 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct minishell_s
 	char	*env;
 	char	**split_env;
 	char	*path;
+	char	**env_pointer;
+	char	**split_pipe;
 }			minishell_t;
 
 void		printing_prompt(minishell_t *line);
@@ -41,16 +43,22 @@ size_t		ft_strlen(char *str);
 size_t		ft_strlcpy(char *dst, char *src, size_t dstsize);
 size_t		ft_strlcat(char *dest, char *src, size_t size);
 int			ft_strncmp(const char *s1, const char *s2, size_t len);
-void		ft_error(char *str, char *info);
+void		ft_error(char *str, char *info, minishell_t *line);
 void		print_beginning(void);
 void		free_split(char **split);
 void		cleanup(minishell_t *line);
 void		execute_command(minishell_t *line, int input_fd, int output_fd);
-void		preparing_execution(minishell_t *line);
+bool		preparing_execution(minishell_t *line);
 char		*find_path(char *path, minishell_t *line);
 void		path_preparation(minishell_t *line);
 void		minishell(minishell_t *line);
-void		cd(minishell_t *line);
-bool		check_builtin_commands(minishell_t *line);
+void		cd_builtin(minishell_t *line);
+bool		check_builtin(minishell_t *line);
+void		env_builtin(minishell_t *line);
+void		unset_builtin(minishell_t *line);
+void		export_builtin(minishell_t *line);
+void		process(minishell_t *line, size_t i, int *fd);
+void		prompt_helper(char **cwd, char **user_name, minishell_t *line);
+void		child_process(minishell_t *line, int i, int input_fd, int *fd);
 
 #endif

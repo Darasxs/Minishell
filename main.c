@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/16 08:13:18 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/17 16:09:55 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,26 @@ void	print_beginning(void)
 	printf("\nWelcome to minishell!\n\n");
 }
 
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
 	minishell_t	*line;
 
+	(void)ac;
+	(void)av;
 	line = malloc(sizeof(minishell_t));
 	if (!line)
 		return (1);
-	//signal(SIGINT, SIG_IGN);
-	//term_init(line);
 	print_beginning();
+	line->env_pointer = envp;
 	while (1)
 		minishell(line);
 	free(line);
 	return (0);
 }
 
-//things that are not working:
-//man (WARNING: terminal is not fully functional -  (press RETURN))
-//clear
-//exit
+//man output:	(WARNING: terminal is not fully functional -  (press RETURN))
+
+//quotes
 //pipes
-//>>
-//cd po wcisnieciu taba powinna byc opcja przejscia przez wszystkie opcje
+//redirections
+//exit command
