@@ -6,7 +6,7 @@
 #    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/09/14 11:35:59 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/09/17 11:59:57 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,10 +21,11 @@ NAME		=	minishell
 SOURCE		=	minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				utils/ft_strlcpy.c utils/ft_strlen.c utils/ft_strncmp.c \
 				ft_error.c main.c ft_free.c builtin_commands/cd.c builtin_commands/checking.c \
+				path.c prompt.c
 
 OBJECTS		=	$(SOURCE:.c=.o)
 
-CC			=	cc
+CC			=	gcc
 
 RM			=	rm -f
 

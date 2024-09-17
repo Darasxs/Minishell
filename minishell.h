@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
 /*   Updated: 2024/09/14 11:35:54 by paprzyby         ###   ########.fr       */
+=======
+/*   By: daras <daras@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
+/*   Updated: 2024/09/17 09:34:31 by daras            ###   ########.fr       */
+>>>>>>> 8b689271f4955af3f4f028a6e5c67be4ede0c07e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +27,7 @@
 # include <signal.h>
 # include <stdbool.h>
 # include <stdlib.h>
-# include <sys/_types.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
 # include <term.h>
@@ -32,6 +39,7 @@ typedef struct minishell_s
 	char	**split_commands;
 	char	*env;
 	char	**split_env;
+	char	*path;
 }			minishell_t;
 
 void		printing_prompt(minishell_t *line);
@@ -44,8 +52,10 @@ void		ft_error(char *str, char *info);
 void		print_beginning(void);
 void		free_split(char **split);
 void		cleanup(minishell_t *line);
-void		execute_command(minishell_t *line);
+void		execute_command(minishell_t *line, int input_fd, int output_fd);
+void		preparing_execution(minishell_t *line);
 char		*find_path(char *path, minishell_t *line);
+void		path_preparation(minishell_t *line);
 void		minishell(minishell_t *line);
 void		cd(minishell_t *line);
 bool		check_builtin_commands(minishell_t *line);
