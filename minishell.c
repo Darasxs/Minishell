@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/18 14:47:52 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:40:47 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,16 @@ void	minishell(minishell_t *line)
 			line->split_commands = ft_split(commands[i], ' ');
 			if (commands[i + 1] && pipe(fd) == -1)
 				ft_error("Error occurred while creating pipe\n", NULL, line);
-			if (check_builtin(line))
-				free_split(line->split_commands);
+			
+			if (line->split_commands[0] && strcmp(line->split_commands[0], "cd") == 0)
+			{
+				cd_builtin(line);
+				if (commands[i + 1])
+				{
+					close(fd[1]);
+					input_fd = fd[0];
+				}
+			}
 			else
 			{
 				pid = fork();
@@ -67,18 +75,26 @@ void	minishell(minishell_t *line)
 						dup2(fd[1], STDOUT_FILENO);
 					else
 						fd[1] = STDOUT_FILENO;
-					execute_command(line, STDIN_FILENO, fd[1]);
+					
+					if (check_builtin(line))
+						exit(0); 
+					else
+						execute_command(line, STDIN_FILENO, fd[1]);
 					exit(0);
 				}
 				else
 				{
 					wait(NULL);
-					close(fd[1]);
-					if (input_fd != STDIN_FILENO)
-						close(input_fd);
-					input_fd = fd[0];
+					if (commands[i + 1])
+					{
+						close(fd[1]);
+						if (input_fd != STDIN_FILENO)
+							close(input_fd);
+						input_fd = fd[0];
+					}
 				}
 			}
+			free_split(line->split_commands);
 			i++;
 		}
 		free_split(commands);
