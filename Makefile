@@ -6,7 +6,7 @@
 #    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/09/17 17:40:49 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/09/18 22:48:10 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SOURCE		=	minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				utils/ft_strlcpy.c utils/ft_strlen.c utils/ft_strncmp.c \
 				cleanup.c main.c builtins/cd_builtin.c \
 				command_check.c path.c prompt.c builtins/env_builtin.c \
-				builtins/unset_builtin.c builtins/export_builtin.c
+				builtins/unset_builtin.c builtins/export_builtin.c \
+				builtins/exit_builtin.c
 
 OBJECTS		=	$(SOURCE:.c=.o)
 
