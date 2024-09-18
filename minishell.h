@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/17 17:56:37 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:47:32 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ bool		check_builtin(minishell_t *line);
 void		env_builtin(minishell_t *line);
 void		unset_builtin(minishell_t *line);
 void		export_builtin(minishell_t *line);
-void		process(minishell_t *line, size_t i, int *fd);
 void		prompt_helper(char **cwd, char **user_name, minishell_t *line);
-void		child_process(minishell_t *line, int i, int input_fd, int *fd);
 
 #endif

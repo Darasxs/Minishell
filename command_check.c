@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:33:06 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/17 17:51:12 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:47:50 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ bool	check_builtin(minishell_t *line)
 
 bool	preparing_execution(minishell_t *line)
 {
-	if (check_builtin(line))
-		return (true);
 	path_preparation(line);
 	line->path = find_path(line->split_commands[0], line);
 	if (!line->path)
