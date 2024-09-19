@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/17 16:09:55 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/18 19:38:40 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ int	main(int ac, char **av, char **envp)
 //man output:	(WARNING: terminal is not fully functional -  (press RETURN))
 
 //quotes
-//pipes
 //redirections
 //exit command
+
+//bash-3.2$ echo $abc
+//232323 aa
+//bash-3.2$ < $abc
+//bash: $abc: ambiguous redirect
+//bash-3.2$ 
