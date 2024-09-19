@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/18 14:47:32 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/18 22:47:37 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct minishell_s
 	char	*path;
 	char	**env_pointer;
 	char	**split_pipe;
+	char	**env_copy;
 }			minishell_t;
 
 void		printing_prompt(minishell_t *line);
@@ -58,5 +59,9 @@ void		env_builtin(minishell_t *line);
 void		unset_builtin(minishell_t *line);
 void		export_builtin(minishell_t *line);
 void		prompt_helper(char **cwd, char **user_name, minishell_t *line);
+char		*ft_strrchr(char *s, char c);
+char		*ft_substr(char *s, size_t start, size_t len);
+char		 **copy_envp(minishell_t *line);
+void		exit_builtin(minishell_t *line);
 
 #endif

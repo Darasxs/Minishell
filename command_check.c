@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:33:06 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/19 14:41:23 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/19 19:00:55 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ bool	check_builtin(minishell_t *line)
 	else if (ft_strncmp(line->split_commands[0], "export", 7) == 0)
 	{
 		export_builtin(line);
+		return (true);
+	}
+	else if (ft_strncmp(line->split_commands[0], "exit", 5) == 0)
+	{
+		exit_builtin(line);
 		return (true);
 	}
 	else
