@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/19 19:00:59 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:54:32 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,9 @@ int	main(int ac, char **av, char **envp)
 
 //quotes
 //redirections
-//exit command
 
 //bash-3.2$ echo $abc
 //232323 aa
 //bash-3.2$ < $abc
 //bash: $abc: ambiguous redirect
-//bash-3.2$ 
+//bash-3.2$

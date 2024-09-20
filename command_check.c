@@ -3,39 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   command_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:33:06 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/19 19:00:55 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:49:59 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	execute_builtin(minishell_t *line)
+{
+	if (!line->split_commands[0])
+		return ;
+	else if (ft_strncmp(line->split_commands[0], "env", 4) == 0)
+		env_builtin(line);
+	else if (ft_strncmp(line->split_commands[0], "unset", 6) == 0 && line->split_commands[1])
+		unset_builtin(line);
+	else if (ft_strncmp(line->split_commands[0], "export", 7) == 0)
+		export_builtin(line);
+	else if (ft_strncmp(line->split_commands[0], "exit", 5) == 0)
+		exit_builtin(line);
+}
+
+bool	check_cd(minishell_t *line)
+{
+	if (line->split_commands[0] && ft_strncmp(line->split_commands[0], "cd", 3) == 0)
+		return (true);
+	return (false);
+}
+
 bool	check_builtin(minishell_t *line)
 {
 	if (!line->split_commands[0])
 		return (false);
+	else if (line->split_commands[0] && ft_strncmp(line->split_commands[0], "cd", 3) == 0)
+		return (true);
 	else if (ft_strncmp(line->split_commands[0], "env", 4) == 0)
-	{
-		env_builtin(line);
 		return (true);
-	}
 	else if (ft_strncmp(line->split_commands[0], "unset", 6) == 0 && line->split_commands[1])
-	{
-		unset_builtin(line);
 		return (true);
-	}
 	else if (ft_strncmp(line->split_commands[0], "export", 7) == 0)
-	{
-		export_builtin(line);
 		return (true);
-	}
 	else if (ft_strncmp(line->split_commands[0], "exit", 5) == 0)
-	{
-		exit_builtin(line);
 		return (true);
-	}
 	else
 		return (false);
 }

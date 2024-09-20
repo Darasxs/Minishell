@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/20 18:29:21 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/20 19:03:52 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,8 @@ char		 **copy_envp(minishell_t *line);
 void		exit_builtin(minishell_t *line);
 bool		check_for_env(minishell_t *line);
 void		new_env_value(minishell_t *line);
+void		execute_builtin(minishell_t *line);
+bool		check_cd(minishell_t *line);
+void		update_oldpwd(minishell_t *line);
 
 #endif

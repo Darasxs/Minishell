@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:04:37 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/20 18:28:15 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:48:07 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	new_env_value(minishell_t *line)
 	size_t		j;
 
 	i = 0;
+	j = 0;
 	while (line->env_copy[i])
 	{
 		equal_pos = ft_strrchr(line->env_copy[i], '=');

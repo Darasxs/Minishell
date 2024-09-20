@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/20 18:04:59 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:51:15 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,14 @@ void	minishell(minishell_t *line)
 				j++;
 			if (commands[i + 1] && pipe(fd) == -1)
 				ft_error("Error occured while creating a pipe.\n", NULL, line);
-			if (line->split_commands[0] && ft_strncmp(line->split_commands[0],
-					"cd", 3) == 0)
+			if (check_builtin(line))
 			{
-				if (j == 1 || i == j - 1)
-					cd_builtin(line);
+				if (check_cd(line))
+				{
+					if (j == 1 || i == j - 1)
+						cd_builtin(line);
+				}
+				execute_builtin(line);
 				if (commands[i + 1])
 				{
 					close(fd[1]);
@@ -74,10 +77,7 @@ void	minishell(minishell_t *line)
 						close(fd[1]);
 					}
 					close(fd[0]);
-					if (check_builtin(line))
-						exit(0);
-					else
-						execute_command(line);
+					execute_command(line);
 					exit(0);
 				}
 				else
