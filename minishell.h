@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/18 22:47:37 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:04:05 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void		ft_error(char *str, char *info, minishell_t *line);
 void		print_beginning(void);
 void		free_split(char **split);
 void		cleanup(minishell_t *line);
-void		execute_command(minishell_t *line, int input_fd, int output_fd);
+void		execute_command(minishell_t *line);
 bool		preparing_execution(minishell_t *line);
 char		*find_path(char *path, minishell_t *line);
 void		path_preparation(minishell_t *line);
