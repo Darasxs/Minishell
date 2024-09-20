@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:57:34 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/18 22:49:29 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:28:33 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	unset_builtin(minishell_t *line)
 			{
 				free(line->env_copy[i]);
 				line->env_copy[i] = NULL;
-				printf("%s\n", line->env_copy[i]);
 				j = i;
 				while (line->env_copy[j])
 				{

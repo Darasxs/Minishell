@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 22:46:58 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/18 22:47:31 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:28:06 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,5 @@ void	exit_builtin(minishell_t *line)
 {
 	(void)line;
 	printf("exit\n");
+	exit(0);
 }
