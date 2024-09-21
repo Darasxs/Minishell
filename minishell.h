@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/21 13:22:32 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/21 19:10:58 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <unistd.h>
 # include <term.h>
+# include <unistd.h>
 
 typedef struct minishell_s
 {
@@ -61,7 +61,7 @@ void		export_builtin(minishell_t *line);
 void		prompt_helper(char **cwd, char **user_name, minishell_t *line);
 char		*ft_strrchr(char *s, char c);
 char		*ft_substr(char *s, size_t start, size_t len);
-char		 **copy_envp(minishell_t *line);
+char		**copy_envp(minishell_t *line);
 void		exit_builtin(minishell_t *line);
 bool		check_for_env(minishell_t *line);
 void		new_env_value(minishell_t *line);
@@ -69,5 +69,13 @@ void		execute_builtin(minishell_t *line);
 bool		check_cd(minishell_t *line);
 bool		check_env(minishell_t *line);
 void		update_oldpwd(minishell_t *line);
+void		handle_builtins(minishell_t *line, size_t i, char **commands,
+				int *input_fd, int *fd);
+void		handle_child_process(minishell_t *line, size_t i, int *input_fd,
+				int *fd, char **commands);
+void		handle_parent_process(size_t i, int *input_fd, int *fd,
+				char **commands);
+void		execute_pipe_commands(minishell_t *line, char **commands, size_t i,
+				int *input_fd);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:54:20 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/20 19:53:17 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/21 19:34:58 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,3 +114,5 @@ void	cd_builtin(minishell_t *line)
 	else
 		ft_error("Command not found\n", NULL, line);
 }
+
+//stat (cd ..)

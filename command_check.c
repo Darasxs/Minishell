@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:33:06 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/21 13:22:54 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/21 19:19:29 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	check_env(minishell_t *line)
 
 bool	check_cd(minishell_t *line)
 {
-	if (ft_strncmp(line->split_commands[0], "env", 4) == 0)
+	if (ft_strncmp(line->split_commands[0], "cd", 3) == 0)
 		return (true);
 	return (false);
 }
