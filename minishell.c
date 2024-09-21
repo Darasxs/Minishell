@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/20 18:51:15 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/21 13:39:51 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ void	minishell(minishell_t *line)
 						close(fd[1]);
 					}
 					close(fd[0]);
-					execute_command(line);
+					if(check_env(line))
+						env_builtin(line);
+					else
+						execute_command(line);
 					exit(0);
 				}
 				else
@@ -97,9 +100,7 @@ void	minishell(minishell_t *line)
 			i++;
 		}
 		while (waitpid(-1, &status, 0) > 0)
-			if(WIFEXITED(status) && WEXITSTATUS(status) != 0)
-				exit(1);
+			;
 		free_split(commands);
 	}
-	cleanup(line);
 }
