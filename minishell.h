@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/21 19:10:58 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:34:58 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <signal.h>
 # include <stdbool.h>
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <term.h>
 # include <unistd.h>
+
+typedef	struct env_s
+{
+	char			**new_env;
+}			env_t;
+
 
 typedef struct minishell_s
 {
@@ -36,6 +40,7 @@ typedef struct minishell_s
 	char	**env_pointer;
 	char	**split_pipe;
 	char	**env_copy;
+	env_t	*struct_env;
 }			minishell_t;
 
 void		printing_prompt(minishell_t *line);
@@ -63,7 +68,6 @@ char		*ft_strrchr(char *s, char c);
 char		*ft_substr(char *s, size_t start, size_t len);
 char		**copy_envp(minishell_t *line);
 void		exit_builtin(minishell_t *line);
-bool		check_for_env(minishell_t *line);
 void		new_env_value(minishell_t *line);
 void		execute_builtin(minishell_t *line);
 bool		check_cd(minishell_t *line);
@@ -77,5 +81,9 @@ void		handle_parent_process(size_t i, int *input_fd, int *fd,
 				char **commands);
 void		execute_pipe_commands(minishell_t *line, char **commands, size_t i,
 				int *input_fd);
+char		*ft_strjoin(char *s1, char *s2);
+void		add_new_env(minishell_t *line, env_t *struct_env);
+char		*ft_strnstr(char *haystack, char *needle, size_t size);
+void		export_new_env(minishell_t *line, env_t *struct_env);
 
 #endif

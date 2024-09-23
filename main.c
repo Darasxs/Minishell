@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/21 13:39:54 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:42:41 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,42 @@ char **copy_envp(minishell_t *line)
 	return copy;
 }
 
+void	*ft_calloc(size_t count, size_t size)
+{
+	size_t			i;
+	unsigned char	*ptr;
+
+	i = count * size;
+	ptr = (unsigned char *)malloc(i * sizeof(unsigned char));
+	if (!ptr)
+		return (NULL);
+	i = 0;
+	while (i < count * size)
+	{
+		ptr[i] = 0;
+		i++;
+	}
+	return (ptr);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	minishell_t	*line;
+	env_t		*struct_env;
 
 	(void)ac;
 	(void)av;
 	line = malloc(sizeof(minishell_t));
 	if (!line)
 		return (1);
+	struct_env = malloc(sizeof(env_t));
+	if (!struct_env)
+	{
+		free(line);
+		return (1);
+	}
+	struct_env->new_env = malloc(sizeof(char *) * 2);
+	struct_env->new_env[0] = ft_calloc(1, 1);
 	print_beginning();
 	line->env_pointer = envp;
 	line->env_copy = copy_envp(line);
@@ -63,14 +90,3 @@ int	main(int ac, char **av, char **envp)
 	free(line);
 	return (0);
 }
-
-//man output:	(WARNING: terminal is not fully functional -  (press RETURN))
-
-//quotes
-//redirections
-
-//bash-3.2$ echo $abc
-//232323 aa
-//bash-3.2$ < $abc
-//bash: $abc: ambiguous redirect
-//bash-3.2$

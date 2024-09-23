@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+         #
+#    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/09/21 19:44:58 by dpaluszk         ###   ########.fr        #
+#    Updated: 2024/09/23 19:24:45 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,9 @@ SOURCE		=	minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				cleanup.c main.c builtins/cd_builtin.c \
 				command_check.c path.c prompt.c builtins/env_builtin.c \
 				builtins/unset_builtin.c builtins/export_builtin.c \
-				builtins/exit_builtin.c prepare_for_execution.c
+				builtins/exit_builtin.c prepare_for_execution.c \
+				utils/ft_strjoin.c utils/ft_strnstr.c utils/ft_strrchr.c \
+				utils/ft_substr.c
 
 OBJECTS		=	$(SOURCE:.c=.o)
 

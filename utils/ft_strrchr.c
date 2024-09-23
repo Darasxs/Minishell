@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_builtin.c                                     :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/18 22:46:58 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/23 14:01:22 by paprzyby         ###   ########.fr       */
+/*   Created: 2024/09/23 13:41:23 by paprzyby          #+#    #+#             */
+/*   Updated: 2024/09/23 13:41:39 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exit_builtin(minishell_t *line)
+char	*ft_strrchr(char *s, char c)
 {
-	(void)line;
-	printf("exit\n");
-	exit(0);
+	unsigned int	i;
+
+	i = ft_strlen(s);
+	if (!s)
+		return (0);
+	if (c == '\0')
+		return (s + i);
+	while (s[i] != c && i != 0)
+		i--;
+	if (s[i] == c)
+		return (s + i);
+	return (0);
 }

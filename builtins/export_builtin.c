@@ -3,48 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:04:37 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/21 13:41:49 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:42:46 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	check_for_env(minishell_t *line)
+void	add_new_env(minishell_t *line, env_t *struct_env)
 {
-	if (!line->env_pointer)
-		return (false);
-	else
-		return (true);
-}
-
-void	new_env_value(minishell_t *line)
-{
-	size_t		i;
-	char		*env_variable;
-	char		*equal_pos;
-	size_t		len;
-	size_t		j;
+	size_t	i;
 
 	i = 0;
-	j = 0;
-	while (line->env_copy[i])
+	if (!struct_env->new_env[0])
 	{
-		equal_pos = ft_strrchr(line->env_copy[i], '=');
-		if (equal_pos != NULL)
+		printf("check\n");
+		struct_env->new_env = malloc(sizeof(char *) * 2);
+		if (!struct_env->new_env)
+			ft_error("Error while allocating the memory\n", NULL, line);
+		struct_env->new_env[i] = malloc(sizeof(char) * (ft_strlen(line->split_commands[0]) + 1));
+		if (!struct_env->new_env[i])
 		{
-			len = equal_pos - line->env_copy[i];
-			env_variable = ft_substr(line->env_copy[i], 0, len);
-			if (ft_strncmp(env_variable, line->split_commands[1], len) == 0)
-			{
-				//add a new value for env
-			}
-			free(env_variable);
+			free(struct_env->new_env);
+			return ;
 		}
-		i++;
 	}
+	ft_strlcpy(struct_env->new_env[i], line->split_commands[0], ft_strlen(line->split_commands[0]) + 1);
+	struct_env->new_env[1] = NULL;
+}
+
+void	export_new_env(minishell_t *line, env_t *struct_env)
+{
+	(void)line;
+	(void)struct_env;
+	printf("export new env\n");
 }
 
 void	export_builtin(minishell_t *line)
@@ -53,19 +47,27 @@ void	export_builtin(minishell_t *line)
 
 	if (!line->split_commands[1])
 	{
-		i = 0;
-		while (line->env_pointer[i])
+		if (ft_strrchr(line->split_commands[0], '=') == 0)
 		{
-			printf("declare -x ");
-			printf("%s\n", line->env_pointer[i]);
-			i++;
+			if (ft_strncmp(line->split_commands[0], "export", 7) == 0)
+			{
+				i = 0;
+				while (line->env_pointer[i])
+				{
+					printf("declare -x ");
+					printf("%s\n", line->env_pointer[i]);
+					i++;
+				}
+			}
+			else
+				ft_error("Command not found\n", NULL, line);
+		}
+		else
+		{
+			add_new_env(line, line->struct_env);
+			printf("%s\n", line->struct_env->new_env[0]);
 		}
 	}
 	else
-	{
-		if (check_for_env(line))
-			printf("The env variable already has a value\n");
-		else
-			new_env_value(line);
-	}
+		export_new_env(line, line->struct_env);
 }
