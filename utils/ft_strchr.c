@@ -1,41 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/24 11:24:00 by dpaluszk         ###   ########.fr       */
+/*   Created: 2024/09/24 11:38:30 by dpaluszk          #+#    #+#             */
+/*   Updated: 2024/09/24 11:39:51 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell(minishell_t *line)
+char	*ft_strchr(char *s, int c)
 {
 	size_t	i;
-	char	**commands;
-	int		status;
-	int		input_fd;
 
 	i = 0;
-	input_fd = STDIN_FILENO;
-	printing_prompt(line);
-	if (line->input)
+	while (s[i] != '\0')
 	{
-		add_history(line->input);
-		commands = ft_split(line->input, '|');
-		while (commands[i])
-		{
-			execute_pipe_commands(line, commands, i, &input_fd);
-			i++;
-		}
-		while (waitpid(-1, &status, 0) > 0)
-		{
-			if(WIFEXITED(status))
-				line->exit_status = WEXITSTATUS(status);
-		}
-		free_split(commands);
+		if (s[i] == (char)c)
+			return ((char *)&s[i]);
+		i++;
 	}
+	if ((char)c == '\0')
+		return ((char *)&s[i]);
+	return (NULL);
 }

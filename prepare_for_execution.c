@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:43:50 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/21 19:45:40 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:33:27 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	execute_pipe_commands(minishell_t *line, char **commands, size_t i,
 	pid_t	pid;
 
 	line->split_commands = ft_split(commands[i], ' ');
+	parsing(line);
 	if (commands[i + 1] && pipe(fd) == -1)
 		ft_error("Error occurred while creating a pipe.\n", NULL, line);
 	if (check_builtin(line))

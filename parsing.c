@@ -1,41 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/24 11:24:00 by dpaluszk         ###   ########.fr       */
+/*   Created: 2024/09/24 10:55:55 by dpaluszk          #+#    #+#             */
+/*   Updated: 2024/09/24 11:46:55 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell(minishell_t *line)
+void	parsing(minishell_t *line)
 {
 	size_t	i;
-	char	**commands;
-	int		status;
-	int		input_fd;
+	char	*exit_status_str;
 
 	i = 0;
-	input_fd = STDIN_FILENO;
-	printing_prompt(line);
-	if (line->input)
+	while(line->split_commands[i]) // to dziala ale tylo jesli $? sa oddzielone spacja, echo $?$?$? juz nie zadziala
 	{
-		add_history(line->input);
-		commands = ft_split(line->input, '|');
-		while (commands[i])
+		if(ft_strncmp(line->split_commands[i], "$?", 3) == 0)
 		{
-			execute_pipe_commands(line, commands, i, &input_fd);
-			i++;
+			exit_status_str = ft_itoa(line->exit_status);
+			if(!exit_status_str)
+				break ;
+			free(line->split_commands[i]);
+			line->split_commands[i] = exit_status_str;
 		}
-		while (waitpid(-1, &status, 0) > 0)
-		{
-			if(WIFEXITED(status))
-				line->exit_status = WEXITSTATUS(status);
-		}
-		free_split(commands);
+		i++;
 	}
 }
