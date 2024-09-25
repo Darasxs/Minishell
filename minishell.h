@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/25 11:55:10 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:37:31 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-typedef struct env_s
+typedef struct	lst_s
 {
-	char		**new_env;
-}				env_t;
+	char			*new_env;
+	struct lst_s	*next;
+	struct lst_s	*prev;
+}				lst_t;
 
 typedef struct minishell_s
 {
@@ -40,7 +42,7 @@ typedef struct minishell_s
 	char		**split_pipe;
 	char		**env_copy;
 	int			exit_status;
-	env_t		*struct_env;
+	lst_t		*lst;
 }				minishell_t;
 
 void			printing_prompt(minishell_t *line);
@@ -82,9 +84,7 @@ void			handle_parent_process(size_t i, int *input_fd, int *fd,
 void			execute_pipe_commands(minishell_t *line, char **commands,
 					size_t i, int *input_fd);
 char			*ft_strjoin(char *s1, char *s2);
-void			add_new_env(minishell_t *line, env_t *struct_env);
 char			*ft_strnstr(char *haystack, char *needle, size_t size);
-void			export_new_env(minishell_t *line, env_t *struct_env);
 char			*ft_itoa(int n);
 unsigned int	ft_size(int number);
 void			parsing(minishell_t *line);
@@ -97,5 +97,9 @@ void			append_question_mark(char **exit_code, size_t *j, size_t *k);
 void			handle_exit_code(minishell_t *line, size_t i);
 void			check_for_sign(minishell_t *line, char **exit_code, size_t i,
 					size_t *j, size_t *k);
+void			add_new_env(minishell_t *line, lst_t **lst);
+void			update_env_copy(minishell_t *line, lst_t *tmp);
+void			export_new_env(minishell_t *line, lst_t **lst);
+void			ft_lstadd_back(lst_t **lst, lst_t *new);
 
 #endif

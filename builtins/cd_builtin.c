@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:54:20 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/23 13:40:40 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:46:15 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,3 @@ void	cd_builtin(minishell_t *line)
 	else
 		ft_error("Command not found\n", NULL, line);
 }
-
-//stat (cd ..)

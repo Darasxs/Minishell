@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/23 19:42:41 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/25 17:35:07 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ char **copy_envp(minishell_t *line)
 	size_t i;
 	char **copy;
 
-	i = 0;
-	while (line->env_pointer[i])
-		i++;
-	copy = malloc((i + 1) * sizeof(char *));
+	copy = malloc(100 * sizeof(char *));
 	if (!copy)
 		return NULL;
 	i = 0;
@@ -66,21 +63,20 @@ void	*ft_calloc(size_t count, size_t size)
 int	main(int ac, char **av, char **envp)
 {
 	minishell_t	*line;
-	env_t		*struct_env;
+	lst_t		*lst;
 
 	(void)ac;
 	(void)av;
 	line = malloc(sizeof(minishell_t));
 	if (!line)
 		return (1);
-	struct_env = malloc(sizeof(env_t));
-	if (!struct_env)
+	lst = malloc(sizeof(lst_t));
+	if (!lst)
 	{
 		free(line);
-		return (1);
+		ft_error("Error while allocating the memory\n", NULL, line);
 	}
-	struct_env->new_env = malloc(sizeof(char *) * 2);
-	struct_env->new_env[0] = ft_calloc(1, 1);
+	lst = NULL;
 	print_beginning();
 	line->env_pointer = envp;
 	line->env_copy = copy_envp(line);
