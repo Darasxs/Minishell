@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 10:55:55 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/24 11:46:55 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/25 11:03:01 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,17 @@
 void	parsing(minishell_t *line)
 {
 	size_t	i;
-	char	*exit_status_str;
+	size_t	j;
 
 	i = 0;
-	while(line->split_commands[i]) // to dziala ale tylo jesli $? sa oddzielone spacja, echo $?$?$? juz nie zadziala
+	j = 0;
+	while(line->split_commands[i])
 	{
-		if(ft_strncmp(line->split_commands[i], "$?", 3) == 0)
+		j = 0;
+		if(line->split_commands[i][j] == '$' && line->split_commands[i][j+1] == '?')
 		{
-			exit_status_str = ft_itoa(line->exit_status);
-			if(!exit_status_str)
-				break ;
-			free(line->split_commands[i]);
-			line->split_commands[i] = exit_status_str;
+			handle_exit_code(line, i);
+			j++;
 		}
 		i++;
 	}

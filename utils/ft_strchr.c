@@ -6,11 +6,11 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 11:38:30 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/24 11:39:51 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:18:31 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*ft_strchr(char *s, int c)
 {

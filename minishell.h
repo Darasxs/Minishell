@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/24 11:40:01 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/25 11:04:37 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,15 @@ char			*ft_strjoin(char *s1, char *s2);
 void			add_new_env(minishell_t *line, env_t *struct_env);
 char			*ft_strnstr(char *haystack, char *needle, size_t size);
 void			export_new_env(minishell_t *line, env_t *struct_env);
-void			parsing(minishell_t *line);
 char			*ft_itoa(int n);
 unsigned int	ft_size(int number);
+void			parsing(minishell_t *line);
 char			*ft_strdup(char *s1);
 char			*ft_strchr(char *s, int c);
+void			replace_exit_status(char **exit_code, char *exit_status_str,
+					size_t *j, size_t *k);
+void			append_dollar_sign(char **exit_code, size_t *j, size_t *k);
+void			append_question_mark(char **exit_code, size_t *j, size_t *k);
+void			handle_exit_code(minishell_t *line, size_t i);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:43:50 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/24 11:33:27 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:27:47 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_builtins(minishell_t *line, size_t i, char **commands,
 	while(commands[j])
 		j++;
 	if (check_cd(line))
-	{
+	{ 
 		if (j == 1 || i == j - 1)
 			cd_builtin(line);
 	}
