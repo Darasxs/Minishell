@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/25 11:04:37 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/25 11:55:10 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,7 @@ void			replace_exit_status(char **exit_code, char *exit_status_str,
 void			append_dollar_sign(char **exit_code, size_t *j, size_t *k);
 void			append_question_mark(char **exit_code, size_t *j, size_t *k);
 void			handle_exit_code(minishell_t *line, size_t i);
+void			check_for_sign(minishell_t *line, char **exit_code, size_t i,
+					size_t *j, size_t *k);
 
 #endif
