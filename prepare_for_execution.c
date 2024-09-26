@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:43:50 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/24 17:27:47 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:27:41 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	execute_command(minishell_t *line)
 {
 	preparing_execution(line);
-	if (execve(line->path, line->split_commands, NULL) == -1)
+	if (execve(line->path, line->split_commands, line->env_copy) == -1)
 		ft_error("Execution failed.\n", NULL, line);
 	free(line->path);
 }
@@ -87,6 +87,7 @@ void	execute_pipe_commands(minishell_t *line, char **commands, size_t i,
 
 	line->split_commands = ft_split(commands[i], ' ');
 	parsing(line);
+	//handle_redirections(line);
 	if (commands[i + 1] && pipe(fd) == -1)
 		ft_error("Error occurred while creating a pipe.\n", NULL, line);
 	if (check_builtin(line))

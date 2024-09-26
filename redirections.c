@@ -1,31 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/24 10:55:55 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/26 18:29:30 by dpaluszk         ###   ########.fr       */
+/*   Created: 2024/09/26 18:12:02 by dpaluszk          #+#    #+#             */
+/*   Updated: 2024/09/26 21:09:47 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parsing(minishell_t *line)
+void	handle_redirections(minishell_t *line)
 {
-	size_t	i;
-	size_t	j;
+	size_t i;
+	size_t j;
 
 	i = 0;
 	j = 0;
 	while (line->split_commands[i])
 	{
-		j = 0;
-		if (line->split_commands[i][j] == '$' && line->split_commands[i][j
-			+ 1] == '?')
+		if (line->split_commands[i][j] == '>')
 		{
-			handle_exit_code(line, i);
+			handle_single_output(line, i);
+			j++;
+		}
+		else if (line->split_commands[i][j] == '>>')
+		{
+			handle_double_output(line, i);
+			j++;
+		}
+		else if (line->split_commands[i][j] == '<')
+		{
+			handle_single_input(line, i);
+			j++;
+		}
+		else if (line->split_commands[i][j] == '<<')
+		{
+			handle_double_input(line, i);
 			j++;
 		}
 		i++;
