@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/25 17:37:31 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/27 23:49:32 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,9 @@ typedef struct minishell_s
 	char		*prompt;
 	char		*input;
 	char		**split_commands;
-	char		*env;
 	char		**split_env;
 	char		*path;
-	char		**env_pointer;
+	char		*env;
 	char		**split_pipe;
 	char		**env_copy;
 	int			exit_status;
@@ -52,7 +51,6 @@ size_t			ft_strlcpy(char *dst, char *src, size_t dstsize);
 size_t			ft_strlcat(char *dest, char *src, size_t size);
 int				ft_strncmp(const char *s1, const char *s2, size_t len);
 void			ft_error(char *str, char *info, minishell_t *line);
-void			print_beginning(void);
 void			free_split(char **split);
 void			cleanup(minishell_t *line);
 void			execute_command(minishell_t *line);
@@ -68,7 +66,7 @@ void			export_builtin(minishell_t *line);
 void			prompt_helper(char **cwd, char **user_name, minishell_t *line);
 char			*ft_strrchr(char *s, char c);
 char			*ft_substr(char *s, size_t start, size_t len);
-char			**copy_envp(minishell_t *line);
+char			**copy_envp(char **envp);
 void			exit_builtin(minishell_t *line);
 void			new_env_value(minishell_t *line);
 void			execute_builtin(minishell_t *line);
@@ -87,7 +85,7 @@ char			*ft_strjoin(char *s1, char *s2);
 char			*ft_strnstr(char *haystack, char *needle, size_t size);
 char			*ft_itoa(int n);
 unsigned int	ft_size(int number);
-void			parsing(minishell_t *line);
+void			parsing(minishell_t *line ,char **commands);
 char			*ft_strdup(char *s1);
 char			*ft_strchr(char *s, int c);
 void			replace_exit_status(char **exit_code, char *exit_status_str,
@@ -101,5 +99,6 @@ void			add_new_env(minishell_t *line, lst_t **lst);
 void			update_env_copy(minishell_t *line, lst_t *tmp);
 void			export_new_env(minishell_t *line, lst_t **lst);
 void			ft_lstadd_back(lst_t **lst, lst_t *new);
+minishell_t		*struct_init(char **envp);
 
 #endif

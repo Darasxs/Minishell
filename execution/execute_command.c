@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path.c                                             :+:      :+:    :+:   */
+/*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 15:30:21 by daras             #+#    #+#             */
-/*   Updated: 2024/09/23 19:07:43 by dpaluszk         ###   ########.fr       */
+/*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
+/*   Updated: 2024/09/28 01:24:16 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	path_preparation(minishell_t *line)
-{
-	line->env = getenv("PATH");
-	if (!line->env)
-		return ;
-	line->split_env = ft_split(line->env, ':');
-	if (!line->split_env)
-		return ;
-}
+#include "../minishell.h"
 
 char	*find_path(char *path, minishell_t *line)
 {
@@ -48,4 +38,20 @@ char	*find_path(char *path, minishell_t *line)
 	}
 	free_split(line->split_env);
 	return (NULL);
+}
+
+void	execute_command(minishell_t *line)
+{
+	line->env = getenv("PATH");
+	if (!line->env)
+		return ;
+	line->split_env = ft_split(line->env, ':');
+	if (!line->split_env)
+		return ;
+	line->path = find_path(line->split_commands[0], line);
+	if (!line->path)
+		ft_error("Command not found\n", NULL, line);
+	if (execve(line->path, line->split_commands, line->env_copy) == -1)
+		ft_error("Execution failed.\n", NULL, line);
+	free(line->path);
 }

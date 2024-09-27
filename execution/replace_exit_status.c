@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   replace_exit_status.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:02:47 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/25 11:55:35 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/28 01:38:02 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	replace_exit_status(char **exit_code, char *exit_status_str, size_t *j,
 		size_t *k)
@@ -57,7 +57,7 @@ void	handle_exit_code(minishell_t *line, size_t i)
 	exit_code = malloc(ft_strlen(line->split_commands[i])
 			+ ft_strlen(exit_status_str) + 1);
 	if (!exit_code)
-		return (free(exit_status_str));
+		ft_error("Error while allocating memory\n", NULL, line);
 	while (line->split_commands[i][j])
 	{
 		if (line->split_commands[i][j] == '$' && line->split_commands[i][j

@@ -6,7 +6,7 @@
 #    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/09/25 17:37:48 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/09/28 01:41:33 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,13 +19,14 @@ NAME		=	minishell
 
 SOURCE		=	minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				utils/ft_strlcpy.c utils/ft_strlen.c utils/ft_strncmp.c \
-				cleanup.c main.c builtins/cd_builtin.c \
-				command_check.c path.c prompt.c builtins/env_builtin.c \
+				utils/cleanup.c main.c builtins/cd_builtin.c \
+				execution/check_builtin.c builtins/env_builtin.c \
 				builtins/unset_builtin.c builtins/export_builtin.c \
-				builtins/exit_builtin.c prepare_for_execution.c \
+				builtins/exit_builtin.c execution/prepare_for_execution.c \
 				utils/ft_strjoin.c utils/ft_strnstr.c utils/ft_strrchr.c \
-				utils/ft_substr.c utils/ft_itoa.c utils/ft_strdup.c parsing.c \
-				utils/ft_strchr.c replace_exit_status.c utils/ft_lstadd_back.c
+				utils/ft_substr.c utils/ft_itoa.c utils/ft_strdup.c parsing/parsing.c \
+				utils/ft_strchr.c execution/replace_exit_status.c utils/ft_lstadd_back.c \
+				init/copy_env.c init/struct_init.c execution/execute_command.c execution/execute_builtin.c
 
 OBJECTS		=	$(SOURCE:.c=.o)
 

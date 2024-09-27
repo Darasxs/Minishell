@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_for_execution.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:43:50 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/26 18:27:41 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/28 01:32:45 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	execute_command(minishell_t *line)
-{
-	preparing_execution(line);
-	if (execve(line->path, line->split_commands, line->env_copy) == -1)
-		ft_error("Execution failed.\n", NULL, line);
-	free(line->path);
-}
+#include "../minishell.h"
 
 void	handle_builtins(minishell_t *line, size_t i, char **commands,
 		int *input_fd, int *fd)
@@ -28,8 +20,8 @@ void	handle_builtins(minishell_t *line, size_t i, char **commands,
 	j = 0;
 	while(commands[j])
 		j++;
-	if (check_cd(line))
-	{ 
+	if (ft_strncmp(line->split_commands[0], "cd", 3) == 0)
+	{
 		if (j == 1 || i == j - 1)
 			cd_builtin(line);
 	}
@@ -55,7 +47,8 @@ void	handle_child_process(minishell_t *line, size_t i, int *input_fd,
 		close(fd[1]);
 	}
 	close(fd[0]);
-	if (check_env(line))
+	if (line->split_commands[0] && ft_strncmp(line->split_commands[0], "env",
+			3) == 0)
 		env_builtin(line);
 	else
 		execute_command(line);
@@ -86,17 +79,17 @@ void	execute_pipe_commands(minishell_t *line, char **commands, size_t i,
 	pid_t	pid;
 
 	line->split_commands = ft_split(commands[i], ' ');
-	parsing(line);
+	parsing(line, commands);
 	//handle_redirections(line);
 	if (commands[i + 1] && pipe(fd) == -1)
-		ft_error("Error occurred while creating a pipe.\n", NULL, line);
+		ft_error("Error occurred while creating a pipe\n", NULL, line);
 	if (check_builtin(line))
 		handle_builtins(line, i, commands, input_fd, fd);
 	else
 	{
 		pid = fork();
 		if (pid < 0)
-			ft_error("Error occurred while forking.\n", NULL, line);
+			ft_error("Error occurred while forking\n", NULL, line);
 		else if (pid == 0)
 			handle_child_process(line, i, input_fd, fd, commands);
 		else

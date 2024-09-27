@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   struct_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/28 01:34:48 by paprzyby         ###   ########.fr       */
+/*   Created: 2024/09/27 23:27:48 by paprzyby          #+#    #+#             */
+/*   Updated: 2024/09/28 01:16:44 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	main(int ac, char **av, char **envp)
+minishell_t	*struct_init(char **envp)
 {
 	minishell_t	*line;
+	lst_t		*lst;
 
-	(void)av;
-	if (ac != 1)
+	line = malloc(sizeof(minishell_t));
+	if (!line)
+		ft_error("Error while allocating the memory\n", NULL, line);
+	lst = malloc(sizeof(lst_t));
+	if (!lst)
 	{
-		printf("Wrong number of arguments\n");
-		return (1);
+		cleanup(line);
+		ft_error("Error while allocating the memory\n", NULL, line);
 	}
-	line = struct_init(envp);
-	while (1)
-		minishell(line);
-	cleanup(line);
-	return (0);
-}	
+	lst = NULL;
+	line->env_copy = copy_envp(envp);
+	return (line);
+}

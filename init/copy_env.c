@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   copy_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/28 01:34:48 by paprzyby         ###   ########.fr       */
+/*   Created: 2024/09/27 23:26:29 by paprzyby          #+#    #+#             */
+/*   Updated: 2024/09/27 23:26:41 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	main(int ac, char **av, char **envp)
+char **copy_envp(char **envp)
 {
-	minishell_t	*line;
+	size_t i;
+	char **copy;
 
-	(void)av;
-	if (ac != 1)
+	copy = malloc(100 * sizeof(char *));
+	if (!copy)
+		return NULL;
+	i = 0;
+	while (envp[i])
 	{
-		printf("Wrong number of arguments\n");
-		return (1);
+		copy[i] = strdup(envp[i]);
+		if (!copy[i])
+		{
+			while (i--)
+				free(copy[i]);
+			free(copy);
+			return NULL;
+		}
+		i++;
 	}
-	line = struct_init(envp);
-	while (1)
-		minishell(line);
-	cleanup(line);
-	return (0);
-}	
+	copy[i] = NULL;
+	return copy;
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:04:37 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/26 15:18:54 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/28 01:10:40 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	export_new_env(minishell_t *line, lst_t **lst)
 
 	i = 1;
 	tmp = *lst;
-	(*lst)->prev = NULL;
-	while (line->split_commands[i] && tmp)
+	//(*lst)->prev = NULL;
+	while (line->split_commands[i] && tmp && tmp->new_env)
 	{
 		j = 0;
 		while (tmp->new_env[j] && tmp->new_env[j] != '=')
@@ -87,15 +87,15 @@ void	export_builtin(minishell_t *line)
 			if (ft_strncmp(line->split_commands[0], "export", 7) == 0)
 			{
 				i = 0;
-				while (line->env_pointer[i])
+				while (line->env_copy[i])
 				{
 					printf("declare -x ");
-					printf("%s\n", line->env_pointer[i]);
+					printf("%s\n", line->env_copy[i]);
 					i++;
 				}
 			}
-			else
-				ft_error("Command not found\n", NULL, line);
+			//else
+			//	ft_error("Command not found\n", NULL, line);
 		}
 		else
 			add_new_env(line, &(line->lst));

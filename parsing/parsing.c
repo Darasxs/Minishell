@@ -3,22 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 10:55:55 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/26 18:29:30 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/09/28 01:13:42 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	parsing(minishell_t *line)
+void	skip_quots(minishell_t *line ,char **commands)
+{
+	size_t	quots_num;
+
+	quots_num = 0;
+	//while ()
+	(void)line;
+	(void)commands;
+}
+
+void	parsing(minishell_t *line ,char **commands)
 {
 	size_t	i;
 	size_t	j;
 
 	i = 0;
 	j = 0;
+	(void)commands;
 	while (line->split_commands[i])
 	{
 		j = 0;
