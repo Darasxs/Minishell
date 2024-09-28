@@ -6,17 +6,17 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:04:37 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/28 01:10:40 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:30:37 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	add_new_env(minishell_t *line, lst_t **lst)
+void	add_new_env(t_minishell *line, t_list **lst)
 {
-	lst_t	*node;
+	t_list	*node;
 
-	node = malloc(sizeof(lst_t));
+	node = malloc(sizeof(t_list));
 	if (!node)
 		ft_error("Error while allocating the memory\n", NULL, line);
 	node->new_env = malloc(sizeof(char) * (ft_strlen(line->split_commands[0])
@@ -29,7 +29,7 @@ void	add_new_env(minishell_t *line, lst_t **lst)
 	ft_lstadd_back(lst, node);
 }
 
-void	update_env_copy(minishell_t *line, lst_t *tmp)
+void	update_env_copy(t_minishell *line, t_list *tmp)
 {
 	size_t	i;
 
@@ -39,15 +39,14 @@ void	update_env_copy(minishell_t *line, lst_t *tmp)
 	line->env_copy[i] = strdup(tmp->new_env);
 }
 
-void	export_new_env(minishell_t *line, lst_t **lst)
+void	export_new_env(t_minishell *line, t_list **lst)
 {
 	size_t	i;
-	lst_t	*tmp;
+	t_list	*tmp;
 	size_t	j;
 
 	i = 1;
 	tmp = *lst;
-	//(*lst)->prev = NULL;
 	while (line->split_commands[i] && tmp && tmp->new_env)
 	{
 		j = 0;
@@ -57,48 +56,37 @@ void	export_new_env(minishell_t *line, lst_t **lst)
 			&& (j == ft_strlen(line->split_commands[i])))
 		{
 			update_env_copy(line, tmp);
-			//free the node
-
-			//if ((*lst)->prev == NULL)
-			//	*lst = tmp->next;
-			//else
-			//	(*lst)->prev->next = tmp->next;
-			//free(tmp->new_env);
-			//free(tmp);
-			//if ((*lst)->prev == NULL)
-			//	tmp = *lst;
-			//else
-			//	tmp = (*lst)->prev->next;
+			//free the node;
 		}
 		tmp = tmp->next;
 		i++;
 	}
 }
 
-void	export_builtin(minishell_t *line)
+void	export_builtin(t_minishell *line)
 {
 	size_t	i;
 
 	i = 0;
-	if (!line->split_commands[1])
+	if (ft_strncmp(line->split_commands[0], "export", 7) == 0 && !line->split_commands[1])
 	{
-		if (ft_strrchr(line->split_commands[0], '=') == 0)
+		while (line->env_copy[i])
 		{
-			if (ft_strncmp(line->split_commands[0], "export", 7) == 0)
-			{
-				i = 0;
-				while (line->env_copy[i])
-				{
-					printf("declare -x ");
-					printf("%s\n", line->env_copy[i]);
-					i++;
-				}
-			}
-			//else
-			//	ft_error("Command not found\n", NULL, line);
+			printf("declare -x ");
+			printf("%s\n", line->env_copy[i]);
+			i++;
 		}
-		else
-			add_new_env(line, &(line->lst));
+	}
+	else if (ft_strrchr(line->split_commands[0], '=') != 0)
+	{
+		while (line->split_commands[i])
+		{
+			if (ft_strrchr(line->split_commands[i], '=') != 0)
+				add_new_env(line, &(line->lst));
+			else
+				ft_error("Command not found", NULL, line);
+			i++;
+		}
 	}
 	else
 		export_new_env(line, &(line->lst));

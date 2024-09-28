@@ -6,20 +6,20 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 23:26:29 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/27 23:26:41 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:32:45 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char **copy_envp(char **envp)
+char	**copy_envp(char **envp)
 {
-	size_t i;
-	char **copy;
+	size_t	i;
+	char	**copy;
 
 	copy = malloc(100 * sizeof(char *));
 	if (!copy)
-		return NULL;
+		return (NULL);
 	i = 0;
 	while (envp[i])
 	{
@@ -29,10 +29,10 @@ char **copy_envp(char **envp)
 			while (i--)
 				free(copy[i]);
 			free(copy);
-			return NULL;
+			return (NULL);
 		}
 		i++;
 	}
 	copy[i] = NULL;
-	return copy;
+	return (copy);
 }

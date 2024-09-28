@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/28 01:39:42 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:22:09 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void	free_split(char **split)
 		free(split);
 }
 
-void	cleanup(minishell_t *line)
+void	cleanup(t_minishell *line)
 {
 	free(line->input);
 	free(line->prompt);
 }
 
-void	ft_error(char *str, char *info, minishell_t *line)
+void	ft_error(char *str, char *info, t_minishell *line)
 {
 	if (line->split_commands)
 		free_split(line->split_commands);

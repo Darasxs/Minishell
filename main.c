@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/28 01:34:48 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:41:20 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av, char **envp)
 {
-	minishell_t	*line;
+	t_minishell	*line;
 
 	(void)av;
 	if (ac != 1)
@@ -27,4 +27,4 @@ int	main(int ac, char **av, char **envp)
 		minishell(line);
 	cleanup(line);
 	return (0);
-}	
+}

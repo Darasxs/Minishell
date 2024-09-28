@@ -6,13 +6,13 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 22:46:58 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/23 14:01:22 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:24:41 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exit_builtin(minishell_t *line)
+void	exit_builtin(t_minishell *line)
 {
 	(void)line;
 	printf("exit\n");

@@ -6,41 +6,40 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/28 01:24:16 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:32:04 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*find_path(char *path, minishell_t *line)
+char	*find_path(char *path, t_minishell *line)
 {
-	char	*full_path;
 	int		i;
 
 	i = 0;
 	while (line->split_env[i])
 	{
-		full_path = malloc(ft_strlen(line->split_env[i]) + ft_strlen(path) + 2);
-		if (!full_path)
-			return (free(full_path), NULL);
-		ft_strlcpy(full_path, line->split_env[i], ft_strlen(line->split_env[i])
+		line->full_path = malloc(ft_strlen(line->split_env[i]) + ft_strlen(path) + 2);
+		if (!line->full_path)
+			return (free(line->full_path), NULL);
+		ft_strlcpy(line->full_path, line->split_env[i], ft_strlen(line->split_env[i])
 			+ 1);
-		ft_strlcat(full_path, "/", ft_strlen(full_path) + 2);
-		ft_strlcat(full_path, path, ft_strlen(full_path) + ft_strlen(path) + 1);
-		if (access(full_path, X_OK) == 0)
+		ft_strlcat(line->full_path, "/", ft_strlen(line->full_path) + 2);
+		ft_strlcat(line->full_path, path, ft_strlen(line->full_path) + ft_strlen(path) + 1);
+		if (access(line->full_path, X_OK) == 0)
 		{
 			free_split(line->split_env);
-			return (full_path);
+			return (line->full_path);
 		}
-		free(full_path);
-		full_path = NULL;
+		free(line->full_path);
+		line->full_path = NULL;
 		i++;
 	}
 	free_split(line->split_env);
 	return (NULL);
 }
 
-void	execute_command(minishell_t *line)
+void	execute_command(t_minishell *line)
 {
 	line->env = getenv("PATH");
 	if (!line->env)

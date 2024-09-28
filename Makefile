@@ -6,7 +6,7 @@
 #    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/09/28 01:41:33 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/09/28 03:36:20 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,9 @@ SOURCE		=	minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				builtins/exit_builtin.c execution/prepare_for_execution.c \
 				utils/ft_strjoin.c utils/ft_strnstr.c utils/ft_strrchr.c \
 				utils/ft_substr.c utils/ft_itoa.c utils/ft_strdup.c parsing/parsing.c \
-				utils/ft_strchr.c execution/replace_exit_status.c utils/ft_lstadd_back.c \
-				init/copy_env.c init/struct_init.c execution/execute_command.c execution/execute_builtin.c
+				utils/ft_strchr.c parsing/replace_exit_status.c utils/ft_lstadd_back.c \
+				init/copy_env.c init/struct_init.c execution/execute_command.c \
+				execution/execute_builtin.c parsing/quotes.c builtins/echo_builtin.c
 
 OBJECTS		=	$(SOURCE:.c=.o)
 

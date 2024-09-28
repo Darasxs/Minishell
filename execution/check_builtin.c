@@ -6,13 +6,13 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 16:33:06 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/28 01:37:08 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:23:21 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	check_builtin(minishell_t *line)
+bool	check_builtin(t_minishell *line)
 {
 	if (!line->split_commands[0])
 		return (false);
@@ -28,6 +28,7 @@ bool	check_builtin(minishell_t *line)
 		return (true);
 	else if (ft_strrchr(line->split_commands[0], '=') != 0)
 		return (true);
-	else
-		return (false);
+	else if (ft_strncmp(line->split_commands[0], "echo", 5) == 0)
+		return (true);
+	return (false);
 }

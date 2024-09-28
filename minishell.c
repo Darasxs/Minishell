@@ -6,23 +6,24 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/28 01:17:37 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:21:47 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	prompt_helper(char **cwd, char **user_name, minishell_t *line)
+void	prompt_helper(char **cwd, char **user_name, t_minishell *line)
 {
 	*cwd = getcwd(NULL, 0);
 	if (!*cwd)
-		ft_error("Error while finding the current work directory\n", NULL, line);
+		ft_error("Error while finding the current work directory\n", NULL,
+			line);
 	*user_name = getenv("USER");
 	if (!*user_name)
 		ft_error("Error while finding the user name\n", NULL, line);
 }
 
-void	printing_prompt(minishell_t *line)
+void	printing_prompt(t_minishell *line)
 {
 	char	*cwd;
 	char	*user_name;
@@ -49,7 +50,7 @@ void	printing_prompt(minishell_t *line)
 	free(cwd);
 }
 
-void	minishell(minishell_t *line)
+void	minishell(t_minishell *line)
 {
 	size_t	i;
 	char	**commands;
@@ -70,7 +71,7 @@ void	minishell(minishell_t *line)
 		}
 		while (waitpid(-1, &status, 0) > 0)
 		{
-			if(WIFEXITED(status))
+			if (WIFEXITED(status))
 				line->exit_status = WEXITSTATUS(status);
 		}
 		free_split(commands);

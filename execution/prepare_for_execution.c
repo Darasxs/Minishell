@@ -6,13 +6,13 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:43:50 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/28 01:32:45 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:24:58 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_builtins(minishell_t *line, size_t i, char **commands,
+void	handle_builtins(t_minishell *line, size_t i, char **commands,
 		int *input_fd, int *fd)
 {
 	size_t	j;
@@ -33,7 +33,7 @@ void	handle_builtins(minishell_t *line, size_t i, char **commands,
 	}
 }
 
-void	handle_child_process(minishell_t *line, size_t i, int *input_fd,
+void	handle_child_process(t_minishell *line, size_t i, int *input_fd,
 		int *fd, char **commands)
 {
 	if (i > 0)
@@ -72,7 +72,7 @@ void	handle_parent_process(size_t i, int *input_fd, int *fd, char **commands)
 	}
 }
 
-void	execute_pipe_commands(minishell_t *line, char **commands, size_t i,
+void	execute_pipe_commands(t_minishell *line, char **commands, size_t i,
 		int *input_fd)
 {
 	int		fd[2];
@@ -80,7 +80,6 @@ void	execute_pipe_commands(minishell_t *line, char **commands, size_t i,
 
 	line->split_commands = ft_split(commands[i], ' ');
 	parsing(line, commands);
-	//handle_redirections(line);
 	if (commands[i + 1] && pipe(fd) == -1)
 		ft_error("Error occurred while creating a pipe\n", NULL, line);
 	if (check_builtin(line))

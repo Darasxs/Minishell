@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 08:58:10 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/25 17:37:21 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:26:02 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_lstadd_back(lst_t **lst, lst_t *new)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	lst_t *temp;
+	t_list *temp;
 
 	if (!lst || !new)
 		return;

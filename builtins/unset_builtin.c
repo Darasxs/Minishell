@@ -6,13 +6,13 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:57:34 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/23 13:41:56 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:24:25 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	unset_builtin(minishell_t *line)
+void	unset_builtin(t_minishell *line)
 {
 	size_t		i;
 	char		*env_variable;
