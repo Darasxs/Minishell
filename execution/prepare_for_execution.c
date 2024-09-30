@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_for_execution.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:43:50 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/30 09:27:22 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:35:19 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	handle_child_process(t_minishell *line, size_t i, int *input_fd,
 	if (line->split_commands[0] && ft_strncmp(line->split_commands[0], "env",
 			3) == 0)
 		env_builtin(line);
+	else if(line->split_commands[0][0] == '.' && line->split_commands[0][1] == '/')
+		execute_program_name(line);
 	else
 		execute_command(line);
 	exit(0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/30 10:19:47 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/30 18:07:46 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,8 @@ void				echo_builtin(t_minishell *line);
 void				print_echo(t_minishell *line, size_t i);
 void				wrong_command(char *info, t_minishell *line);
 void				echo_env(t_minishell *line);
+void				execute_program_name(t_minishell *line);
+int					ft_atoi(char *str);
+void				increment_shlvl(t_minishell *line);
 
 #endif
