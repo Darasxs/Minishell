@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/28 05:36:09 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/30 10:19:47 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ typedef struct s_list
 
 typedef struct s_minishell
 {
-	char			*prompt;
-	char			*input;
 	char			**split_commands;
 	char			**split_env;
-	char			*path;
-	char			*env;
 	char			**split_pipe;
 	char			**env_copy;
+	char			*prompt;
+	char			*input;
+	char			*path;
+	char			*env;
 	char			*full_path;
 	char			*exit_code;
 	int				exit_status;
@@ -51,9 +51,9 @@ size_t				ft_strlen(char *str);
 size_t				ft_strlcpy(char *dst, char *src, size_t dstsize);
 size_t				ft_strlcat(char *dest, char *src, size_t size);
 int					ft_strncmp(const char *s1, const char *s2, size_t len);
-void				ft_error(char *str, char *info, t_minishell *line);
+void				ft_error(char *str, t_minishell *line);
 void				free_split(char **split);
-void				cleanup(t_minishell *line);
+void				free_struct(t_minishell *line);
 void				execute_command(t_minishell *line);
 bool				preparing_execution(t_minishell *line);
 char				*find_path(char *path, t_minishell *line);
@@ -110,5 +110,7 @@ void				skip_quotes(t_minishell *line);
 void				check_redirections(t_minishell *line);
 void				echo_builtin(t_minishell *line);
 void				print_echo(t_minishell *line, size_t i);
+void				wrong_command(char *info, t_minishell *line);
+void				echo_env(t_minishell *line);
 
 #endif

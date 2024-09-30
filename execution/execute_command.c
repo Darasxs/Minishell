@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/28 05:32:04 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:27:15 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	execute_command(t_minishell *line)
 		return ;
 	line->path = find_path(line->split_commands[0], line);
 	if (!line->path)
-		ft_error("Command not found\n", NULL, line);
+		wrong_command(line->split_commands[0], line);
 	if (execve(line->path, line->split_commands, line->env_copy) == -1)
-		ft_error("Execution failed.\n", NULL, line);
+		ft_error("Execution failed\n", line);
 	free(line->path);
 }

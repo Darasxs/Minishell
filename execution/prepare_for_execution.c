@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:43:50 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/28 05:24:58 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:27:22 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,14 @@ void	execute_pipe_commands(t_minishell *line, char **commands, size_t i,
 	line->split_commands = ft_split(commands[i], ' ');
 	parsing(line, commands);
 	if (commands[i + 1] && pipe(fd) == -1)
-		ft_error("Error occurred while creating a pipe\n", NULL, line);
+		ft_error("Error occurred while creating a pipe\n", line);
 	if (check_builtin(line))
 		handle_builtins(line, i, commands, input_fd, fd);
 	else
 	{
 		pid = fork();
 		if (pid < 0)
-			ft_error("Error occurred while forking\n", NULL, line);
+			ft_error("Error occurred while forking\n", line);
 		else if (pid == 0)
 			handle_child_process(line, i, input_fd, fd, commands);
 		else

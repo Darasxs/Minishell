@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/28 05:21:47 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:26:32 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ void	prompt_helper(char **cwd, char **user_name, t_minishell *line)
 {
 	*cwd = getcwd(NULL, 0);
 	if (!*cwd)
-		ft_error("Error while finding the current work directory\n", NULL,
-			line);
+		ft_error("Error while finding the current working directory\n", line);
 	*user_name = getenv("USER");
 	if (!*user_name)
-		ft_error("Error while finding the user name\n", NULL, line);
+		ft_error("Error while finding the user name\n", line);
 }
 
 void	printing_prompt(t_minishell *line)
@@ -39,7 +38,7 @@ void	printing_prompt(t_minishell *line)
 	if (!line->prompt)
 	{
 		free(split_cwd);
-		ft_error("Error while allocating the memory\n", NULL, line);
+		ft_error("Error while allocating the memory\n", line);
 	}
 	ft_strlcpy(line->prompt, user_name, ft_strlen(user_name) + 1);
 	ft_strlcat(line->prompt, " @ ", ft_strlen(line->prompt) + 4);

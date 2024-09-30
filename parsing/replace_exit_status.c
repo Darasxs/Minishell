@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:02:47 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/28 05:39:51 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:27:35 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	handle_exit_code(t_minishell *line, size_t i)
 	line->exit_code = malloc(ft_strlen(line->split_commands[i])
 			+ ft_strlen(exit_status_str) + 1);
 	if (!line->exit_code)
-		ft_error("Error while allocating memory\n", NULL, line);
+		ft_error("Error while allocating memory\n", line);
 	while (line->split_commands[i][j])
 	{
 		if (line->split_commands[i][j] == '$' && line->split_commands[i][j

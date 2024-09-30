@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:04:37 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/28 05:30:37 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:27:10 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	add_new_env(t_minishell *line, t_list **lst)
 
 	node = malloc(sizeof(t_list));
 	if (!node)
-		ft_error("Error while allocating the memory\n", NULL, line);
+		ft_error("Error while allocating the memory\n", line);
 	node->new_env = malloc(sizeof(char) * (ft_strlen(line->split_commands[0])
 				+ 1));
 	if (!node->new_env)
-		ft_error("Error while allocating the memory for new_env\n", NULL, line);
+		ft_error("Error while allocating the memory for new_env\n", line);
 	ft_strlcpy(node->new_env, line->split_commands[0],
 		ft_strlen(line->split_commands[0]) + 1);
 	node->next = NULL;
@@ -84,7 +84,7 @@ void	export_builtin(t_minishell *line)
 			if (ft_strrchr(line->split_commands[i], '=') != 0)
 				add_new_env(line, &(line->lst));
 			else
-				ft_error("Command not found", NULL, line);
+				wrong_command(line->split_commands[i], line);
 			i++;
 		}
 	}

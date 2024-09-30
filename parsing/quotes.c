@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:57:04 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/28 05:25:28 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/09/30 10:14:57 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,22 @@ void	handle_quotes(t_minishell *line)
 	size_t	j;
 
 	i = 0;
+	quots_count = 0;
+	apos_count = 0;
 	while (line->split_commands[i])
 	{
-		quots_count = 0;
-		apos_count = 0;
 		j = 0;
 		while (line->split_commands[i][j])
 		{
 			if (line->split_commands[i][j] == 39)
-				quots_count++;
-			else if (line->split_commands[i][j] == 34)
 				apos_count++;
+			else if (line->split_commands[i][j] == 34)
+				quots_count++;
 			j++;
 		}
-		if (quots_count % 2 != 0 || apos_count % 2 != 0)
-			quotes_loop();
 		i++;
 	}
+	if (quots_count % 2 != 0 || apos_count % 2 != 0)
+		quotes_loop();
 	skip_quotes(line);
 }
