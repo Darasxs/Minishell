@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/30 18:33:56 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:31:37 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ void	increment_shlvl(t_minishell *line)
 	char	*new_shlvl;
 	int		shlvl;
 	size_t	i;
+	char	*new_env;
 
 	i = 0;
 	shlvl_str = NULL;
-	printf("siema");
 	while (line->env_copy[i])
 	{
 		if (ft_strncmp(line->env_copy[i], "SHLVL=", 6) == 0)
@@ -76,23 +76,29 @@ void	increment_shlvl(t_minishell *line)
 		}
 		i++;
 	}
-	if(shlvl_str)
+	if (shlvl_str)
 	{
 		shlvl = ft_atoi(shlvl_str);
 		shlvl++;
 		free(shlvl_str);
 		new_shlvl = ft_itoa(shlvl);
-		if(new_shlvl)
+		if (new_shlvl)
 		{
-			free(line->env_copy[i]);
-			line->env_copy[i] = new_shlvl;
+			new_env = malloc(strlen("SHLVL=") + strlen(new_shlvl) + 1);
+			if (new_env)
+			{
+				ft_strlcpy(new_env, "SHLVL=", 6 + ft_strlen(new_shlvl) + 1);
+				ft_strlcat(new_env, new_shlvl, 6 + ft_strlen(new_shlvl) + 1);
+				free(line->env_copy[i]);
+				line->env_copy[i] = new_env;
+			}
+			free(new_shlvl);
 		}
 	}
 }
 
 void	execute_program_name(t_minishell *line)
 {
-	printf("siema0");
 	if (access(line->split_commands[0], X_OK) == 0)
 	{
 		if (ft_strncmp(line->split_commands[0], "./minishell", 12) == 0
