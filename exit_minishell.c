@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/30 09:48:24 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:13:33 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	free_split(char **split)
 void	free_struct(t_minishell *line)
 {
 	free_split(line->split_commands);
-	free_split(line->split_env);
 	free_split(line->split_pipe);
 	free_split(line->env_copy);
 	if (line->prompt)
@@ -48,8 +47,10 @@ void	free_struct(t_minishell *line)
 		free(line->exit_code);
 	if (line->lst->new_env)
 		free(line->lst->new_env);
-	free(line->lst);
-	free(line);
+	if (line->lst)
+		free(line->lst);
+	if (line)
+		free(line);
 }
 
 void	ft_error(char *str, t_minishell *line)

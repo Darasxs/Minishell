@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 03:23:28 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/30 10:46:32 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:34:32 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,11 @@ void	echo_env(t_minishell *line)
 		j = 1;
 		line->split_commands[i] = ft_substr(line->split_commands[i], 1, ft_strlen(line->split_commands[i]) + 1);
 		k = 0;
-		l = 0;
 		while (line->env_copy[k][l])
 		{
+			l = 0;
 			while (line->env_copy[k][l] != '=')
 				l++;
-			printf("%s\n", line->split_commands[i]);
-			printf("%s\n", line->env_copy[k]);
 			if (ft_strncmp(line->split_commands[i], line->env_copy[k], l - 1) == 0)
 			{
 				l++;
@@ -51,7 +49,7 @@ void	echo_env(t_minishell *line)
 					printf("%c", line->env_copy[k][l]);
 					l++;
 				}
-				printf("\n");
+				printf(" ");
 				break ;
 			}
 			else
@@ -59,6 +57,7 @@ void	echo_env(t_minishell *line)
 		}
 		i++;
 	}
+	printf("\n");
 }
 
 void	echo_builtin(t_minishell *line)
@@ -67,7 +66,9 @@ void	echo_builtin(t_minishell *line)
 	size_t	j;
 
 	i = 1;
-	if (ft_strncmp(line->split_commands[1], "~", 2) == 0
+	if (!line->split_commands[i])
+		printf("\n");
+	else if (ft_strncmp(line->split_commands[1], "~", 2) == 0
 		&& !line->split_commands[2])
 		printf("%s\n", getenv("HOME"));
 	else if (line->split_commands[i][0] == '-'
@@ -81,6 +82,8 @@ void	echo_builtin(t_minishell *line)
 			print_echo(line, i + 1);
 		i++;
 	}
+	else if (line->apos_check == true)
+		printf("%s\n", line->split_commands[1]);
 	else if (line->split_commands[i][0] == '$')
 		echo_env(line);
 	else
