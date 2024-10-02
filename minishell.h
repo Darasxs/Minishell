@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/30 18:07:46 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:49:05 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct s_minishell
 	char			*full_path;
 	char			*exit_code;
 	int				exit_status;
+	int				input_fd;
+	int				output_fd;
 	t_list			*lst;
 }					t_minishell;
 
