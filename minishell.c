@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/30 09:26:32 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:21:11 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	minishell(t_minishell *line)
 	i = 0;
 	input_fd = STDIN_FILENO;
 	printing_prompt(line);
+	parsing(line);
+	//comment parsing for testing
 	if (line->input)
 	{
 		add_history(line->input);

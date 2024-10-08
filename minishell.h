@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/08 12:00:26 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:13:32 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+typedef struct s_token
+{
+	char 			*value;
+	struct s_token	*next;
+	//struct s_token *prev;
+}					t_token;
 
 typedef struct s_list
 {
@@ -45,7 +52,12 @@ typedef struct s_minishell
 	bool			apos_check;
 	int				input_fd;
 	int				output_fd;
+	int				input_pos;
+	int				input_len;
+	int				single_q;
+	int				double_q;
 	t_list			*lst;
+	t_token			*token;
 }					t_minishell;
 
 void				printing_prompt(t_minishell *line);
@@ -60,7 +72,6 @@ void				free_struct(t_minishell *line);
 void				execute_command(t_minishell *line);
 bool				preparing_execution(t_minishell *line);
 char				*find_path(char *path, t_minishell *line);
-void				path_preparation(t_minishell *line);
 void				minishell(t_minishell *line);
 void				cd_builtin(t_minishell *line);
 bool				check_builtin(t_minishell *line);
@@ -73,11 +84,9 @@ char				*ft_strrchr(char *s, char c);
 char				*ft_substr(char *s, size_t start, size_t len);
 char				**copy_envp(char **envp);
 void				exit_builtin(t_minishell *line);
-void				new_env_value(t_minishell *line);
 void				execute_builtin(t_minishell *line);
 bool				check_cd(t_minishell *line);
 bool				check_env(t_minishell *line);
-void				update_oldpwd(t_minishell *line);
 void				handle_builtins(t_minishell *line, size_t i,
 						char **commands, int *input_fd, int *fd);
 void				handle_child_process(t_minishell *line, size_t i, int *input_fd, int *fd,
@@ -90,7 +99,6 @@ char				*ft_strjoin(char *s1, char *s2);
 char				*ft_strnstr(char *haystack, char *needle, size_t size);
 char				*ft_itoa(int n);
 unsigned int		ft_size(int number);
-void				parsing(t_minishell *line, char **commands);
 char				*ft_strdup(char *s1);
 char				*ft_strchr(char *s, int c);
 void				replace_exit_status(t_minishell *line,
@@ -107,10 +115,6 @@ void				export_new_env(t_minishell *line, t_list **lst);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 t_minishell			*struct_init(char **envp);
 void				check_exit_code(t_minishell *line);
-void				check_quotes(t_minishell *line);
-void				handle_quotes(t_minishell *line);
-void				quotes_loop(void);
-void				skip_quotes(t_minishell *line);
 void				check_redirections(t_minishell *line);
 void				echo_builtin(t_minishell *line);
 void				print_echo(t_minishell *line, size_t i);
@@ -123,5 +127,11 @@ void				handle_single_output(t_minishell *line, size_t i);
 void				handle_double_output(t_minishell *line, size_t i);
 void				handle_single_input(t_minishell *line, size_t i);
 void				handle_double_input(t_minishell *line, size_t i);
+void				parsing(t_minishell *line);
+t_token				*token_init(t_minishell *line);
+void				get_token(t_minishell *line, t_token *token);
+bool				is_space(t_minishell *line);
+void				empty_quotes(t_minishell *line, t_token *token);
+t_minishell			*line_init(char **envp);
 
 #endif

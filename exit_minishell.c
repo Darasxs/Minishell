@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/07 16:46:03 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:14:17 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	free_split(char **split)
 
 void	free_struct(t_minishell *line)
 {
-	free_split(line->split_commands);
-	free_split(line->split_pipe);
+	//free_split(line->split_commands);
+	//free_split(line->split_pipe);
 	free_split(line->env_copy);
 	if (line->prompt)
 		free(line->prompt);
@@ -45,8 +45,8 @@ void	free_struct(t_minishell *line)
 		free(line->full_path);
 	if (line->exit_code)
 		free(line->exit_code);
-	if (line->lst->new_env)
-		free(line->lst->new_env);
+	//if (line->lst->new_env)
+	//	free(line->lst->new_env);
 	if (line->lst)
 		free(line->lst);
 	if (line)

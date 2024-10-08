@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_builtin.c                                  :+:      :+:    :+:   */
+/*   line_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/28 01:37:01 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/28 05:25:11 by paprzyby         ###   ########.fr       */
+/*   Created: 2024/09/27 23:27:48 by paprzyby          #+#    #+#             */
+/*   Updated: 2024/10/08 17:29:35 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	execute_builtin(t_minishell *line)
+t_minishell	*line_init(char **envp)
 {
-	if (!line->split_commands[0])
-		return ;
-	else if (ft_strncmp(line->split_commands[0], "unset", 6) == 0
-		&& line->split_commands[1])
-		unset_builtin(line);
-	else if (ft_strncmp(line->split_commands[0], "exit", 5) == 0)
-		exit_builtin(line);
-	else if (ft_strncmp(line->split_commands[0], "echo", 5) == 0)
-		echo_builtin(line);
-	else
-		export_builtin(line);
+	t_minishell	*line;
+	t_list		*lst;
+
+	line = malloc(sizeof(t_minishell));
+	if (!line)
+		ft_error("Error while allocating the memory\n", line);
+	lst = malloc(sizeof(t_list));
+	if (!lst)
+		ft_error("Error while allocating the memory\n", line);
+	lst = NULL;
+	line->env_copy = copy_envp(envp);
+	line->exit_status = 0;
+	line->input_pos = 0;
+	line->single_q = 0;
+	line->double_q = 0;
+	return (line);
 }

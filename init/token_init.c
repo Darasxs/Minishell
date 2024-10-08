@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct_init.c                                      :+:      :+:    :+:   */
+/*   token_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/27 23:27:48 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/09/30 10:24:10 by paprzyby         ###   ########.fr       */
+/*   Created: 2024/10/08 17:29:55 by paprzyby          #+#    #+#             */
+/*   Updated: 2024/10/08 17:30:05 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_minishell	*struct_init(char **envp)
+t_token	*token_init(t_minishell *line)
 {
-	t_minishell	*line;
-	t_list		*lst;
+	t_token	*token;
 
-	line = malloc(sizeof(t_minishell));
-	if (!line)
+	token = malloc(sizeof(t_token));
+	if (!token)
 		ft_error("Error while allocating the memory\n", line);
-	lst = malloc(sizeof(t_list));
-	if (!lst)
-		ft_error("Error while allocating the memory\n", line);
-	lst = NULL;
-	line->env_copy = copy_envp(envp);
-	line->exit_status = 0;
-	return (line);
+	token->value = NULL;
+	return (token);
 }

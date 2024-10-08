@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_for_execution.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:43:50 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/08 12:35:50 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:22:02 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	execute_pipe_commands(t_minishell *line, char **commands, size_t i,
 	pid_t	pid;
 
 	line->split_commands = ft_split(commands[i], ' ');
-	parsing(line, commands);
 	if (commands[i + 1] && pipe(fd) == -1)
 		ft_error("Error occurred while creating a pipe\n", line);
 	if (check_builtin(line))
