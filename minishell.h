@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/02 16:57:15 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:00:26 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ bool				check_env(t_minishell *line);
 void				update_oldpwd(t_minishell *line);
 void				handle_builtins(t_minishell *line, size_t i,
 						char **commands, int *input_fd, int *fd);
-void				handle_child_process(t_minishell *line, size_t i,
-						int *input_fd, int *fd, char **commands);
+void				handle_child_process(t_minishell *line, size_t i, int *input_fd, int *fd,
+						char **commands);
 void				handle_parent_process(size_t i, int *input_fd, int *fd,
 						char **commands);
 void				execute_pipe_commands(t_minishell *line, char **commands,
@@ -93,13 +93,14 @@ unsigned int		ft_size(int number);
 void				parsing(t_minishell *line, char **commands);
 char				*ft_strdup(char *s1);
 char				*ft_strchr(char *s, int c);
-void				replace_exit_status(t_minishell *line, char *exit_status_str,
-						size_t *j, size_t *k);
+void				replace_exit_status(t_minishell *line,
+						char *exit_status_str, size_t *j, size_t *k);
 void				append_dollar_sign(t_minishell *line, size_t *j, size_t *k);
 void				append_question_mark(t_minishell *line, size_t *j,
 						size_t *k);
 void				handle_exit_code(t_minishell *line, size_t i);
-void				check_for_sign(t_minishell *line, size_t i, size_t *j, size_t *k);
+void				check_for_sign(t_minishell *line, size_t i, size_t *j,
+						size_t *k);
 void				add_new_env(t_minishell *line, t_list **lst);
 void				update_env_copy(t_minishell *line, t_list *tmp);
 void				export_new_env(t_minishell *line, t_list **lst);
@@ -118,5 +119,9 @@ void				echo_env(t_minishell *line);
 void				execute_program_name(t_minishell *line);
 int					ft_atoi(char *str);
 void				increment_shlvl(t_minishell *line);
+void				handle_single_output(t_minishell *line, size_t i);
+void				handle_double_output(t_minishell *line, size_t i);
+void				handle_single_input(t_minishell *line, size_t i);
+void				handle_double_input(t_minishell *line, size_t i);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/10/02 16:58:19 by dpaluszk         ###   ########.fr        #
+#    Updated: 2024/10/08 08:29:29 by dpaluszk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,9 @@ SOURCE		=	minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				utils/ft_strchr.c parsing/replace_exit_status.c utils/ft_lstadd_back.c \
 				init/copy_env.c init/struct_init.c execution/execute_command.c \
 				execution/execute_builtin.c parsing/quotes.c builtins/echo_builtin.c \
-				utils/ft_atoi.c redirections.c
+				utils/ft_atoi.c redirections/redirections.c redirections/handle_single_output.c \
+				redirections/handle_double_output.c redirections/handle_single_input.c \
+				#redirections/handle_double_input.c \
 
 OBJECTS		=	$(SOURCE:.c=.o)
 

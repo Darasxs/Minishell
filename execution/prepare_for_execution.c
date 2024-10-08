@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 19:43:50 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/09/30 18:35:19 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:35:50 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	handle_builtins(t_minishell *line, size_t i, char **commands,
 	size_t	j;
 
 	j = 0;
-	while(commands[j])
+	while (commands[j])
 		j++;
 	if (ft_strncmp(line->split_commands[0], "cd", 3) == 0)
 	{
@@ -41,24 +41,46 @@ void	handle_child_process(t_minishell *line, size_t i, int *input_fd,
 		dup2(*input_fd, STDIN_FILENO);
 		close(*input_fd);
 	}
+	//else if (line->input_fd != -1)
+	//{
+	//	dup2(line->input_fd, STDIN_FILENO);
+	//	close(line->input_fd);
+	//}
 	if (commands[i + 1])
 	{
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
+	//else if (line->output_fd != -1)
+	//{
+	//	dup2(line->output_fd, STDOUT_FILENO);
+	//	close(line->output_fd);
+	//}
 	close(fd[0]);
 	if (line->split_commands[0] && ft_strncmp(line->split_commands[0], "env",
 			3) == 0)
 		env_builtin(line);
-	else if(line->split_commands[0][0] == '.' && line->split_commands[0][1] == '/')
+	else if (line->split_commands[0][0] == '.'
+		&& line->split_commands[0][1] == '/')
 		execute_program_name(line);
 	else
 		execute_command(line);
 	exit(0);
 }
 
-void	handle_parent_process(size_t i, int *input_fd, int *fd, char **commands)
+void	handle_parent_process(size_t i, int *input_fd,
+		int *fd, char **commands)
 {
+	//if (line->input_fd != -1)
+	//{
+	//	close(line->input_fd);
+	//	line->input_fd = -1;
+	//}
+	//if (line->output_fd != -1)
+	//{
+	//	close(line->output_fd);
+	//	line->output_fd = -1;
+	//}
 	if (commands[i + 1])
 	{
 		close(fd[1]);
