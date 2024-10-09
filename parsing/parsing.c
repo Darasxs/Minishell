@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 10:55:55 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/08 17:31:16 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:11:06 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,61 +39,6 @@ bool	is_space(t_minishell *line)
 		return (false);
 }
 
-void	get_token(t_minishell *line, t_token *token)
-{
-	int	start;
-
-	if (line->input[line->input_pos] == '|')
-		token->value = ft_strdup("|");
-	else if (line->input[line->input_pos + 1] == '<' && line->input[line->input_pos] == '<')
-	{
-		token->value = ft_strdup("<<");
-		line->input_pos++;
-	}
-	else if (line->input[line->input_pos] == '<')
-		token->value = ft_strdup("<");
-	else if (line->input[line->input_pos + 1] == '>' && line->input[line->input_pos] == '>')
-	{
-		token->value = ft_strdup(">>");
-		line->input_pos++;
-	}
-	else if (line->input[line->input_pos] == '>')
-		token->value = ft_strdup(">");
-	else if ((line->input[line->input_pos] == '\'' || line->input[line->input_pos] == '\"')
-			&& (line->input[line->input_pos + 1] == line->input[line->input_pos]))
-		empty_quotes(line, token);
-	else
-	{
-		start = line->input_pos;
-		while (line->input[line->input_pos])
-		{
-			if (line->input[line->input_pos] == '\'' || line->input[line->input_pos] == '\"')
-			{
-				if (line->input[line->input_pos] == '\'' && !line->single_q && !line->double_q)
-					line->single_q = 1;
-				else if (line->input[line->input_pos] == '\"' && !line->single_q && !line->double_q)
-					line->double_q = 1;
-				else if (line->input[line->input_pos] == '\'' && line->single_q && !line->double_q)
-					line->single_q = 0;
-				else if (line->input[line->input_pos] == '\"' && line->double_q && !line->single_q)
-					line->double_q = 0;
-			}
-			if ((is_space(line) || line->input[line->input_pos] == '|' || line->input[line->input_pos] == '<' || line->input[line->input_pos] == '>') && !(line->single_q || line->double_q))
-				break;
-			line->input_pos++;
-		}
-		if (line->single_q || line->double_q)
-		{
-			while (1)
-				readline("> ");
-			//token->value = ft_strdup("Unclosed quotes");
-			//ft_error("Error: Quote is open\n", line);
-		}
-		else
-			token->value = ft_substr(line->input, start, line->input_pos - start);
-	}
-}
-
 void	parsing(t_minishell *line)
 {
 	t_token	*token;
@@ -122,6 +67,7 @@ void	parsing(t_minishell *line)
 			printf("unexpected token\n");
 		token = token->next;
 	}
+	token = head;
 	// i teraz trzeba zrobic funkcje ktora wyowala komendy
 	exit(0);
 }

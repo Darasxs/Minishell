@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/08 18:13:32 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:47:55 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,7 @@ void				get_token(t_minishell *line, t_token *token);
 bool				is_space(t_minishell *line);
 void				empty_quotes(t_minishell *line, t_token *token);
 t_minishell			*line_init(char **envp);
+void				get_word_token(t_minishell *line, t_token *token);
+void				count_quotes(t_minishell *line);
 
 #endif

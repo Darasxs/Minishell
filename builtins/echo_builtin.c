@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 03:23:28 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/01 13:34:32 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:19:40 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,12 @@ void	print_echo(t_minishell *line, size_t i)
 void	echo_env(t_minishell *line)
 {
 	size_t	i;
-	size_t	j;
 	size_t	k;
 	size_t	l;
 
 	i = 1;
 	while (line->split_commands[i] && line->split_commands[i][0] == '$')
 	{
-		j = 1;
 		line->split_commands[i] = ft_substr(line->split_commands[i], 1, ft_strlen(line->split_commands[i]) + 1);
 		k = 0;
 		while (line->env_copy[k][l])
