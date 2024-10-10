@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/10 18:09:18 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:29:34 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ typedef struct s_minishell
 	char			*exit_code;
 	int				exit_status;
 	bool			apos_check;
-	int				input_fd;
-	int				output_fd;
+	//int				input_fd;
+	//int				output_fd;
 	int				input_pos;
 	int				input_len;
 	int				single_q;
@@ -135,5 +135,10 @@ t_minishell			*minishell_init(char **envp);
 void				get_word_token(t_minishell *ms, t_token *token);
 void				count_quotes(t_minishell *ms);
 void				create_split_commands(t_minishell *ms, t_token *token);
+char				*free_helper(char **s1, char **s2, char c);
+char				*ft_remainder(char *my_buffer);
+char				*extract_line(char *my_buffer);
+char				*read_new_line(int fd, char *my_buffer);
+char				*get_next_line(int fd);
 
 #endif

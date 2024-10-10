@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
+#    By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/10/09 20:55:23 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/10/10 19:33:08 by dpaluszk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SOURCE		=	minishell_helper/minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				builtins/echo_builtin.c execution/builtins.c \
 				utils/ft_atoi.c redirections/redirections.c redirections/handle_single_output.c \
 				redirections/handle_double_output.c redirections/handle_single_input.c \
-				#redirections/handle_double_input.c \
+				redirections/handle_double_input.c get_next_line/get_next_line.c \
 
 OBJECTS		=	$(SOURCE:.c=.o)
 
