@@ -3,39 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:57:52 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/08 08:47:41 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:27:58 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	check_redirections(t_minishell *line)
+void	check_redirections(t_minishell *ms)
 {
 	size_t i;
 
 	i = 0;
-	while (line->split_commands[i])
+	while (ms->split_commands[i])
 	{
-		if (line->split_commands[i][0] == '>' && line->split_commands[i][1] == '>')
+		if (ms->split_commands[i][0] == '>' && ms->split_commands[i][1] == '>')
 		{
-			handle_double_output(line, i);
+			handle_double_output(ms, i);
 		}
-		else if (line->split_commands[i][0] == '>')
+		else if (ms->split_commands[i][0] == '>')
 		{
-			handle_single_output(line, i);
+			handle_single_output(ms, i);
 		}
-		// else if (line->split_commands[i][j] == '<'
-		//	&& line->split_commands[i][j + 1] == '<')
+		// else if (ms->split_commands[i][j] == '<'
+		//	&& ms->split_commands[i][j + 1] == '<')
 		//{
-		//	handle_double_input(line, i);
+		//	handle_double_input(ms, i);
 		//	j += 2;
 		//}
-		else if (line->split_commands[i][0] == '<')
+		else if (ms->split_commands[i][0] == '<')
 		{
-			handle_single_input(line, i);
+			handle_single_input(ms, i);
 		}
 		i++;
 	}

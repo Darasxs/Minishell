@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/08 18:13:10 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:55:01 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,26 @@
 
 int	main(int ac, char **av, char **envp)
 {
-	t_minishell	*line;
+	t_minishell	*ms;
+	t_token		*token;
 
 	if (ac != 1)
 	{
 		printf("minishell: %s: No such file or directory\n", av[1]);
 		return (1);
 	}
-	line = line_init(envp);
+	ms = minishell_init(envp);
 	while (1)
-		minishell(line);
-	free_struct(line);
+	{
+		printing_prompt(ms);
+		if (ms->input)
+		{
+			add_history(ms->input);
+			token = parsing(ms);
+			//comment parsing for testing
+			minishell(ms, token);
+		}
+	}
+	free_struct(ms);
 	return (0);
 }

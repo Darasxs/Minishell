@@ -6,11 +6,11 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/08 17:14:17 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:41:09 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	free_split(char **split)
 {
@@ -28,43 +28,43 @@ void	free_split(char **split)
 	}
 }
 
-void	free_struct(t_minishell *line)
+void	free_struct(t_minishell *ms)
 {
-	//free_split(line->split_commands);
-	//free_split(line->split_pipe);
-	free_split(line->env_copy);
-	if (line->prompt)
-		free(line->prompt);
-	if (line->input)
-		free(line->input);
-	if (line->path)
-		free(line->path);
-	if (line->env)
-		free(line->env);
-	if (line->full_path)
-		free(line->full_path);
-	if (line->exit_code)
-		free(line->exit_code);
-	//if (line->lst->new_env)
-	//	free(line->lst->new_env);
-	if (line->lst)
-		free(line->lst);
-	if (line)
-		free(line);
+	//free_split(ms->split_commands);
+	//free_split(ms->split_pipe);
+	free_split(ms->env_copy);
+	if (ms->prompt)
+		free(ms->prompt);
+	if (ms->input)
+		free(ms->input);
+	if (ms->path)
+		free(ms->path);
+	if (ms->env)
+		free(ms->env);
+	if (ms->full_path)
+		free(ms->full_path);
+	if (ms->exit_code)
+		free(ms->exit_code);
+	//if (ms->lst->new_env)
+	//	free(ms->lst->new_env);
+	if (ms->lst)
+		free(ms->lst);
+	if (ms)
+		free(ms);
 }
 
-void	ft_error(char *str, t_minishell *line)
+void	ft_error(char *str, t_minishell *ms)
 {
 	printf("%s\n", str);
-	free_struct(line);
+	free_struct(ms);
 	exit(EXIT_FAILURE);
 }
 
-void	wrong_command(char *info, t_minishell *line)
+void	wrong_command(char *info, t_minishell *ms)
 {
 	if (info)
 		printf("minishell: %s: ", info);
 	printf("command not found\n");
-	free_struct(line);
+	free_struct(ms);
 	exit(EXIT_FAILURE);
 }

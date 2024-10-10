@@ -3,61 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/08 11:37:42 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:10:00 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*find_path(char *path, t_minishell *line)
+char	*find_path(char *path, t_minishell *ms)
 {
 	int	i;
 
 	i = 0;
-	while (line->split_env[i])
+	while (ms->split_env[i])
 	{
-		line->full_path = malloc(ft_strlen(line->split_env[i]) + ft_strlen(path)
+		ms->full_path = malloc(ft_strlen(ms->split_env[i]) + ft_strlen(path)
 				+ 2);
-		if (!line->full_path)
-			return (free(line->full_path), NULL);
-		ft_strlcpy(line->full_path, line->split_env[i],
-			ft_strlen(line->split_env[i]) + 1);
-		ft_strlcat(line->full_path, "/", ft_strlen(line->full_path) + 2);
-		ft_strlcat(line->full_path, path, ft_strlen(line->full_path)
+		if (!ms->full_path)
+			return (free(ms->full_path), NULL);
+		ft_strlcpy(ms->full_path, ms->split_env[i],
+			ft_strlen(ms->split_env[i]) + 1);
+		ft_strlcat(ms->full_path, "/", ft_strlen(ms->full_path) + 2);
+		ft_strlcat(ms->full_path, path, ft_strlen(ms->full_path)
 			+ ft_strlen(path) + 1);
-		if (access(line->full_path, X_OK) == 0)
+		if (access(ms->full_path, X_OK) == 0)
 		{
-			free_split(line->split_env);
-			return (line->full_path);
+			free_split(ms->split_env);
+			return (ms->full_path);
 		}
-		free(line->full_path);
-		line->full_path = NULL;
+		free(ms->full_path);
+		ms->full_path = NULL;
 		i++;
 	}
-	free_split(line->split_env);
+	free_split(ms->split_env);
 	return (NULL);
 }
 
-void	execute_command(t_minishell *line)
+void	execute_command(t_minishell *ms, t_token *token)
 {
-	line->env = getenv("PATH");
-	if (!line->env)
+	ms->env = getenv("PATH");
+	if (!ms->env)
 		return ;
-	line->split_env = ft_split(line->env, ':');
-	if (!line->split_env)
+	ms->split_env = ft_split(ms->env, ':');
+	if (!ms->split_env)
 		return ;
-	line->path = find_path(line->split_commands[0], line);
-	if (!line->path)
-		wrong_command(line->split_commands[0], line);
-	if (execve(line->path, line->split_commands, line->env_copy) == -1)
-		ft_error("Execution failed\n", line);
-	free(line->path);
+	ms->path = find_path(token->value, ms);
+	if (!ms->path)
+		wrong_command(token->value, ms);
+	if (execve(ms->path, ms->split_commands, ms->env_copy) == -1)
+		ft_error("Execution failed\n", ms);
+	free(ms->path);
 }
 
-void	increment_shlvl(t_minishell *line)
+void	increment_shlvl(t_minishell *ms)
 {
 	char	*shlvl_str;
 	char	*new_shlvl;
@@ -67,11 +67,11 @@ void	increment_shlvl(t_minishell *line)
 
 	i = 0;
 	shlvl_str = NULL;
-	while (line->env_copy[i])
+	while (ms->env_copy[i])
 	{
-		if (ft_strncmp(line->env_copy[i], "SHLVL=", 6) == 0)
+		if (ft_strncmp(ms->env_copy[i], "SHLVL=", 6) == 0)
 		{
-			shlvl_str = ft_strdup(line->env_copy[i] + 6);
+			shlvl_str = ft_strdup(ms->env_copy[i] + 6);
 			break ;
 		}
 		i++;
@@ -89,31 +89,31 @@ void	increment_shlvl(t_minishell *line)
 			{
 				ft_strlcpy(new_env, "SHLVL=", 6 + ft_strlen(new_shlvl) + 1);
 				ft_strlcat(new_env, new_shlvl, 6 + ft_strlen(new_shlvl) + 1);
-				free(line->env_copy[i]);
-				line->env_copy[i] = new_env;
+				free(ms->env_copy[i]);
+				ms->env_copy[i] = new_env;
 			}
 			free(new_shlvl);
 		}
 	}
 }
 
-void	execute_program_name(t_minishell *line)
+void	execute_program_name(t_minishell *ms, t_token *token)
 {
-	if (access(line->split_commands[0], X_OK) == 0)
+	if (access(token->value, X_OK) == 0)
 	{
-		if (ft_strncmp(line->split_commands[0], "./minishell", 12) == 0
-			|| (ft_strncmp(line->split_commands[0], "bash", 5) == 0))
-			increment_shlvl(line);
-		if (execve(line->split_commands[0], line->split_commands,
-				line->env_copy) == -1)
+		if (ft_strncmp(token->value, "./minishell", 12) == 0
+			|| (ft_strncmp(token->value, "bash", 5) == 0))
+			increment_shlvl(ms);
+		if (execve(token->value, ms->split_commands,
+				ms->env_copy) == -1)
 		{
-			if (line->split_commands[0][0] == '.'
-				&& line->split_commands[0][1] == '/'
-				&& line->split_commands[0][2] == '\0')
+			if (ms->split_commands[0][0] == '.'
+				&& ms->split_commands[0][1] == '/'
+				&& ms->split_commands[0][2] == '\0')
 				printf("bash: ./: is a directory\n");
 		}
 		else
-			ft_error("Execution failed.", line);
+			ft_error("Execution failed.", ms);
 	}
 	else
 		printf("No such file or directory.\n");
