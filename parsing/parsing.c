@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 10:55:55 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/10 19:17:11 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/11 15:39:16 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,30 +50,6 @@ bool	is_space(t_minishell *ms)
 		return (false);
 }
 
-void	create_split_commands(t_minishell *ms, t_token *token)
-{
-	int	i;
-
-	ms->split_commands = malloc(sizeof(char *) * (ms->token_count + 1));
-	if (!ms->split_commands)
-		ft_error("Error while allocating the memory\n", ms);
-	i = 0;
-	while (i < ms->token_count)
-	{
-		ms->split_commands[i] = strdup(token->value);
-		if (!ms->split_commands[i])
-		{
-			while (i--)
-				free(token->value);
-			free(token->value);
-			exit(1);
-		}
-		token = token->next;
-		i++;
-	}
-	ms->split_commands[i] = NULL;
-}
-
 t_token	*parsing(t_minishell *ms)
 {
 	t_token	*token;
@@ -88,15 +64,15 @@ t_token	*parsing(t_minishell *ms)
 			ms->input_pos++;
 		get_token(ms, token);
 		ms->input_pos++;
+		if (token->value[0] != '|')
+			ms->token_count++;
 		token->next = token_init(ms);
-		ms->token_count++;
 		token = token->next;
 	}
-	token->next = NULL;
+	token = NULL;
 	token = head;
 	while (token->next)
 	{
-		//printf("value: %s\n", token->value);
 		if (ft_strncmp(token->value, "|", 1) == 0 && ft_strncmp(token->next->value, "|", 1) == 0)
 			ft_error("minishell: syntax error near unexpected token `||'", ms);
 		//else if (ft_strncmp(token->value, ">", 1) == 0 || ft_strncmp(token->value, "<", 1) == 0)
@@ -105,8 +81,6 @@ t_token	*parsing(t_minishell *ms)
 			ms->pipe = true;
 		token = token->next;
 	}
-	token = head;
-	create_split_commands(ms, token);
 	token = head;
 	return (token);
 	// i teraz trzeba zrobic funkcje ktora wyowala komendy

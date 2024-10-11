@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:54:20 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/10 17:40:28 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:19:45 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	cd_builtin(t_minishell *ms, t_token *token)
 {
-	if (!token->next || (token->next->value[0] == '~'
-			&& token->next->value[1] == '\0'))
+	(void)token;
+	if (!ms->split_commands[1] || (ms->split_commands[1][0] == '~'
+			&& ms->split_commands[1][1] == '\0'))
 	{
 		ms->env = getenv("HOME");
 		if (!ms->env)
@@ -23,8 +24,8 @@ void	cd_builtin(t_minishell *ms, t_token *token)
 		if (chdir(ms->env) != 0)
 			ft_error("minishell: error while finding the HOME directory\n", ms);
 	}
-	else if (token->next->value[0] == '-'
-		&& token->next->value[1] == '\0')
+	else if (ms->split_commands[1][0] == '-'
+		&& ms->split_commands[1][1] == '\0')
 	{
 		ms->env = getenv("OLDPWD");
 		if (!ms->env)
@@ -35,7 +36,7 @@ void	cd_builtin(t_minishell *ms, t_token *token)
 	}
 	else
 	{
-		if (chdir(token->next->value) != 0)
+		if (chdir(ms->split_commands[1]) != 0)
 			printf("minishell: cd: %s: No such file or directory\n", ms->split_commands[1]);
 	}
 }

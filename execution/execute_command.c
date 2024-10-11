@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/10 19:10:00 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:20:29 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,16 @@ char	*find_path(char *path, t_minishell *ms)
 
 void	execute_command(t_minishell *ms, t_token *token)
 {
+	(void)token;
 	ms->env = getenv("PATH");
 	if (!ms->env)
 		return ;
 	ms->split_env = ft_split(ms->env, ':');
 	if (!ms->split_env)
 		return ;
-	ms->path = find_path(token->value, ms);
+	ms->path = find_path(ms->split_commands[0], ms);
 	if (!ms->path)
-		wrong_command(token->value, ms);
+		wrong_command(ms->split_commands[0], ms);
 	if (execve(ms->path, ms->split_commands, ms->env_copy) == -1)
 		ft_error("Execution failed\n", ms);
 	free(ms->path);
@@ -99,12 +100,13 @@ void	increment_shlvl(t_minishell *ms)
 
 void	execute_program_name(t_minishell *ms, t_token *token)
 {
-	if (access(token->value, X_OK) == 0)
+	(void)token;
+	if (access(ms->split_commands[0], X_OK) == 0)
 	{
-		if (ft_strncmp(token->value, "./minishell", 12) == 0
-			|| (ft_strncmp(token->value, "bash", 5) == 0))
+		if (ft_strncmp(ms->split_commands[0], "./minishell", 12) == 0
+			|| (ft_strncmp(ms->split_commands[0], "bash", 5) == 0))
 			increment_shlvl(ms);
-		if (execve(token->value, ms->split_commands,
+		if (execve(ms->split_commands[0], ms->split_commands,
 				ms->env_copy) == -1)
 		{
 			if (ms->split_commands[0][0] == '.'
