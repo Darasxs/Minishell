@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 10:55:55 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/11 15:39:16 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:17:00 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,6 @@ t_token	*token_init(t_minishell *ms)
 		ft_error("Error while allocating the memory\n", ms);
 	token->value = NULL;
 	return (token);
-}
-
-void	empty_quotes(t_minishell *ms, t_token *token)
-{
-	if (ms->input[ms->input_pos] == '\'')
-		token->value = ft_strdup("\'\'");
-	else
-		token->value = ft_strdup("\"\"");
-	ms->input_pos++;
 }
 
 bool	is_space(t_minishell *ms)
@@ -62,29 +53,20 @@ t_token	*parsing(t_minishell *ms)
 	{
 		if (is_space(ms))
 			ms->input_pos++;
-		get_token(ms, token);
-		ms->input_pos++;
-		if (token->value[0] != '|')
-			ms->token_count++;
-		token->next = token_init(ms);
-		token = token->next;
+		else
+		{
+			get_token(ms, token);
+			ms->input_pos++;
+			if (token->value[0] != '|')
+				ms->token_count++;
+			token->next = token_init(ms);
+			token = token->next;
+		}
 	}
 	token = NULL;
 	token = head;
-	while (token->next)
-	{
-		if (ft_strncmp(token->value, "|", 1) == 0 && ft_strncmp(token->next->value, "|", 1) == 0)
-			ft_error("minishell: syntax error near unexpected token `||'", ms);
-		//else if (ft_strncmp(token->value, ">", 1) == 0 || ft_strncmp(token->value, "<", 1) == 0)
-		//	printf("unexpected token\n");
-		else if (ft_strncmp(token->value, "|", 1) == 0)
-			ms->pipe = true;
-		token = token->next;
-	}
-	token = head;
+	//tutaj funkcja ktora sprawdza czy sa np. 2 pipe obok siebie
 	return (token);
-	// i teraz trzeba zrobic funkcje ktora wyowala komendy
-	//exit(0);
 }
 
 //funkcja do exit_statusu(nie wiem czy jej potrzebujemy):

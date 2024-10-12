@@ -6,13 +6,13 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/11 17:19:31 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:31:43 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_builtins(t_minishell *ms, t_token *token, int i, int *input_fd, int *fd)
+void	handle_builtins(t_minishell *ms, int i, int *input_fd, int *fd)
 {
 	int	j;
 
@@ -22,9 +22,9 @@ void	handle_builtins(t_minishell *ms, t_token *token, int i, int *input_fd, int 
 	if (ft_strncmp(ms->split_commands[0], "cd", 3) == 0)
 	{
 		if (j == 1 || i == j - 1)
-			cd_builtin(ms, token);
+			cd_builtin(ms);
 	}
-	execute_builtin(ms, token);
+	execute_builtin(ms);
 	if (ms->split_pipes[i + 1])
 	{
 		close(fd[1]);
@@ -32,7 +32,7 @@ void	handle_builtins(t_minishell *ms, t_token *token, int i, int *input_fd, int 
 	}
 }
 
-void	handle_child_process(t_minishell *ms, t_token *token, int i, int *input_fd, int *fd)
+void	handle_child_process(t_minishell *ms, int i, int *input_fd, int *fd)
 {
 	if (i > 0)
 	{
@@ -55,16 +55,11 @@ void	handle_child_process(t_minishell *ms, t_token *token, int i, int *input_fd,
 	//	close(ms->output_fd);
 	//}
 	close(fd[0]);
-	if (ft_strncmp(ms->split_commands[0], "env", 3) == 0)
-		env_builtin(ms);
-	else if (ms->split_commands[0][0] == '.' && ms->split_commands[1][1] == '/')
-		execute_program_name(ms, token);
-	else
-		execute_command(ms, token);
+	execute_command(ms);
 	exit(0);
 }
 
-void	handle_parent_process(t_minishell *ms, t_token *token, int i, int *input_fd, int *fd)
+void	handle_parent_process(t_minishell *ms, int i, int *input_fd, int *fd)
 {
 	//if (ms->input_fd != -1)
 	//{
@@ -76,7 +71,6 @@ void	handle_parent_process(t_minishell *ms, t_token *token, int i, int *input_fd
 	//	close(ms->output_fd);
 	//	ms->output_fd = -1;
 	//}
-	(void)token;
 	if (ms->split_pipes[i + 1])
 	{
 		close(fd[1]);
@@ -92,28 +86,28 @@ void	handle_parent_process(t_minishell *ms, t_token *token, int i, int *input_fd
 	}
 }
 
-void	execute_pipe_commands(t_minishell *ms, t_token *token, int *input_fd, int i)
+void	execute_pipe_commands(t_minishell *ms, int *input_fd, int i)
 {
 	int		fd[2];
 	pid_t	pid;
 
 	if (ms->split_pipes[i + 1] && pipe(fd) == -1)
 		ft_error("Error occurred while creating a pipe\n", ms);
-	if (check_builtin(ms, token))
-		handle_builtins(ms, token, i, input_fd, fd);
+	if (check_builtin(ms))
+		handle_builtins(ms, i, input_fd, fd);
 	else
 	{
 		pid = fork();
 		if (pid < 0)
 			ft_error("Error occurred while forking\n", ms);
 		else if (pid == 0)
-			handle_child_process(ms, token, i, input_fd, fd);
+			handle_child_process(ms, i, input_fd, fd);
 		else
-			handle_parent_process(ms, token, i, input_fd, fd);
+			handle_parent_process(ms, i, input_fd, fd);
 	}
 }
 
-void	minishell(t_minishell *ms, t_token *token)
+void	minishell(t_minishell *ms)
 {
 	int		status;
 	int		input_fd;
@@ -121,12 +115,10 @@ void	minishell(t_minishell *ms, t_token *token)
 
 	input_fd = STDIN_FILENO;
 	i = 0;
-	// splitted by pipes instead of spaces
-	while (ms->split_pipes[i] && token)
+	while (ms->split_pipes[i])
 	{
-		//printf("%s\n", ms->split_commands[i]);
-		execute_pipe_commands(ms, token, &input_fd, i);
-		token = token->next;
+		ms->split_commands = ft_split(ms->split_pipes[i], ' ');
+		execute_pipe_commands(ms, &input_fd, i);
 		i++;
 	}
 	while (waitpid(-1, &status, 0) > 0)

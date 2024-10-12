@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/11 17:19:16 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:27:36 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_minishell
 	int				single_q;
 	int				double_q;
 	int				token_count;
-	bool			pipe;
 	bool			first_iteration;
 	t_list			*lst;
 	t_token			*token;
@@ -71,12 +70,12 @@ int					ft_strncmp(const char *s1, const char *s2, size_t len);
 void				ft_error(char *str, t_minishell *ms);
 void				free_split(char **split);
 void				free_struct(t_minishell *ms);
-void				execute_command(t_minishell *ms, t_token *token);
+void				execute_command(t_minishell *ms);
 bool				preparing_execution(t_minishell *ms);
 char				*find_path(char *path, t_minishell *ms);
-void				minishell(t_minishell *ms, t_token *token);
-void				cd_builtin(t_minishell *ms, t_token *token);
-bool				check_builtin(t_minishell *ms, t_token *token);
+void				minishell(t_minishell *ms);
+void				cd_builtin(t_minishell *ms);
+bool				check_builtin(t_minishell *ms);
 void				env_builtin(t_minishell *ms);
 void				unset_builtin(t_minishell *ms);
 void				export_builtin(t_minishell *ms);
@@ -86,13 +85,13 @@ char				*ft_strrchr(char *s, char c);
 char				*ft_substr(char *s, size_t start, size_t len);
 char				**envp_init(char **envp);
 void				exit_builtin(t_minishell *ms);
-void				execute_builtin(t_minishell *ms, t_token *token);
+void				execute_builtin(t_minishell *ms);
 bool				check_cd(t_minishell *ms);
 bool				check_env(t_minishell *ms);
-void				handle_builtins(t_minishell *ms, t_token *token, int i, int *input_fd, int *fd);
-void				handle_child_process(t_minishell *ms, t_token *token, int i, int *input_fd, int *fd);
-void				handle_parent_process(t_minishell *ms, t_token *token, int i, int *input_fd, int *fd);
-void				execute_pipe_commands(t_minishell *ms, t_token *token, int *input_fd, int i);
+void				handle_builtins(t_minishell *ms, int i, int *input_fd, int *fd);
+void				handle_child_process(t_minishell *ms, int i, int *input_fd, int *fd);
+void				handle_parent_process(t_minishell *ms, int i, int *input_fd, int *fd);
+void				execute_pipe_commands(t_minishell *ms, int *input_fd, int i);
 char				*ft_strjoin(char *s1, char *s2);
 char				*ft_strnstr(char *haystack, char *needle, size_t size);
 char				*ft_itoa(int n);
@@ -118,7 +117,7 @@ void				echo_builtin(t_minishell *ms);
 void				print_echo(t_minishell *ms, size_t i);
 void				wrong_command(char *info, t_minishell *ms);
 void				echo_env(t_minishell *ms);
-void				execute_program_name(t_minishell *ms, t_token *token);
+void				execute_program_name(t_minishell *ms);
 int					ft_atoi(char *str);
 void				increment_shlvl(t_minishell *ms);
 void				handle_single_output(t_minishell *ms, size_t i);
@@ -141,5 +140,7 @@ char				*read_new_line(int fd, char *my_buffer);
 char				*get_next_line(int fd);
 void				parsing_cleanup(t_minishell *ms, t_token *token);
 void				create_split_pipes(t_minishell *ms, t_token *token);
+int					count_pipes(t_token *token);
+void				join_pipes(t_minishell *ms, t_token *token, int i);
 
 #endif

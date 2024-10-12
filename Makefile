@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+         #
+#    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/10/10 19:33:08 by dpaluszk         ###   ########.fr        #
+#    Updated: 2024/10/12 17:07:54 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SOURCE		=	minishell_helper/minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				minishell_helper/exit_minishell.c main.c builtins/cd_builtin.c \
 				builtins/env_builtin.c parsing/tokens.c \
 				builtins/unset_builtin.c builtins/export_builtin.c \
-				builtins/exit_builtin.c \
+				builtins/exit_builtin.c minishell_helper/create_split_pipes.c \
 				utils/ft_strjoin.c utils/ft_strnstr.c utils/ft_strrchr.c \
 				utils/ft_substr.c utils/ft_itoa.c utils/ft_strdup.c parsing/parsing.c \
 				utils/ft_strchr.c utils/ft_lstadd_back.c minishell_helper/minishell_init.c \

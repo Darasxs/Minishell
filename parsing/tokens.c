@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 12:56:13 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/09 20:29:41 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:52:21 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ void	count_quotes(t_minishell *ms)
 		ms->single_q = 0;
 	else if (ms->input[ms->input_pos] == '\"' && ms->double_q && !ms->single_q)
 		ms->double_q = 0;
+}
+
+void	empty_quotes(t_minishell *ms, t_token *token)
+{
+	//if (ms->input[ms->input_pos] == '\'')
+	//	token->value = ft_strdup("\'\'");
+	//else
+	token->value = ft_strdup("");
+	ms->input_pos++;
 }
 
 void	get_word_token(t_minishell *ms, t_token *token)

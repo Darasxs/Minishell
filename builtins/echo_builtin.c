@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 03:23:28 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/11 11:51:07 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/12 15:24:38 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,10 @@ void	echo_builtin(t_minishell *ms)
 			print_echo(ms, i + 1);
 		i++;
 	}
-	//else if (ms->apos_check == true)
-	//	printf("%s\n", ms->split_commands[1]);
 	else if (ms->split_commands[i][0] == '$')
 		echo_env(ms);
 	else
 	{
-		i = 1;
 		while (ms->split_commands[i])
 		{
 			printf("%s ", ms->split_commands[i]);

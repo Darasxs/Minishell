@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/11 17:20:29 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:31:40 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,27 @@ char	*find_path(char *path, t_minishell *ms)
 	return (NULL);
 }
 
-void	execute_command(t_minishell *ms, t_token *token)
+void	execute_command(t_minishell *ms)
 {
-	(void)token;
-	ms->env = getenv("PATH");
-	if (!ms->env)
-		return ;
-	ms->split_env = ft_split(ms->env, ':');
-	if (!ms->split_env)
-		return ;
-	ms->path = find_path(ms->split_commands[0], ms);
-	if (!ms->path)
-		wrong_command(ms->split_commands[0], ms);
-	if (execve(ms->path, ms->split_commands, ms->env_copy) == -1)
-		ft_error("Execution failed\n", ms);
-	free(ms->path);
+	if (ft_strncmp(ms->split_commands[0], "env", 3) == 0)
+		env_builtin(ms);
+	else if (ms->split_commands[0][0] == '.' && ms->split_commands[1][1] == '/')
+		execute_program_name(ms);
+	else
+	{
+		ms->env = getenv("PATH");
+		if (!ms->env)
+			return ;
+		ms->split_env = ft_split(ms->env, ':');
+		if (!ms->split_env)
+			return ;
+		ms->path = find_path(ms->split_commands[0], ms);
+		if (!ms->path)
+			wrong_command(ms->split_commands[0], ms);
+		if (execve(ms->path, ms->split_commands, ms->env_copy) == -1)
+			ft_error("Execution failed\n", ms);
+		free(ms->path);
+	}
 }
 
 void	increment_shlvl(t_minishell *ms)
@@ -98,9 +104,8 @@ void	increment_shlvl(t_minishell *ms)
 	}
 }
 
-void	execute_program_name(t_minishell *ms, t_token *token)
+void	execute_program_name(t_minishell *ms)
 {
-	(void)token;
 	if (access(ms->split_commands[0], X_OK) == 0)
 	{
 		if (ft_strncmp(ms->split_commands[0], "./minishell", 12) == 0

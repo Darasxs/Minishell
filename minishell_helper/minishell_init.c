@@ -23,7 +23,7 @@ char	**envp_init(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		copy[i] = strdup(envp[i]);
+		copy[i] = ft_strdup(envp[i]);
 		if (!copy[i])
 		{
 			while (i--)
@@ -54,7 +54,6 @@ t_minishell	*minishell_init(char **envp)
 	ms->input_pos = 0;
 	ms->single_q = 0;
 	ms->double_q = 0;
-	ms->pipe = false;
 	ms->first_iteration = true;
 	ms->token_count = 0;
 	return (ms);

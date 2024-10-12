@@ -6,15 +6,14 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:54:20 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/11 17:19:45 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:08:36 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	cd_builtin(t_minishell *ms, t_token *token)
+void	cd_builtin(t_minishell *ms)
 {
-	(void)token;
 	if (!ms->split_commands[1] || (ms->split_commands[1][0] == '~'
 			&& ms->split_commands[1][1] == '\0'))
 	{

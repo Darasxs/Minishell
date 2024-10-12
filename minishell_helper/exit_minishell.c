@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/11 11:56:00 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/12 17:15:56 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,23 @@ void	wrong_command(char *info, t_minishell *ms)
 	printf("command not found\n");
 	free_struct(ms);
 	exit(EXIT_FAILURE);
+}
+
+void	parsing_cleanup(t_minishell *ms, t_token *token)
+{
+	size_t	i;
+
+	i = 0;
+	while (token->value)
+	{
+		free(token->value);
+		token->value = NULL;
+		token = token->next;
+	}
+	free(token);
+	ms->double_q = 0;
+	ms->single_q = 0;
+	ms->first_iteration = true;
+	ms->input_pos = 0;
+	ms->token_count = 0;
 }
