@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/12 17:31:40 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/13 16:55:27 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	execute_command(t_minishell *ms)
 		env_builtin(ms);
 	else if (ms->split_commands[0][0] == '.' && ms->split_commands[1][1] == '/')
 		execute_program_name(ms);
+	else if	(check_if_redirections(ms))
+		handle_redirections(ms);
 	else
 	{
 		ms->env = getenv("PATH");

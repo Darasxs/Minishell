@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/12 17:27:36 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/13 16:56:18 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ void				export_new_env(t_minishell *ms, t_list **lst);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 t_minishell			*struct_init(char **envp);
 void				check_exit_code(t_minishell *ms);
-void				check_redirections(t_minishell *ms);
+void				handle_redirections(t_minishell *ms);
+bool				check_if_redirections(t_minishell *ms);
 void				echo_builtin(t_minishell *ms);
 void				print_echo(t_minishell *ms, size_t i);
 void				wrong_command(char *info, t_minishell *ms);
