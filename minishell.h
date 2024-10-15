@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/13 16:56:18 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/14 15:39:45 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,6 @@ char				*get_next_line(int fd);
 void				parsing_cleanup(t_minishell *ms, t_token *token);
 void				create_split_pipes(t_minishell *ms, t_token *token);
 int					count_pipes(t_token *token);
-void				join_pipes(t_minishell *ms, t_token *token, int i);
+t_token				*join_pipes(t_minishell *ms, t_token *token, int i);
 
 #endif

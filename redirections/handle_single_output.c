@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:07 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/09 20:27:58 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:48:30 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	handle_single_output(t_minishell *ms, size_t i)
 		close(file_descriptor);
 		ft_error("Error with file descriptor in '>'.\n", ms);
 	}
-	printf("check\n");
 	close(file_descriptor);
 }
 

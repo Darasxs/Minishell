@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 17:06:32 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/12 17:27:13 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:03:44 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,17 @@
 int	count_pipes(t_token *token)
 {
 	int		pipes_count;
+	t_token	*head;
 
 	pipes_count = 1;
+	head = token;
 	while (token->value)
 	{
 		if (token->value[0] == '|')
 			pipes_count++;
 		token = token->next;
 	}
+	token = head;
 	return (pipes_count);
 }
 
@@ -30,8 +33,10 @@ int	count_pipe_len(t_token *token)
 {
 	int		len;
 	int		i;
+	t_token	*head;
 
 	len = 0;
+	head = token;
 	while (token->value[0] != '|' && token->value)
 	{
 		i = 0;
@@ -41,15 +46,19 @@ int	count_pipe_len(t_token *token)
 			len++;
 		}
 		if (!token->next->value)
+		{
+			token = head;
 			return (len);
+		}
 		else if (token->next->value[0] != '|')
 			len++;
 		token = token->next;
 	}
+	token = head;
 	return (len);
 }
 
-void	join_pipes(t_minishell *ms, t_token *token, int i)
+t_token	*join_pipes(t_minishell *ms, t_token *token, int i)
 {
 	int	len;
 
@@ -62,11 +71,12 @@ void	join_pipes(t_minishell *ms, t_token *token, int i)
 		ft_strlcat(ms->split_pipes[i], token->value,
 			ft_strlen(token->value) + ft_strlen(ms->split_pipes[i])
 			+ 1);
-		if (token->next)
+		if (token->next->value && token->next->value[0] != '|')
 			ft_strlcat(ms->split_pipes[i], " ",
 				ft_strlen(ms->split_pipes[i]) + 2);
 		token = token->next;
 	}
+	return (token);
 }
 
 void	create_split_pipes(t_minishell *ms, t_token *token)
@@ -74,20 +84,18 @@ void	create_split_pipes(t_minishell *ms, t_token *token)
 	t_token	*head;
 	int		i;
 	int		pipes_count;
-	int		len;
 
 	head = token;
-	pipes_count = count_pipes(head);
+	pipes_count = count_pipes(head) + 1;
 	ms->split_pipes = malloc(sizeof(char *) * (pipes_count + 1));
 	if (!ms->split_pipes)
 		ft_error("Error while allocating the memory\n", ms);
 	i = 0;
-	len = 0;
-	while (i < pipes_count && token->value)
+	while (i < pipes_count && token)
 	{
 		if (token->value[0] != '|')
 		{
-			join_pipes(ms, token, i);
+			token = join_pipes(ms, token, i);
 			i++;
 		}
 		token = token->next;

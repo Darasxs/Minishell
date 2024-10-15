@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/12 17:31:43 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/14 18:35:23 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	handle_child_process(t_minishell *ms, int i, int *input_fd, int *fd)
 	//	close(ms->output_fd);
 	//}
 	close(fd[0]);
+	if	(check_if_redirections(ms))
+		handle_redirections(ms);
 	execute_command(ms);
 	exit(0);
 }
