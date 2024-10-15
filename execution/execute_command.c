@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/14 18:40:22 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/15 12:44:43 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,6 @@ void	execute_command(t_minishell *ms)
 		execute_program_name(ms);
 	else
 	{
-		ms->env = getenv("PATH");
-		if (!ms->env)
-			return ;
-		ms->split_env = ft_split(ms->env, ':');
-		if (!ms->split_env)
-			return ;
-		ms->path = find_path(ms->split_commands[0], ms);
-		if (!ms->path)
-			wrong_command(ms->split_commands[0], ms);
 		int	j = 0;
 		while (ms->split_commands[j])
 		{
@@ -68,6 +59,15 @@ void	execute_command(t_minishell *ms)
 			}
 			j++;
 		}
+		ms->env = getenv("PATH");
+		if (!ms->env)
+			return ;
+		ms->split_env = ft_split(ms->env, ':');
+		if (!ms->split_env)
+			return ;
+		ms->path = find_path(ms->split_commands[0], ms);
+		if (!ms->path)
+			wrong_command(ms->split_commands[0], ms);
 		if (execve(ms->path, ms->split_commands, ms->env_copy) == -1)
 			ft_error("Execution failed\n", ms);
 		free(ms->path);

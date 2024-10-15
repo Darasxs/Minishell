@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 03:23:28 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/12 15:24:38 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:30:59 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	echo_builtin(t_minishell *ms)
 		echo_env(ms);
 	else
 	{
-		while (ms->split_commands[i])
+		while (ms->split_commands[i] && ms->split_commands[i][0] != '>')
 		{
 			printf("%s ", ms->split_commands[i]);
 			i++;

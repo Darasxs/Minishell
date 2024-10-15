@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/14 18:35:23 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:57:41 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	handle_builtins(t_minishell *ms, int i, int *input_fd, int *fd)
 	int	j;
 
 	j = 0;
+	if	(check_if_redirections(ms))
+		handle_redirections(ms);
 	while (ms->split_pipes[j])
 		j++;
 	if (ft_strncmp(ms->split_commands[0], "cd", 3) == 0)
@@ -39,21 +41,11 @@ void	handle_child_process(t_minishell *ms, int i, int *input_fd, int *fd)
 		dup2(*input_fd, STDIN_FILENO);
 		close(*input_fd);
 	}
-	//else if (ms->input_fd != -1)
-	//{
-	//	dup2(ms->input_fd, STDIN_FILENO);
-	//	close(ms->input_fd);
-	//}
 	if (ms->split_pipes[i + 1])
 	{
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-	//else if (ms->output_fd != -1)
-	//{
-	//	dup2(ms->output_fd, STDOUT_FILENO);
-	//	close(ms->output_fd);
-	//}
 	close(fd[0]);
 	if	(check_if_redirections(ms))
 		handle_redirections(ms);
@@ -63,16 +55,6 @@ void	handle_child_process(t_minishell *ms, int i, int *input_fd, int *fd)
 
 void	handle_parent_process(t_minishell *ms, int i, int *input_fd, int *fd)
 {
-	//if (ms->input_fd != -1)
-	//{
-	//	close(ms->input_fd);
-	//	ms->input_fd = -1;
-	//}
-	//if (ms->output_fd != -1)
-	//{
-	//	close(ms->output_fd);
-	//	ms->output_fd = -1;
-	//}
 	if (ms->split_pipes[i + 1])
 	{
 		close(fd[1]);
