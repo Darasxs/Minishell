@@ -6,122 +6,44 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 15:28:03 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/16 15:33:52 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/17 19:24:55 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	count_words(t_minishell *ms, int i)
+int	count_split_size(t_token *token)
 {
-	int word_count = 0;
-	char	**split;
+	int	word_count;
 
-	split = ft_split(ms->split_pipes[i], ' ');
-	while (split[word_count])
+	word_count = 0;
+	while (token->value && token->value[0] != '|')
+	{
 		word_count++;
+		token = token->next;
+	}
 	return (word_count);
 }
 
-t_token	*create_split_commands(t_minishell *ms, t_token *token, int i)
+t_token	*create_split_commands(t_minishell *ms, t_token *token)
 {
-	t_token	*head;
-	int	start;
-	int	end;
-	int j;
+	int		word_count;
+	int		i;
 
-	if (token->value && token->value[0] == '|')
+	if (token->value[0] == '|')
 		token = token->next;
-	head = token;
-	int word_count = count_words(ms, i);
+	word_count = count_split_size(token);
 	ms->split_commands = malloc(sizeof(char *) * (word_count + 1));
 	if (!ms->split_commands)
 		ft_error("Error while allocating the memory\n", ms);
-	token = head;
-	j = 0;
-	start = 0;
-	end = 0;
-	while (j < word_count)
+	i = 0;
+	while (i < word_count)
 	{
-		while ((token->value[start] == '\'' || token->value[start] == '\"' || token->value[start] == ' ') && token->value[start])
-			start++;
-		printf("%c\n", token->value[start]);
-		end = start;
-		while (token->value[end] != '\'' && token->value[end] != '\"' && token->value[end] != ' ' && token->value[end])
-			end++;
-		if (token->value[end] == '\'' || token->value[end] == '\"')
-			end--;
-		printf("%c\n", token->value[end]);
-		ms->split_commands[j] = ft_substr(token->value, start, end - start + 1);
+		ms->split_commands[i] = ft_strdup(token->value);
 		if (token->next->value)
-		{
-			printf("check\n");
-			start = 0;
-			end = 0;
 			token = token->next;
-		}
-		else
-			start = end;
-		printf("%s\n", ms->split_commands[j]);
-		j++;
+		i++;
 	}
-	ms->split_commands[j] = NULL;
+	ms->split_commands[i] = NULL;
 	return (token);
 }
-
-//int	count_words(t_minishell *ms, int i)
-//{
-//	int word_count = 0;
-//	char	**split;
-
-//	split = ft_split(ms->split_pipes[i], ' ');
-//	while (split[word_count])
-//		word_count++;
-//	return (word_count);
-//}
-
-//t_token	*create_split_commands(t_minishell *ms, t_token *token, int i)
-//{
-//	t_token	*head;
-//	int	start;
-//	int	end;
-//	int j;
-
-//	if (token->value && token->value[0] == '|')
-//		token = token->next;
-//	head = token;
-//	int word_count = count_words(ms, i);
-//	ms->split_commands = malloc(sizeof(char *) * (word_count + 1));
-//	if (!ms->split_commands)
-//		ft_error("Error while allocating the memory\n", ms);
-//	token = head;
-//	j = 0;
-//	start = 0;
-//	end = 0;
-//	while (j < word_count)
-//	{
-//		while ((token->value[start] == '\'' || token->value[start] == '\"' || token->value[start] == ' ') && token->value[start])
-//			start++;
-//		printf("%c\n", token->value[start]);
-//		end = start;
-//		while (token->value[end] != '\'' && token->value[end] != '\"' && token->value[end] != ' ' && token->value[end])
-//			end++;
-//		if (token->value[end] == '\'' || token->value[end] == '\"')
-//			end--;
-//		printf("%c\n", token->value[end]);
-//		ms->split_commands[j] = ft_substr(token->value, start, end - start + 1);
-//		if (token->next->value)
-//		{
-//			printf("check\n");
-//			start = 0;
-//			end = 0;
-//			token = token->next;
-//		}
-//		else
-//			start = end;
-//		printf("%s\n", ms->split_commands[j]);
-//		j++;
-//	}
-//	ms->split_commands[j] = NULL;
-//	return (token);
-//}

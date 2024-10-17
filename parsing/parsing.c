@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 10:55:55 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/16 17:55:27 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/17 19:54:58 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ t_token	*parsing(t_minishell *ms)
 	}
 	token = NULL;
 	token = head;
+	ms->head = token;
 	return (token);
 }

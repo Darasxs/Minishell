@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/16 14:56:56 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/17 19:42:42 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_minishell
 	bool			first_iteration;
 	t_list			*lst;
 	t_token			*token;
+	t_token			*head;
 	char			**split_commands;
 	char			**split_pipes;
 }					t_minishell;
@@ -98,9 +99,6 @@ char				*ft_strdup(char *s1);
 char				*ft_strchr(char *s, int c);
 void				replace_exit_status(t_minishell *ms,
 						char *exit_status_str, size_t *j, size_t *k);
-void				append_dollar_sign(t_minishell *ms, size_t *j, size_t *k);
-void				append_question_mark(t_minishell *ms, size_t *j,
-						size_t *k);
 void				handle_exit_code(t_minishell *ms, size_t i);
 void				check_for_sign(t_minishell *ms, size_t i, size_t *j,
 						size_t *k);
@@ -138,6 +136,9 @@ void				parsing_cleanup(t_minishell *ms, t_token *token);
 void				create_split_pipes(t_minishell *ms, t_token *token);
 int					count_pipes(t_token *token);
 t_token				*join_pipes(t_minishell *ms, t_token *token, int i);
-t_token				*create_split_commands(t_minishell *ms, t_token *token, int i);
+t_token				*create_split_commands(t_minishell *ms, t_token *token);
+void				check_exit_args(t_minishell *ms);
+int					count_split_size(t_token *token);
+bool				syntax_check(t_minishell *ms, t_token *token);
 
 #endif

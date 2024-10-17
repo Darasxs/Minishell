@@ -6,7 +6,7 @@
 #    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/10/16 17:57:20 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/10/17 19:47:01 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ NAME		=	minishell
 SOURCE		=	minishell_helper/minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				utils/ft_strlcpy.c utils/ft_strlen.c utils/ft_strncmp.c \
 				minishell_helper/exit_minishell.c main.c builtins/cd_builtin.c \
-				builtins/env_builtin.c parsing/tokens.c \
+				builtins/env_builtin.c parsing/tokens.c parsing/syntax_check.c \
 				builtins/unset_builtin.c builtins/export_builtin.c \
 				builtins/exit_builtin.c minishell_helper/create_split_pipes.c \
 				utils/ft_strjoin.c utils/ft_strnstr.c utils/ft_strrchr.c \

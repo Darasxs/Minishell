@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/16 18:07:19 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/17 19:54:20 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	execute_pipe_commands(t_minishell *ms, int *input_fd, int i)
 
 	if (ms->split_pipes[i + 1] && pipe(fd) == -1)
 		ft_error("Error occurred while creating a pipe\n", ms);
+	check_exit_code(ms);
 	if (check_builtin(ms))
 		handle_builtins(ms, i, input_fd, fd);
 	else
@@ -101,11 +102,13 @@ void	minishell(t_minishell *ms)
 	input_fd = STDIN_FILENO;
 	i = 0;
 	token = ms->token;
+
+	create_split_pipes(ms, token);
 	while (ms->split_pipes[i])
 	{
-		//token = create_split_commands(ms, token, i);
-		ms->split_commands = ft_split(ms->split_pipes[i], ' ');
+		token = create_split_commands(ms, token);
 		execute_pipe_commands(ms, &input_fd, i);
+		free_split(ms->split_commands);
 		i++;
 	}
 	while (waitpid(-1, &status, 0) > 0)

@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:55:16 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/16 18:07:43 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/17 12:29:59 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,21 @@ void	replace_exit_status(t_minishell *ms, char *exit_status_str, size_t *j,
 	*j += 2;
 }
 
-void	append_dollar_sign(t_minishell *ms, size_t *j, size_t *k)
-{
-	ft_strlcat(ms->exit_code + *k, "$", 2);
-	(*k)++;
-	(*j)++;
-}
-
-void	append_question_mark(t_minishell *ms, size_t *j, size_t *k)
-{
-	ft_strlcat(ms->exit_code + *k, "?", 2);
-	(*k)++;
-	(*j)++;
-}
-
 void	check_for_sign(t_minishell *ms, size_t i, size_t *j,
 		size_t *k)
 {
 	if (ms->split_commands[i][*j] == '$')
-		append_dollar_sign(ms, j, k);
+	{
+		ft_strlcat(ms->exit_code + *k, "$", 2);
+		(*k)++;
+		(*j)++;
+	}
 	else if (ms->split_commands[i][*j] == '?')
-		append_question_mark(ms, j, k);
+	{
+		ft_strlcat(ms->exit_code + *k, "?", 2);
+		(*k)++;
+		(*j)++;
+	}
 }
 
 void	handle_exit_code(t_minishell *ms, size_t i)

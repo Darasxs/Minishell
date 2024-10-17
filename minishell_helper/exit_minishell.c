@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/16 17:24:33 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/17 19:40:31 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,13 @@ void	parsing_cleanup(t_minishell *ms, t_token *token)
 	size_t	i;
 
 	i = 0;
+	token = ms->head;
 	while (token->value)
 	{
 		free(token->value);
 		token->value = NULL;
-		token = token->next;
+		if (token->next)
+			token = token->next;
 	}
 	free(token);
 	ms->double_q = 0;
