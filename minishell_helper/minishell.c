@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/15 13:57:41 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:07:19 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,14 @@ void	minishell(t_minishell *ms)
 	int		status;
 	int		input_fd;
 	size_t	i;
+	t_token	*token;
 
 	input_fd = STDIN_FILENO;
 	i = 0;
+	token = ms->token;
 	while (ms->split_pipes[i])
 	{
+		//token = create_split_commands(ms, token, i);
 		ms->split_commands = ft_split(ms->split_pipes[i], ' ');
 		execute_pipe_commands(ms, &input_fd, i);
 		i++;

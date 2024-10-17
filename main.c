@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/14 18:02:20 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:07:40 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int ac, char **av, char **envp)
 			add_history(ms->input);
 			ms->token = parsing(ms);
 			create_split_pipes(ms, ms->token);
+			//check_exit_code(ms);
 			minishell(ms);
 			parsing_cleanup(ms, ms->token);
 		}

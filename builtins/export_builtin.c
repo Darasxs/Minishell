@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:04:37 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/09 20:27:58 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:17:04 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ void	export_new_env(t_minishell *ms, t_list **lst)
 			j++;
 		if ((ft_strncmp(ms->split_commands[i], tmp->new_env, j - 1) == 0)
 			&& (j == ft_strlen(ms->split_commands[i])))
-		{
 			update_env_copy(ms, tmp);
-			//free each node from the list;
-		}
 		tmp = tmp->next;
 		i++;
 	}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+         #
+#    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/10/15 13:30:27 by dpaluszk         ###   ########.fr        #
+#    Updated: 2024/10/16 17:57:20 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,10 @@ SOURCE		=	minishell_helper/minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				utils/ft_substr.c utils/ft_itoa.c utils/ft_strdup.c parsing/parsing.c \
 				utils/ft_strchr.c utils/ft_lstadd_back.c minishell_helper/minishell_init.c \
 				execution/execute_command.c minishell_helper/prompt.c \
-				builtins/echo_builtin.c execution/builtins.c \
+				builtins/echo_builtin.c execution/builtins.c minishell_helper/replace_exit_status.c \
 				utils/ft_atoi.c redirections/redirections.c redirections/handle_single_output.c \
 				redirections/handle_double_output.c redirections/handle_single_input.c \
-				redirections/handle_double_input.c
+				redirections/handle_double_input.c minishell_helper/create_split_commands.c
 
 OBJECTS		=	$(SOURCE:.c=.o)
 

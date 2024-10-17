@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 03:23:28 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/15 13:30:59 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/17 12:10:24 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,23 @@ void	echo_env(t_minishell *ms)
 void	echo_builtin(t_minishell *ms)
 {
 	size_t	i;
-	size_t	j;
+	t_token	*token;
 
 	i = 1;
+	token = ms->token->next;
 	if (!ms->split_commands[i])
 		printf("\n");
 	else if (ft_strncmp(ms->split_commands[1], "~", 2) == 0
 		&& !ms->split_commands[2])
 		printf("%s\n", getenv("HOME"));
-	else if (ms->split_commands[i][0] == '-'
-		&& ms->split_commands[i][1] == 'n')
+	else if (token->value[0] == '-' && token->value[1] == 'n')
 	{
-		j = 0;
-		while (ms->split_commands[i][j] == '-'
-			|| ms->split_commands[i][j] == 'n')
-			j++;
-		if (!ms->split_commands[i][j])
-			print_echo(ms, i + 1);
-		i++;
+		while (token->value[0] == '-' && token->value[1] == 'n' && token->value)
+		{
+			i++;
+			token = token->next;
+		}
+		print_echo(ms, i);
 	}
 	else if (ms->split_commands[i][0] == '$')
 		echo_env(ms);

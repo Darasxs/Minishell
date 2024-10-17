@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/12 17:15:56 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:24:33 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void	free_struct(t_minishell *ms)
 		free(ms->input);
 	if (ms->path)
 		free(ms->path);
-	if (ms->env)
-		free(ms->env);
 	if (ms->full_path)
 		free(ms->full_path);
 	if (ms->exit_code)

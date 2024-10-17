@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/15 13:56:25 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:56:56 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,9 @@ t_token				*parsing(t_minishell *ms);
 t_token				*token_init(t_minishell *ms);
 void				get_token(t_minishell *ms, t_token *token);
 bool				is_space(t_minishell *ms);
-void				empty_quotes(t_minishell *ms, t_token *token);
 t_minishell			*minishell_init(char **envp);
 void				get_word_token(t_minishell *ms, t_token *token);
 void				count_quotes(t_minishell *ms);
-void				create_split_commands(t_minishell *ms, t_token *token);
 char				*free_helper(char **s1, char **s2, char c);
 char				*ft_remainder(char *my_buffer);
 char				*extract_line(char *my_buffer);
@@ -140,5 +138,6 @@ void				parsing_cleanup(t_minishell *ms, t_token *token);
 void				create_split_pipes(t_minishell *ms, t_token *token);
 int					count_pipes(t_token *token);
 t_token				*join_pipes(t_minishell *ms, t_token *token, int i);
+t_token				*create_split_commands(t_minishell *ms, t_token *token, int i);
 
 #endif
