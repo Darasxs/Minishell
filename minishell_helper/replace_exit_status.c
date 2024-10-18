@@ -6,13 +6,13 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:55:16 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/17 12:29:59 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:06:55 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	replace_exit_status(t_minishell *ms, char *exit_status_str, size_t *j,
+void	replace_exit_status(t_ms *ms, char *exit_status_str, size_t *j,
 		size_t *k)
 {
 	ft_strlcpy(ms->exit_code + *k, exit_status_str, ft_strlen(exit_status_str)
@@ -21,8 +21,7 @@ void	replace_exit_status(t_minishell *ms, char *exit_status_str, size_t *j,
 	*j += 2;
 }
 
-void	check_for_sign(t_minishell *ms, size_t i, size_t *j,
-		size_t *k)
+void	check_for_sign(t_ms *ms, size_t i, size_t *j, size_t *k)
 {
 	if (ms->split_commands[i][*j] == '$')
 	{
@@ -36,9 +35,12 @@ void	check_for_sign(t_minishell *ms, size_t i, size_t *j,
 		(*k)++;
 		(*j)++;
 	}
+	else
+		(*k)++;
+	(*j)++;
 }
 
-void	handle_exit_code(t_minishell *ms, size_t i)
+void	handle_exit_code(t_ms *ms, size_t i)
 {
 	size_t	j;
 	size_t	k;
@@ -65,7 +67,7 @@ void	handle_exit_code(t_minishell *ms, size_t i)
 	free(exit_status_str);
 }
 
-void	check_exit_code(t_minishell *ms)
+void	check_exit_code(t_ms *ms)
 {
 	size_t	i;
 

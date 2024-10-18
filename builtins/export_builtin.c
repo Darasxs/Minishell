@@ -6,13 +6,13 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:04:37 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/16 17:17:04 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:50:21 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	add_new_env(t_minishell *ms, t_list **lst)
+void	add_new_env(t_ms *ms, t_list **lst)
 {
 	t_list	*node;
 
@@ -29,17 +29,7 @@ void	add_new_env(t_minishell *ms, t_list **lst)
 	ft_lstadd_back(lst, node);
 }
 
-void	update_env_copy(t_minishell *ms, t_list *tmp)
-{
-	size_t	i;
-
-	i = 0;
-	while (ms->env_copy[i])
-		i++;
-	ms->env_copy[i] = strdup(tmp->new_env);
-}
-
-void	export_new_env(t_minishell *ms, t_list **lst)
+void	export_new_env(t_ms *ms, t_list **lst)
 {
 	size_t	i;
 	t_list	*tmp;
@@ -54,24 +44,29 @@ void	export_new_env(t_minishell *ms, t_list **lst)
 			j++;
 		if ((ft_strncmp(ms->split_commands[i], tmp->new_env, j - 1) == 0)
 			&& (j == ft_strlen(ms->split_commands[i])))
-			update_env_copy(ms, tmp);
+		{
+			i = 0;
+			while (ms->env_copy[i])
+				i++;
+			ms->env_copy[i] = strdup(tmp->new_env);
+		}
 		tmp = tmp->next;
 		i++;
 	}
 }
 
-void	export_builtin(t_minishell *ms)
+void	export_builtin(t_ms *ms)
 {
 	size_t	i;
 
 	i = 0;
-	if (ft_strncmp(ms->split_commands[0], "export", 7) == 0 && !ms->split_commands[1])
+	if (ft_strncmp(ms->split_commands[0], "export", 7) == 0
+		&& !ms->split_commands[1])
 	{
-		while (ms->env_copy[i])
+		while (ms->env_copy[i++])
 		{
 			printf("declare -x ");
 			printf("%s\n", ms->env_copy[i]);
-			i++;
 		}
 	}
 	else if (ft_strrchr(ms->split_commands[0], '=') != 0)

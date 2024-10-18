@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 17:06:32 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/14 18:03:44 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:14:14 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	count_pipe_len(t_token *token)
 	return (len);
 }
 
-t_token	*join_pipes(t_minishell *ms, t_token *token, int i)
+t_token	*join_pipes(t_ms *ms, t_token *token, int i)
 {
 	int	len;
 
@@ -79,7 +79,7 @@ t_token	*join_pipes(t_minishell *ms, t_token *token, int i)
 	return (token);
 }
 
-void	create_split_pipes(t_minishell *ms, t_token *token)
+void	create_split_pipes(t_ms *ms, t_token *token)
 {
 	t_token	*head;
 	int		i;

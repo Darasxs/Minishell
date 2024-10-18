@@ -6,21 +6,28 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:57:34 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/09 20:27:58 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:00:53 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	unset_builtin(t_minishell *ms)
+void	unset_builtin(t_ms *ms)
 {
-	size_t		i;
-	char		*env_variable;
-	char		*equal_pos;
-	size_t		len;
-	size_t		j;
+	size_t	i;
+	char	*env_variable;
+	char	*equal_pos;
+	size_t	len;
+	size_t	j;
 
 	i = 0;
+	if (ms->split_commands[1][0] == '\0' || ms->split_commands[1][0] == '='
+		|| ms->split_commands[1][0] == '$')
+	{
+		printf("minishell: unset: `%s': not a valid identifier\n",
+			ms->split_commands[1]);
+		return ;
+	}
 	while (ms->env_copy[i])
 	{
 		equal_pos = ft_strrchr(ms->env_copy[i], '=');
@@ -39,7 +46,7 @@ void	unset_builtin(t_minishell *ms)
 					j++;
 				}
 				ms->env_copy[j] = NULL;
-				return;
+				return ;
 			}
 			free(env_variable);
 		}

@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/17 19:40:31 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:05:41 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ void	free_split(char **split)
 	}
 }
 
-void	free_struct(t_minishell *ms)
+void	free_struct(t_ms *ms)
 {
-	//free_split(ms->split_commands);
-	//free_split(ms->split_pipe);
 	free_split(ms->env_copy);
 	if (ms->prompt)
 		free(ms->prompt);
@@ -43,31 +41,30 @@ void	free_struct(t_minishell *ms)
 		free(ms->full_path);
 	if (ms->exit_code)
 		free(ms->exit_code);
-	//if (ms->lst->new_env)
-	//	free(ms->lst->new_env);
 	if (ms->lst)
 		free(ms->lst);
 	if (ms)
 		free(ms);
 }
 
-void	ft_error(char *str, t_minishell *ms)
+void	ft_error(char *str, t_ms *ms)
 {
 	printf("%s\n", str);
 	free_struct(ms);
 	exit(EXIT_FAILURE);
 }
 
-void	wrong_command(char *info, t_minishell *ms)
+void	wrong_command(char *info, t_ms *ms)
 {
 	if (info)
 		printf("minishell: %s: ", info);
 	printf("command not found\n");
 	free_struct(ms);
+	// ms->exit_status = 127;
 	exit(EXIT_FAILURE);
 }
 
-void	parsing_cleanup(t_minishell *ms, t_token *token)
+void	parsing_cleanup(t_ms *ms, t_token *token)
 {
 	size_t	i;
 

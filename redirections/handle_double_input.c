@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_double_input.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:02 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/15 13:32:31 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:15:00 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 #define BUFFER_SIZE 1024
 
-void	handle_double_input(t_minishell *ms, size_t i)
+void	handle_double_input(t_ms *ms, size_t i)
 {
 	const char	*temp_filename;
-	char	*EOF_delimiter;
+	char		*eof_delimiter;
 	int			file_descriptor;
 	ssize_t		bytes_read;
 	char		buffer[1024];
 
 	temp_filename = ".temporary_heredoc_file";
-	EOF_delimiter = ms->split_commands[i + 1];
+	eof_delimiter = ms->split_commands[i + 1];
 	file_descriptor = open(temp_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (file_descriptor == -1)
 	{
@@ -42,8 +42,8 @@ void	handle_double_input(t_minishell *ms, size_t i)
 			buffer[bytes_read - 1] = '\0';
 			bytes_read--;
 		}
-		if (ft_strncmp(buffer, EOF_delimiter, ft_strlen(EOF_delimiter)) == 0
-			&& ft_strlen(buffer) == ft_strlen(EOF_delimiter))
+		if (ft_strncmp(buffer, eof_delimiter, ft_strlen(eof_delimiter)) == 0
+			&& ft_strlen(buffer) == ft_strlen(eof_delimiter))
 			break ;
 		write(file_descriptor, buffer, bytes_read);
 		write(file_descriptor, "\n", 1);

@@ -37,12 +37,12 @@ char	**envp_init(char **envp)
 	return (copy);
 }
 
-t_minishell	*minishell_init(char **envp)
+t_ms	*minishell_init(char **envp)
 {
-	t_minishell	*ms;
-	t_list		*lst;
+	t_ms	*ms;
+	t_list	*lst;
 
-	ms = malloc(sizeof(t_minishell));
+	ms = malloc(sizeof(t_ms));
 	if (!ms)
 		ft_error("Error while allocating the memory\n", ms);
 	lst = malloc(sizeof(t_list));

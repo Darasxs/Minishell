@@ -6,13 +6,13 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:52:47 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/12 15:04:02 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:14:14 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	prompt_helper(char **cwd, char **user_name, t_minishell *ms)
+void	prompt_helper(char **cwd, char **user_name, t_ms *ms)
 {
 	*cwd = getcwd(NULL, 0);
 	if (!*cwd)
@@ -22,7 +22,7 @@ void	prompt_helper(char **cwd, char **user_name, t_minishell *ms)
 		ft_error("Error while finding the user name\n", ms);
 }
 
-void	printing_prompt(t_minishell *ms)
+void	printing_prompt(t_ms *ms)
 {
 	char	*cwd;
 	char	*user_name;

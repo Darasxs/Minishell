@@ -6,18 +6,18 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/17 19:54:20 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:06:12 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_builtins(t_minishell *ms, int i, int *input_fd, int *fd)
+void	handle_builtins(t_ms *ms, int i, int *input_fd, int *fd)
 {
 	int	j;
 
 	j = 0;
-	if	(check_if_redirections(ms))
+	if (check_if_redirections(ms))
 		handle_redirections(ms);
 	while (ms->split_pipes[j])
 		j++;
@@ -34,7 +34,7 @@ void	handle_builtins(t_minishell *ms, int i, int *input_fd, int *fd)
 	}
 }
 
-void	handle_child_process(t_minishell *ms, int i, int *input_fd, int *fd)
+void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 {
 	if (i > 0)
 	{
@@ -47,13 +47,13 @@ void	handle_child_process(t_minishell *ms, int i, int *input_fd, int *fd)
 		close(fd[1]);
 	}
 	close(fd[0]);
-	if	(check_if_redirections(ms))
+	if (check_if_redirections(ms))
 		handle_redirections(ms);
 	execute_command(ms);
 	exit(0);
 }
 
-void	handle_parent_process(t_minishell *ms, int i, int *input_fd, int *fd)
+void	handle_parent_process(t_ms *ms, int i, int *input_fd, int *fd)
 {
 	if (ms->split_pipes[i + 1])
 	{
@@ -70,7 +70,7 @@ void	handle_parent_process(t_minishell *ms, int i, int *input_fd, int *fd)
 	}
 }
 
-void	execute_pipe_commands(t_minishell *ms, int *input_fd, int i)
+void	execute_pipe_commands(t_ms *ms, int *input_fd, int i)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -92,7 +92,7 @@ void	execute_pipe_commands(t_minishell *ms, int *input_fd, int i)
 	}
 }
 
-void	minishell(t_minishell *ms)
+void	minishell(t_ms *ms)
 {
 	int		status;
 	int		input_fd;
@@ -102,7 +102,6 @@ void	minishell(t_minishell *ms)
 	input_fd = STDIN_FILENO;
 	i = 0;
 	token = ms->token;
-
 	create_split_pipes(ms, token);
 	while (ms->split_pipes[i])
 	{

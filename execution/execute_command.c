@@ -6,13 +6,13 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/17 15:26:35 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:04:51 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*find_path(char *path, t_minishell *ms)
+char	*find_path(char *path, t_ms *ms)
 {
 	int	i;
 
@@ -23,8 +23,8 @@ char	*find_path(char *path, t_minishell *ms)
 				+ 2);
 		if (!ms->full_path)
 			return (free(ms->full_path), NULL);
-		ft_strlcpy(ms->full_path, ms->split_env[i],
-			ft_strlen(ms->split_env[i]) + 1);
+		ft_strlcpy(ms->full_path, ms->split_env[i], ft_strlen(ms->split_env[i])
+			+ 1);
 		ft_strlcat(ms->full_path, "/", ft_strlen(ms->full_path) + 2);
 		ft_strlcat(ms->full_path, path, ft_strlen(ms->full_path)
 			+ ft_strlen(path) + 1);
@@ -41,18 +41,21 @@ char	*find_path(char *path, t_minishell *ms)
 	return (NULL);
 }
 
-void	execute_command(t_minishell *ms)
+void	execute_command(t_ms *ms)
 {
+	int	j;
+
 	if (ft_strncmp(ms->split_commands[0], "env", 3) == 0)
 		env_builtin(ms);
 	else if (ms->split_commands[0][0] == '.' && ms->split_commands[1][1] == '/')
 		execute_program_name(ms);
 	else
 	{
-		int	j = 0;
+		j = 0;
 		while (ms->split_commands[j])
 		{
-			if (ms->split_commands[j][0] == '>' || ms->split_commands[j][0] == '<')
+			if (ms->split_commands[j][0] == '>'
+				|| ms->split_commands[j][0] == '<')
 			{
 				free(ms->split_commands[j]);
 				ms->split_commands[j] = NULL;
@@ -74,7 +77,7 @@ void	execute_command(t_minishell *ms)
 	}
 }
 
-void	increment_shlvl(t_minishell *ms)
+void	increment_shlvl(t_ms *ms)
 {
 	char	*shlvl_str;
 	char	*new_shlvl;
@@ -114,15 +117,15 @@ void	increment_shlvl(t_minishell *ms)
 	}
 }
 
-void	execute_program_name(t_minishell *ms)
+void	execute_program_name(t_ms *ms)
 {
 	if (access(ms->split_commands[0], X_OK) == 0)
 	{
 		if (ft_strncmp(ms->split_commands[0], "./minishell", 12) == 0
 			|| (ft_strncmp(ms->split_commands[0], "bash", 5) == 0))
 			increment_shlvl(ms);
-		if (execve(ms->split_commands[0], ms->split_commands,
-				ms->env_copy) == -1)
+		if (execve(ms->split_commands[0], ms->split_commands, ms->env_copy)
+			== -1)
 		{
 			if (ms->split_commands[0][0] == '.'
 				&& ms->split_commands[0][1] == '/'

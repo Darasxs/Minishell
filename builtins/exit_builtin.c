@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 22:46:58 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/17 14:58:10 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:14:14 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_for_int(char *str)
 	return (0);
 }
 
-void	check_exit_args(t_minishell *ms)
+void	check_exit_args(t_ms *ms)
 {
 	if (check_for_int(ms->split_commands[1]))
 	{
@@ -57,7 +57,7 @@ void	check_exit_args(t_minishell *ms)
 		ms->exit_status = ft_atoi(ms->split_commands[1]);
 }
 
-void	exit_builtin(t_minishell *ms)
+void	exit_builtin(t_ms *ms)
 {
 	if (!ms->split_commands[1])
 		ms->split_commands[1] = ft_strdup("0");

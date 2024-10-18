@@ -6,13 +6,13 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 10:55:55 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/17 19:54:58 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:47:06 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_token	*token_init(t_minishell *ms)
+t_token	*token_init(t_ms *ms)
 {
 	t_token	*token;
 
@@ -23,7 +23,7 @@ t_token	*token_init(t_minishell *ms)
 	return (token);
 }
 
-bool	is_space(t_minishell *ms)
+bool	is_space(t_ms *ms)
 {
 	if (ms->input[ms->input_pos] == ' ')
 		return (true);
@@ -41,7 +41,7 @@ bool	is_space(t_minishell *ms)
 		return (false);
 }
 
-t_token	*parsing(t_minishell *ms)
+t_token	*parsing(t_ms *ms)
 {
 	t_token	*token;
 	t_token	*head;

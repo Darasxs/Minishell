@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 16:57:52 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/13 16:57:48 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/18 11:11:13 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	check_if_redirections(t_minishell *ms)
+bool	check_if_redirections(t_ms *ms)
 {
 	size_t	i;
 
@@ -33,7 +33,7 @@ bool	check_if_redirections(t_minishell *ms)
 	return (false);
 }
 
-void	handle_redirections(t_minishell *ms)
+void	handle_redirections(t_ms *ms)
 {
 	size_t	i;
 
