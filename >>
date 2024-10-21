@@ -30,6 +30,7 @@ Error with '>>'.
 
 Error with '>>'.
 
+<<<<<<< HEAD
 Error with '>>'.
 
 Error with '>>'.
@@ -38,3 +39,5 @@ Error with '>>'.
 
 Error with '>>'.
 
+=======
+>>>>>>> eb9ae94b7aabc4e5b665916717984ac6aec90da2
