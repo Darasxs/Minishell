@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/19 22:17:48 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/21 12:10:37 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,8 @@ void				cd_oldpwd(t_ms *ms);
 void				print_echo_env(t_ms *ms, size_t *k, size_t *l);
 void				handle_sigint(int signum, siginfo_t *info, void *context);
 void				handle_sigquit(int signum, siginfo_t *info, void *context);
-int					setup_signals(void);
-int					setup_termios(void);
+void				setup_termios(void);
+int					setup_sigint(void);
+int					setup_sigquit(void);
 
 #endif
