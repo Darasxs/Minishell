@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/19 19:59:36 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/21 11:57:33 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	}
 	ms = minishell_init(envp);
-	if(setup_signals() != 0)
+	if(setup_sigint() != 0)
 	{
 		free_struct(ms);
 		return 1;
