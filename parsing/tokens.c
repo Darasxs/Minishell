@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 12:56:13 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/18 11:09:36 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:05:10 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	get_word_token(t_ms *ms, t_token *token)
 			break ;
 		ms->input_pos++;
 	}
-	if (ms->single_q % 2 != 0 && ms->double_q % 2 != 0)
+	if (ms->single_q % 2 != 0 || ms->double_q % 2 != 0)
 	{
 		while (1)
 			readline("> ");

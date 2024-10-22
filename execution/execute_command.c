@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/18 11:04:51 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:55:55 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ void	execute_command(t_ms *ms)
 {
 	int	j;
 
+
 	if (ft_strncmp(ms->split_commands[0], "env", 3) == 0)
 		env_builtin(ms);
-	else if (ms->split_commands[0][0] == '.' && ms->split_commands[1][1] == '/')
+	else if (ms->split_commands[0][0] == '.' && ms->split_commands[0][1] == '/')
 		execute_program_name(ms);
 	else
 	{
@@ -119,13 +120,24 @@ void	increment_shlvl(t_ms *ms)
 
 void	execute_program_name(t_ms *ms)
 {
+	if (ms == NULL || ms->split_commands == NULL
+		|| ms->split_commands[0] == NULL)
+	{
+		printf("Invalid command.\n");
+		return ;
+	}
+	if (access(ms->split_commands[0], F_OK) == -1)
+	{
+		printf("No such file or directory.\n");
+		return ;
+	}
 	if (access(ms->split_commands[0], X_OK) == 0)
 	{
 		if (ft_strncmp(ms->split_commands[0], "./minishell", 12) == 0
 			|| (ft_strncmp(ms->split_commands[0], "bash", 5) == 0))
-			increment_shlvl(ms);
-		if (execve(ms->split_commands[0], ms->split_commands, ms->env_copy)
-			== -1)
+				increment_shlvl(ms);
+		if (execve(ms->split_commands[0], ms->split_commands, ms->env_copy) ==
+			-1)
 		{
 			if (ms->split_commands[0][0] == '.'
 				&& ms->split_commands[0][1] == '/'
@@ -136,5 +148,5 @@ void	execute_program_name(t_ms *ms)
 			ft_error("Execution failed.", ms);
 	}
 	else
-		printf("No such file or directory.\n");
+		printf("Permission denied.\n");
 }

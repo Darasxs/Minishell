@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/21 12:16:44 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/22 20:14:43 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,15 @@ void				cd_home(t_ms *ms);
 void				cd_oldpwd(t_ms *ms);
 void				print_echo_env(t_ms *ms, size_t *k, size_t *l);
 void				handle_sigint(int signum, siginfo_t *info, void *context);
+void				handle_sigint_ignore(int signum, siginfo_t *info,
+						void *context);
 void				handle_sigquit(int signum, siginfo_t *info, void *context);
 void				setup_termios(void);
 int					setup_sigint(void);
+int					setup_sigint_ignore(void);
 int					setup_sigquit(void);
+void				handle_sigquit_ignore(int signum, siginfo_t *info,
+						void *context);
+int					setup_sigquit_ignore(void);
 
 #endif

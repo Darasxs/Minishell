@@ -3,26 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:54:08 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/21 12:18:28 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/22 20:47:59 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+struct sigaction	sigint;
+
 void	handle_sigint(int signum, siginfo_t *info, void *context)
-{
-	(void)signum;
-	(void)info;
-	(void)context;
-	printf("\n");
-	rl_on_new_line();       // indicating that we are on the new line
-	rl_replace_line("", 0); // clearing the current input line
-	rl_redisplay();         // refreshing the display to show the cleared line
-}
-void	handle_sigquit(int signum, siginfo_t *info, void *context)
 {
 	(void)signum;
 	(void)info;
@@ -32,7 +24,28 @@ void	handle_sigquit(int signum, siginfo_t *info, void *context)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
-// read the termios manual !!!!!!!!!!!!!!!!!!!!!!!!!!!
+void	handle_sigint_ignore(int signum, siginfo_t *info, void *context)
+{
+	(void)signum;
+	(void)info;
+	(void)context;
+}
+void	handle_sigquit_ignore(int signum, siginfo_t *info, void *context)
+{
+	(void)signum;
+	(void)info;
+	(void)context;
+}
+void	handle_sigquit(int signum, siginfo_t *info, void *context)
+{
+	(void)signum;
+	(void)info;
+	(void)context;
+	printf("Quit: 3\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 void	setup_termios(void)
 {
@@ -53,15 +66,25 @@ void	setup_termios(void)
 
 int	setup_sigint(void)
 {
-	struct sigaction	sigint;
-
-	setup_termios();
 	sigemptyset(&sigint.sa_mask);
 	sigint.sa_sigaction = &handle_sigint;
-	sigint.sa_flags = SA_SIGINFO;
+	sigint.sa_flags = SA_SIGINFO | SA_RESTART;
 	if (sigaction(SIGINT, &sigint, NULL) == -1)
 	{
-		printf("sigaction error\n"); // nie wiem czy tu moze cos trzeba uwolnic?
+		printf("sigaction error\n");
+		return (-1);
+	}
+	return (0);
+}
+
+int	setup_sigint_ignore(void)
+{
+	sigemptyset(&sigint.sa_mask);
+	sigint.sa_sigaction = &handle_sigint_ignore;
+	sigint.sa_flags = SA_SIGINFO | SA_RESTART;
+	if (sigaction(SIGINT, &sigint, NULL) == -1)
+	{
+		printf("sigaction error\n");
 		return (-1);
 	}
 	return (0);
@@ -69,12 +92,11 @@ int	setup_sigint(void)
 
 int	setup_sigquit(void)
 {
-	struct sigaction sigquit;
+	struct sigaction	sigquit;
 
-	setup_termios();
 	sigemptyset(&sigquit.sa_mask);
 	sigquit.sa_sigaction = &handle_sigquit;
-	sigquit.sa_flags = SA_SIGINFO;
+	sigquit.sa_flags = SA_SIGINFO | SA_RESTART;
 	if (sigaction(SIGQUIT, &sigquit, NULL) == -1)
 	{
 		printf("sigquit error\n");
@@ -82,3 +104,44 @@ int	setup_sigquit(void)
 	}
 	return (0);
 }
+int	setup_sigquit_ignore(void)
+{
+	struct sigaction	sigquit;
+
+	sigemptyset(&sigquit.sa_mask);
+	sigquit.sa_sigaction = &handle_sigquit;
+	sigquit.sa_flags = SA_SIGINFO | SA_RESTART;
+	if (sigaction(SIGQUIT, &sigquit, NULL) == -1)
+	{
+		printf("sigquit error\n");
+		return (-1);
+	}
+	return (0);
+}
+
+// int	setup_sigquit(bool CHILD)
+//{
+//	struct sigaction	sigquit;
+
+//	if (CHILD)
+//	{
+//		sigemptyset(&sigquit.sa_mask);
+//		sigquit.sa_sigaction = &handle_sigquit;
+//		sigquit.sa_flags = SA_SIGINFO | SA_RESTART;
+//		if (sigaction(SIGQUIT, &sigquit, NULL) == -1)
+//		{
+//			printf("sigquit error\n");
+//			return (-1);
+//		}
+//	}
+//	else
+//	{
+//		sigquit.sa_handler = SIG_IGN;
+//		if (sigaction(SIGQUIT, &sigquit, NULL) == -1)
+//		{
+//			printf("sigquit error\n");
+//			return (-1);
+//		}
+//	}
+//	return (0);
+//}

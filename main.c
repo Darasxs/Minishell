@@ -6,11 +6,13 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/21 11:57:33 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/22 20:14:26 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+sig_atomic_t child_process_global = 0;
 
 int	main(int ac, char **av, char **envp)
 {
@@ -22,10 +24,11 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	}
 	ms = minishell_init(envp);
-	if(setup_sigint() != 0)
+	setup_termios();
+	if (setup_sigint() != 0 || setup_sigquit_ignore() != 0)
 	{
 		free_struct(ms);
-		return 1;
+		return (1);
 	}
 	while (1)
 	{
