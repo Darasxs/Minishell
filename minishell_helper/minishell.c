@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/22 20:15:16 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:48:42 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,6 @@ void	execute_pipe_commands(t_ms *ms, int *input_fd, int i)
 	int		fd[2];
 	pid_t	pid;
 
-	//if (setup_sigquit(1) != 0)
-	//{
-	//	free_struct(ms);
-	//	return ;
-	//}
 	if (ms->split_pipes[i + 1] && pipe(fd) == -1)
 		ft_error("Error occurred while creating a pipe\n", ms);
 	check_exit_code(ms);
@@ -113,7 +108,7 @@ void	minishell(t_ms *ms)
 	i = 0;
 	token = ms->token;
 	create_split_pipes(ms, token);
-	if (setup_sigint_ignore() != 0 || setup_sigquit_ignore() != 0)
+	if (setup_sigint_ignore() != 0)
 	{
 		free_struct(ms);
 		return ;
@@ -130,7 +125,7 @@ void	minishell(t_ms *ms)
 		if (WIFEXITED(status))
 			ms->exit_status = WEXITSTATUS(status);
 	}
-	if (setup_sigint() != 0 || setup_sigquit() != 0)
+	if (setup_sigint() != 0)
 	{
 		free_struct(ms);
 		return ;

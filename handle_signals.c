@@ -6,46 +6,11 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:54:08 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/22 20:47:59 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:47:21 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-struct sigaction	sigint;
-
-void	handle_sigint(int signum, siginfo_t *info, void *context)
-{
-	(void)signum;
-	(void)info;
-	(void)context;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-void	handle_sigint_ignore(int signum, siginfo_t *info, void *context)
-{
-	(void)signum;
-	(void)info;
-	(void)context;
-}
-void	handle_sigquit_ignore(int signum, siginfo_t *info, void *context)
-{
-	(void)signum;
-	(void)info;
-	(void)context;
-}
-void	handle_sigquit(int signum, siginfo_t *info, void *context)
-{
-	(void)signum;
-	(void)info;
-	(void)context;
-	printf("Quit: 3\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
 
 void	setup_termios(void)
 {
@@ -66,6 +31,8 @@ void	setup_termios(void)
 
 int	setup_sigint(void)
 {
+	struct sigaction	sigint;
+
 	sigemptyset(&sigint.sa_mask);
 	sigint.sa_sigaction = &handle_sigint;
 	sigint.sa_flags = SA_SIGINFO | SA_RESTART;
@@ -79,8 +46,10 @@ int	setup_sigint(void)
 
 int	setup_sigint_ignore(void)
 {
+	struct sigaction	sigint;
+
 	sigemptyset(&sigint.sa_mask);
-	sigint.sa_sigaction = &handle_sigint_ignore;
+	sigint.sa_sigaction = &ignore_signals;
 	sigint.sa_flags = SA_SIGINFO | SA_RESTART;
 	if (sigaction(SIGINT, &sigint, NULL) == -1)
 	{
@@ -94,54 +63,17 @@ int	setup_sigquit(void)
 {
 	struct sigaction	sigquit;
 
+	sigquit.sa_sigaction = &ignore_signals;
 	sigemptyset(&sigquit.sa_mask);
-	sigquit.sa_sigaction = &handle_sigquit;
 	sigquit.sa_flags = SA_SIGINFO | SA_RESTART;
-	if (sigaction(SIGQUIT, &sigquit, NULL) == -1)
-	{
-		printf("sigquit error\n");
-		return (-1);
-	}
+	if (sigaction(SIGINT, &sigquit, NULL) < 0)
+		return (1);
+	if (sigaction(SIGQUIT, &sigquit, NULL) < 0)
+		return (1);
 	return (0);
 }
 int	setup_sigquit_ignore(void)
 {
-	struct sigaction	sigquit;
-
-	sigemptyset(&sigquit.sa_mask);
-	sigquit.sa_sigaction = &handle_sigquit;
-	sigquit.sa_flags = SA_SIGINFO | SA_RESTART;
-	if (sigaction(SIGQUIT, &sigquit, NULL) == -1)
-	{
-		printf("sigquit error\n");
-		return (-1);
-	}
+	signal(SIGQUIT, SIG_IGN);
 	return (0);
 }
-
-// int	setup_sigquit(bool CHILD)
-//{
-//	struct sigaction	sigquit;
-
-//	if (CHILD)
-//	{
-//		sigemptyset(&sigquit.sa_mask);
-//		sigquit.sa_sigaction = &handle_sigquit;
-//		sigquit.sa_flags = SA_SIGINFO | SA_RESTART;
-//		if (sigaction(SIGQUIT, &sigquit, NULL) == -1)
-//		{
-//			printf("sigquit error\n");
-//			return (-1);
-//		}
-//	}
-//	else
-//	{
-//		sigquit.sa_handler = SIG_IGN;
-//		if (sigaction(SIGQUIT, &sigquit, NULL) == -1)
-//		{
-//			printf("sigquit error\n");
-//			return (-1);
-//		}
-//	}
-//	return (0);
-//}

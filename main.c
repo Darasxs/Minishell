@@ -6,13 +6,11 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/22 20:14:26 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:45:29 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-sig_atomic_t child_process_global = 0;
 
 int	main(int ac, char **av, char **envp)
 {
