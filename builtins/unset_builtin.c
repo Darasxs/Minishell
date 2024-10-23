@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:57:34 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/18 11:00:53 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:59:14 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	unset_builtin(t_ms *ms)
 				free(ms->env_copy[i]);
 				ms->env_copy[i] = NULL;
 				j = i;
-				while (ms->env_copy[j])
+				while (ms->env_copy[j + 1])
 				{
 					ms->env_copy[j] = ms->env_copy[j + 1];
 					j++;

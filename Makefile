@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+         #
+#    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/10/23 16:39:11 by dpaluszk         ###   ########.fr        #
+#    Updated: 2024/10/23 18:06:08 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SOURCE		=	minishell_helper/minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				utils/ft_strlcpy.c utils/ft_strlen.c utils/ft_strncmp.c \
 				minishell_helper/exit_minishell.c main.c builtins/cd_builtin.c \
 				builtins/env_builtin.c parsing/tokens.c parsing/syntax_check.c \
-				builtins/unset_builtin.c builtins/export_builtin.c \
+				builtins/unset_builtin.c builtins/export_builtin.c signals/sigquit.c \
 				builtins/exit_builtin.c minishell_helper/create_split_pipes.c \
 				utils/ft_strjoin.c utils/ft_strnstr.c utils/ft_strrchr.c \
 				utils/ft_substr.c utils/ft_itoa.c utils/ft_strdup.c parsing/parsing.c \
@@ -31,7 +31,7 @@ SOURCE		=	minishell_helper/minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				utils/ft_atoi.c redirections/redirections.c redirections/handle_single_output.c \
 				redirections/handle_double_output.c redirections/handle_single_input.c \
 				redirections/handle_double_input.c minishell_helper/create_split_commands.c \
-				handle_signals.c handle_signals_helper.c
+				signals/sigint.c signals/signals_helper.c signals/termios.c builtins/pwd_builtin.c
 
 OBJECTS		=	$(SOURCE:.c=.o)
 

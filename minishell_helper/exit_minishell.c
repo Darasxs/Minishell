@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/18 11:05:41 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:18:10 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void	free_struct(t_ms *ms)
 		free(ms->full_path);
 	if (ms->exit_code)
 		free(ms->exit_code);
-	if (ms->lst)
-		free(ms->lst);
 	if (ms)
 		free(ms);
 }
@@ -51,7 +49,7 @@ void	ft_error(char *str, t_ms *ms)
 {
 	printf("%s\n", str);
 	free_struct(ms);
-	exit(EXIT_FAILURE);
+	exit(ms->exit_status);
 }
 
 void	wrong_command(char *info, t_ms *ms)
@@ -60,15 +58,20 @@ void	wrong_command(char *info, t_ms *ms)
 		printf("minishell: %s: ", info);
 	printf("command not found\n");
 	free_struct(ms);
-	// ms->exit_status = 127;
-	exit(EXIT_FAILURE);
+	ms->exit_status = 127;
 }
 
-void	parsing_cleanup(t_ms *ms, t_token *token)
+void	cleanup(t_ms *ms)
 {
-	size_t	i;
+	ms->double_q = 0;
+	ms->single_q = 0;
+	ms->first_iteration = true;
+	ms->input_pos = 0;
+	ms->token_count = 0;
+}
 
-	i = 0;
+void	free_list(t_ms *ms, t_token *token)
+{
 	token = ms->head;
 	while (token->value)
 	{
@@ -78,9 +81,4 @@ void	parsing_cleanup(t_ms *ms, t_token *token)
 			token = token->next;
 	}
 	free(token);
-	ms->double_q = 0;
-	ms->single_q = 0;
-	ms->first_iteration = true;
-	ms->input_pos = 0;
-	ms->token_count = 0;
 }

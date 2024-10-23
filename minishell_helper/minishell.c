@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/23 15:48:42 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:02:17 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,11 @@ void	execute_pipe_commands(t_ms *ms, int *input_fd, int i)
 	{
 		pid = fork();
 		if (pid < 0)
+		{
+			free(ms->lst);
+			free(ms->input);
 			ft_error("Error occurred while forking\n", ms);
+		}
 		else if (pid == 0)
 			handle_child_process(ms, i, input_fd, fd);
 		else
@@ -124,7 +128,10 @@ void	minishell(t_ms *ms)
 	{
 		if (WIFEXITED(status))
 			ms->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			ms->exit_status = 128 + WTERMSIG(status);
 	}
+	free_list(ms, ms->token);
 	if (setup_sigint() != 0)
 	{
 		free_struct(ms);

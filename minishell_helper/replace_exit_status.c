@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:55:16 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/18 11:06:55 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:03:01 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ void	handle_exit_code(t_ms *ms, size_t i)
 	ms->exit_code = malloc(ft_strlen(ms->split_commands[i])
 			+ ft_strlen(exit_status_str) + 1);
 	if (!ms->exit_code)
+	{
+		ms->exit_status = 1;
 		ft_error("Error while allocating memory\n", ms);
+	}
 	while (ms->split_commands[i][j])
 	{
 		if (ms->split_commands[i][j] == '$' && ms->split_commands[i][j

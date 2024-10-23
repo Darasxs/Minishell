@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 17:06:32 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/18 10:14:14 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:00:03 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,20 @@ void	create_split_pipes(t_ms *ms, t_token *token)
 	int		pipes_count;
 
 	head = token;
-	pipes_count = count_pipes(head) + 1;
+	pipes_count = count_pipes(head);
 	ms->split_pipes = malloc(sizeof(char *) * (pipes_count + 1));
 	if (!ms->split_pipes)
 		ft_error("Error while allocating the memory\n", ms);
 	i = 0;
-	while (i < pipes_count && token)
+	while (i < pipes_count && token->value)
 	{
 		if (token->value[0] != '|')
 		{
 			token = join_pipes(ms, token, i);
 			i++;
 		}
-		token = token->next;
+		else
+			token = token->next;
 	}
 	ms->split_pipes[i] = NULL;
 	token = head;

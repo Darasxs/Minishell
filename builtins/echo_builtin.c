@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 03:23:28 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/18 10:14:14 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:36:01 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,31 +68,46 @@ void	echo_env(t_ms *ms)
 	}
 }
 
-void	echo_builtin(t_ms *ms, t_token *token)
+void	echo_single_q(t_ms *ms)
 {
 	size_t	i;
+	size_t	j;
 
 	i = 1;
-	if (!ms->split_commands[i])
+	while (ms->split_commands[i] && ms->split_commands[i][0] != '>')
+	{
+		j = 0;
+		while (ms->split_commands[i][j] && ms->split_commands[i][j] != '>')
+		{
+			if (ms->split_commands[i][j] != '\'')
+				printf("%c", ms->split_commands[i][j]);
+			j++;
+		}
+		i++;
+	}
+	printf("\n");
+}
+
+void	echo_builtin(t_ms *ms, t_token *token)
+{
+	if (!ms->split_commands[1])
 		printf("\n");
 	else if (ft_strncmp(ms->split_commands[1], "~", 2) == 0
 		&& !ms->split_commands[2])
 		printf("%s\n", getenv("HOME"));
 	else if (token->value[0] == '-' && token->value[1] == 'n'
 		&& token->next->value)
-		echo_newline(ms, token, i);
-	else if (ms->split_commands[i][0] == '$')
+		echo_newline(ms, token, 1);
+	else if (ms->split_commands[1][0] == '$')
+	{
+		echo_env(ms);
+		printf("\n");
+	}
+	else if (ms->split_commands[1][0] == '$')
 	{
 		echo_env(ms);
 		printf("\n");
 	}
 	else
-	{
-		while (ms->split_commands[i] && ms->split_commands[i][0] != '>')
-		{
-			printf("%s ", ms->split_commands[i]);
-			i++;
-		}
-		printf("\n");
-	}
+		echo_single_q(ms);
 }

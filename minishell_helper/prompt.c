@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:52:47 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/18 10:14:14 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:02:45 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,19 @@ void	prompt_helper(char **cwd, char **user_name, t_ms *ms)
 {
 	*cwd = getcwd(NULL, 0);
 	if (!*cwd)
+	{
+		ms->exit_status = 1;
 		ft_error("Error while finding the current working directory\n", ms);
+	}
 	*user_name = getenv("USER");
 	if (!*user_name)
+	{
+		ms->exit_status = 1;
 		ft_error("Error while finding the user name\n", ms);
+	}
 }
 
-void	printing_prompt(t_ms *ms)
+void	prompt(t_ms *ms)
 {
 	char	*cwd;
 	char	*user_name;
@@ -36,10 +42,7 @@ void	printing_prompt(t_ms *ms)
 		i++;
 	ms->prompt = malloc(ft_strlen(split_cwd[i - 1]) + 4);
 	if (!ms->prompt)
-	{
-		free(split_cwd);
 		ft_error("Error while allocating the memory\n", ms);
-	}
 	ft_strlcpy(ms->prompt, user_name, ft_strlen(user_name) + 1);
 	ft_strlcat(ms->prompt, " @ ", ft_strlen(ms->prompt) + 4);
 	ft_strlcat(ms->prompt, split_cwd[i - 1], ft_strlen(ms->prompt)

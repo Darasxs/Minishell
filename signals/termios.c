@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_single_input.c                              :+:      :+:    :+:   */
+/*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 12:45:06 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/23 17:05:20 by paprzyby         ###   ########.fr       */
+/*   Created: 2024/10/17 12:54:08 by dpaluszk          #+#    #+#             */
+/*   Updated: 2024/10/23 18:04:41 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_single_input(t_ms *ms, size_t i)
+void	setup_termios(void)
 {
-	char	*filename;
-	int		file_descriptor;
+	struct termios	term;
 
-	filename = ms->split_commands[i + 1];
-	file_descriptor = open(filename, O_RDONLY);
-	if (file_descriptor == -1)
+	if (tcgetattr(STDIN_FILENO, &term) == -1)
 	{
-		ms->exit_status = 1;
-		ft_error("Error in '<'.\n", ms);
+		printf("error with tcgetattr\n"); // uwolnic tu cos? hmmm
+		return ;
 	}
-	if (dup2(file_descriptor, STDIN_FILENO) == -1)
+	term.c_lflag &= ~ECHOCTL;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
 	{
-		close(file_descriptor);
-		ms->exit_status = 1;
-		ft_error("Error with file descriptor in '<'.\n", ms);
+		printf("error with tcsetattr\n"); // uwolnic?? hmm
+		return ;
 	}
-	close(file_descriptor);
 }

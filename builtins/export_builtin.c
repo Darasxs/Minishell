@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:04:37 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/18 10:50:21 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/23 16:57:59 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,17 @@ void	add_new_env(t_ms *ms, t_list **lst)
 
 	node = malloc(sizeof(t_list));
 	if (!node)
+	{
+		ms->exit_status = 1;
 		ft_error("Error while allocating the memory\n", ms);
+	}
 	node->new_env = malloc(sizeof(char) * (ft_strlen(ms->split_commands[0])
 				+ 1));
 	if (!node->new_env)
+	{
+		ms->exit_status = 1;
 		ft_error("Error while allocating the memory for new_env\n", ms);
+	}
 	ft_strlcpy(node->new_env, ms->split_commands[0],
 		ft_strlen(ms->split_commands[0]) + 1);
 	node->next = NULL;

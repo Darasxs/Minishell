@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/22 18:55:55 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:36:58 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	execute_command(t_ms *ms)
 {
 	int	j;
 
-
 	if (ft_strncmp(ms->split_commands[0], "env", 3) == 0)
 		env_builtin(ms);
 	else if (ms->split_commands[0][0] == '.' && ms->split_commands[0][1] == '/')
@@ -71,9 +70,20 @@ void	execute_command(t_ms *ms)
 			return ;
 		ms->path = find_path(ms->split_commands[0], ms);
 		if (!ms->path)
+		{
 			wrong_command(ms->split_commands[0], ms);
+			return ;
+		}
 		if (execve(ms->path, ms->split_commands, ms->env_copy) == -1)
+		{
+			if (errno == ENOENT)
+				ms->exit_status = 127;
+			else if (errno == EACCES)
+				ms->exit_status = 126;
+			else
+				ms->exit_status = 1;
 			ft_error("Execution failed\n", ms);
+		}
 		free(ms->path);
 	}
 }
@@ -135,18 +145,18 @@ void	execute_program_name(t_ms *ms)
 	{
 		if (ft_strncmp(ms->split_commands[0], "./minishell", 12) == 0
 			|| (ft_strncmp(ms->split_commands[0], "bash", 5) == 0))
-				increment_shlvl(ms);
+			increment_shlvl(ms);
 		if (execve(ms->split_commands[0], ms->split_commands, ms->env_copy) ==
 			-1)
 		{
-			if (ms->split_commands[0][0] == '.'
-				&& ms->split_commands[0][1] == '/'
-				&& ms->split_commands[0][2] == '\0')
-				printf("bash: ./: is a directory\n");
+			if (errno == ENOENT)
+				ms->exit_status = 127;
+			else if (errno == EACCES)
+				ms->exit_status = 126;
+			else
+				ms->exit_status = 1;
 		}
-		else
-			ft_error("Execution failed.", ms);
 	}
 	else
-		printf("Permission denied.\n");
+		printf("minishell: ./ls: No such file or directory\n");
 }

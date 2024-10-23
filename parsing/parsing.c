@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 10:55:55 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/18 10:47:06 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:03:16 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ t_token	*parsing(t_ms *ms)
 			ms->input_pos++;
 		else
 		{
-			get_token(ms, token);
+			if (get_token(ms, token))
+				return (NULL);
 			ms->input_pos++;
 			if (token->value[0] != '|')
 				ms->token_count++;
