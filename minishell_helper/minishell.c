@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/23 17:02:17 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/24 16:46:12 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	handle_builtins(t_ms *ms, int i, int *input_fd, int *fd)
-{
-	int	j;
-
-	j = 0;
-	if (check_if_redirections(ms))
-		handle_redirections(ms);
-	while (ms->split_pipes[j])
-		j++;
-	if (ft_strncmp(ms->split_commands[0], "cd", 3) == 0)
-	{
-		if (j == 1 || i == j - 1)
-			cd_builtin(ms);
-	}
-	execute_builtin(ms);
-	if (ms->split_pipes[i + 1])
-	{
-		close(fd[1]);
-		*input_fd = fd[0];
-	}
-}
 
 void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 {
@@ -54,7 +32,10 @@ void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 	close(fd[0]);
 	if (check_if_redirections(ms))
 		handle_redirections(ms);
-	execute_command(ms);
+	if (check_builtin(ms))
+		handle_builtins(ms, i, input_fd, fd);
+	else
+		execute_command(ms);
 	exit(0);
 }
 
@@ -83,8 +64,8 @@ void	execute_pipe_commands(t_ms *ms, int *input_fd, int i)
 	if (ms->split_pipes[i + 1] && pipe(fd) == -1)
 		ft_error("Error occurred while creating a pipe\n", ms);
 	check_exit_code(ms);
-	if (check_builtin(ms))
-		handle_builtins(ms, i, input_fd, fd);
+	if(check_cd_and_unset(ms))
+		handle_cd_and_unset(ms, i, input_fd, fd);
 	else
 	{
 		pid = fork();

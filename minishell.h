@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/23 18:02:51 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/24 16:46:24 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void				unset_builtin(t_ms *ms);
 //	execution:
 void				execute_builtin(t_ms *ms);
 bool				check_builtin(t_ms *ms);
+bool				check_cd_and_unset(t_ms *ms);
 char				*find_path(char *path, t_ms *ms);
 void				execute_command(t_ms *ms);
 void				increment_shlvl(t_ms *ms);
@@ -124,6 +125,7 @@ t_list				*list_init(t_ms *ms);
 char				**envp_init(char **envp);
 t_ms				*minishell_init(char **envp);
 void				handle_builtins(t_ms *ms, int i, int *input_fd, int *fd);
+void				handle_cd_and_unset(t_ms *ms, int i, int *input_fd, int *fd);
 void				handle_child_process(t_ms *ms, int i, int *input_fd,
 						int *fd);
 void				handle_parent_process(t_ms *ms, int i, int *input_fd,
@@ -156,7 +158,6 @@ bool				check_if_redirections(t_ms *ms);
 
 //	signals:
 void				handle_sigint(int signum, siginfo_t *info, void *context);
-void				handle_sigquit(int signum, siginfo_t *info, void *context);
 void				ignore_signals(int signum, siginfo_t *info, void *context);
 int					setup_sigint(void);
 int					setup_sigint_ignore(void);

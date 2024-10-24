@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_double_output.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:05 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/23 17:05:13 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/24 16:53:39 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	handle_double_output(t_ms *ms, size_t i)
 	if (file_descriptor == -1)
 	{
 		ms->exit_status = 1;
-		ft_error("Error with '>>'.\n", ms);
+		ft_error("minishell: syntax error near unexpected token `newline''", ms);
 	}
 	if (dup2(file_descriptor, STDOUT_FILENO) == -1)
 	{
 		close(file_descriptor);
 		ms->exit_status = 1;
-		ft_error("Error with file descriptor in '>>'.\n", ms);
+		ft_error("Error with file descriptor in '>>'", ms);
 	}
 	close(file_descriptor);
 }
