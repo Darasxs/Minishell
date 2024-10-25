@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 15:28:03 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/23 17:17:44 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:16:42 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	remove_quotes(t_ms *ms, int split)
 	len = 0;
 	while (ms->split_commands[split][i])
 	{
-		if (ms->split_commands[split][i] != '\"')
+		if (ms->split_commands[split][i] != '\"' || ms->split_commands[split][i] != '\'')
 			len++;
 		i++;
 	}
@@ -46,7 +46,7 @@ void	remove_quotes(t_ms *ms, int split)
 	len = 0;
 	while (ms->split_commands[split][i])
 	{
-		if (ms->split_commands[split][i] != '\"')
+		if (ms->split_commands[split][i] != '\"' && ms->split_commands[split][i] != '\'')
 		{
 			new_command[len] = ms->split_commands[split][i];
 			len++;

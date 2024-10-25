@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 19:26:45 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/23 17:37:56 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:17:40 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 bool	syntax_check(t_ms *ms, t_token *token)
 {
-	(void)ms;
 	if (token->value[0] == '>' || token->value[0] == '<')
 	{
 		if (!token->next->value || (token->next->value[0] != '<'
@@ -38,7 +37,7 @@ bool	syntax_check(t_ms *ms, t_token *token)
 	}
 	else if (token->value[0] == '~')
 	{
-		printf("minishell: %s: is a directory\n", getenv("HOME"));
+		printf("minishell: %s: is a directory\n", ft_getenv("HOME", ms));
 		ms->exit_status = 126;
 		return (false);
 	}

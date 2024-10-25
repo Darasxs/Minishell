@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/24 16:46:12 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:17:12 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	execute_pipe_commands(t_ms *ms, int *input_fd, int i)
 		pid = fork();
 		if (pid < 0)
 		{
-			free(ms->lst);
 			free(ms->input);
 			ft_error("Error occurred while forking\n", ms);
 		}

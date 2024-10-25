@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 03:23:28 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/24 16:36:59 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:14:19 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,16 +94,11 @@ void	echo_builtin(t_ms *ms, t_token *token)
 		printf("\n");
 	else if (ft_strncmp(ms->split_commands[1], "~", 2) == 0
 		&& !ms->split_commands[2])
-		printf("%s\n", getenv("HOME"));
+		printf("%s\n", ft_getenv("HOME", ms));
 	else if (token->value[0] == '-' && token->value[1] == 'n'
 		&& token->next->value)
 		echo_newline(ms, token, 1);
-	else if (ms->split_commands[1][0] == '$')
-	{
-		echo_env(ms);
-		printf("\n");
-	}
-	else if (ms->split_commands[1][0] == '$')
+	else if (ms->split_commands[1][0] == '$' && token->value[0] != '\'')
 	{
 		echo_env(ms);
 		printf("\n");

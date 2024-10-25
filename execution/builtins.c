@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:27:39 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/24 16:48:31 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:15:24 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	execute_builtin(t_ms *ms)
 		echo_builtin(ms, ms->token->next);
 	else if (ft_strncmp(ms->split_commands[0], "pwd", 4) == 0)
 		pwd_builtin(ms);
-	else
+	else if (ft_strncmp(ms->split_commands[0], "export", 7) == 0)
 		export_builtin(ms);
 }
 bool	check_cd_and_unset(t_ms *ms)
@@ -79,8 +79,6 @@ bool	check_builtin(t_ms *ms)
 	else if (ft_strncmp(ms->split_commands[0], "export", 7) == 0)
 		return (true);
 	else if (ft_strncmp(ms->split_commands[0], "exit", 5) == 0)
-		return (true);
-	else if (ft_strrchr(ms->split_commands[0], '=') != 0)
 		return (true);
 	else if (ft_strncmp(ms->split_commands[0], "echo", 5) == 0)
 		return (true);

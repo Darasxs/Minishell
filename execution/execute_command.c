@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/24 16:36:03 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:15:46 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,36 @@ void	execute_command(t_ms *ms)
 			}
 			j++;
 		}
-		ms->env = getenv("PATH");
+		ms->env = ft_getenv("PATH", ms);
 		if (!ms->env)
-			return ;
+		{
+			printf("minishell: %s: ", ms->split_commands[0]);
+			ft_error("No such file or directory", ms);
+		}
 		ms->split_env = ft_split(ms->env, ':');
 		if (!ms->split_env)
 			return ;
 		ms->path = find_path(ms->split_commands[0], ms);
-		if (!ms->path)
+		if (!ms->path && ms->split_commands[0][0] == '/')
+		{
+			if (execve(ms->split_commands[0], ms->split_commands, ms->env_copy) == -1)
+			{
+				if (errno == ENOENT)
+					ms->exit_status = 127;
+				else if (errno == EACCES)
+					ms->exit_status = 126;
+				else
+					ms->exit_status = 1;
+				printf("minishell: %s: ", ms->split_commands[0]);
+				ft_error("No such file or directory", ms);
+			}
+		}
+		else if (!ms->path)
 		{
 			wrong_command(ms->split_commands[0], ms);
 			return ;
 		}
-		if (execve(ms->path, ms->split_commands, ms->env_copy) == -1)
+		else if (execve(ms->path, ms->split_commands, ms->env_copy) == -1)
 		{
 			if (errno == ENOENT)
 				ms->exit_status = 127;
@@ -82,7 +99,7 @@ void	execute_command(t_ms *ms)
 				ms->exit_status = 126;
 			else
 				ms->exit_status = 1;
-			ft_error("Execution failed\n", ms);
+			ft_error("Execution failed", ms);
 		}
 		free(ms->path);
 	}
@@ -95,16 +112,23 @@ void	increment_shlvl(t_ms *ms)
 	int		shlvl;
 	size_t	i;
 	char	*new_env;
+	char	*equal_pos;
+	char	*env_variable;
+	size_t	len;
 
 	i = 0;
 	shlvl_str = NULL;
 	while (ms->env_copy[i])
 	{
-		if (ft_strncmp(ms->env_copy[i], "SHLVL=", 6) == 0)
+		equal_pos = ft_strrchr(ms->env_copy[i], '=');
+		len = equal_pos - ms->env_copy[i];
+		env_variable = ft_substr(ms->env_copy[i], 0, len);
+		if (ft_strncmp(env_variable, "SHLVL", len) == 0)
 		{
 			shlvl_str = ft_strdup(ms->env_copy[i] + 6);
-			break ;
+			break;
 		}
+		free(env_variable);
 		i++;
 	}
 	if (shlvl_str)

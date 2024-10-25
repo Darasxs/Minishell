@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/25 13:14:21 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:33:05 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,8 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 		}
 		if (!ms->input)
-		{
-			printf("\n");
-			break ;
-		}
-		else if (ms->input[0] != '\0')
+			break;
+		else if (ms->input[0] != '\0' && ms->input[0] != ' ')
 		{
 			add_history(ms->input);
 			ms->token = parsing(ms);
@@ -51,5 +48,3 @@ int	main(int ac, char **av, char **envp)
 	}
 	return (0);
 }
-
-//"e""c""h""o" "h""e"llo

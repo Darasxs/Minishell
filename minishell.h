@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/25 12:50:33 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:13:43 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
-typedef struct s_list
-{
-	char			*new_env;
-	struct s_list	*next;
-}					t_list;
-
 typedef struct s_minishell
 {
 	char			**split_env;
@@ -55,7 +49,6 @@ typedef struct s_minishell
 	int				double_q;
 	int				token_count;
 	bool			first_iteration;
-	t_list			*lst;
 	t_token			*token;
 	t_token			*head;
 	char			**split_commands;
@@ -77,7 +70,6 @@ char				*ft_itoa(int n);
 unsigned int		ft_size(int number);
 char				*ft_strdup(char *s1);
 char				*ft_strchr(char *s, int c);
-void				ft_lstadd_back(t_list **lst, t_list *new);
 int					ft_atoi(char *str);
 char				*ft_strtrim(char *s1, char *set);
 int					ft_check(char c, const char *set);
@@ -91,7 +83,6 @@ char				*get_next_line(int fd);
 
 //	builtins:
 void				cd_home(t_ms *ms);
-void				cd_oldpwd(t_ms *ms);
 void				cd_builtin(t_ms *ms);
 void				echo_builtin(t_ms *ms, t_token *token);
 void				echo_newline(t_ms *ms, t_token *token, size_t i);
@@ -103,10 +94,9 @@ void				check_exit_args(t_ms *ms);
 void				exit_builtin(t_ms *ms);
 int					check_for_int(char *str);
 void				export_builtin(t_ms *ms);
-void				export_new_env(t_ms *ms, t_list **lst);
-void				add_new_env(t_ms *ms, t_list **lst);
 void				pwd_builtin(t_ms *ms);
 void				unset_builtin(t_ms *ms);
+void				add_new_env(t_ms *ms, char *env);
 
 //	execution:
 void				execute_builtin(t_ms *ms);
@@ -116,6 +106,7 @@ char				*find_path(char *path, t_ms *ms);
 void				execute_command(t_ms *ms);
 void				increment_shlvl(t_ms *ms);
 void				execute_program_name(t_ms *ms);
+char				*ft_getenv(char *env, t_ms *ms);
 
 //	minishell_helper:
 int					count_split_size(t_token *token);
@@ -130,7 +121,6 @@ void				ft_error(char *str, t_ms *ms);
 void				wrong_command(char *info, t_ms *ms);
 void				cleanup(t_ms *ms);
 void				free_list(t_ms *ms, t_token *token);
-t_list				*list_init(t_ms *ms);
 char				**envp_init(char **envp);
 t_ms				*minishell_init(char **envp);
 void				handle_builtins(t_ms *ms, int i, int *input_fd, int *fd);

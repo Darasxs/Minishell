@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 12:56:13 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/23 17:38:29 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:17:54 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int	get_word_token(t_ms *ms, t_token *token)
 			ms->single_q++;
 		else if (ms->input[ms->input_pos] == '\"')
 			ms->double_q++;
-		else if (((is_space(ms) && ms->double_q % 2 == 0 && ms->single_q
-					% 2 == 0) || ms->input[ms->input_pos] == '|'
-				|| ms->input[ms->input_pos] == '<'
-				|| ms->input[ms->input_pos] == '>'))
+		else if (is_space(ms) && ms->double_q % 2 == 0 && ms->single_q% 2 == 0)
 			break ;
 		ms->input_pos++;
 	}

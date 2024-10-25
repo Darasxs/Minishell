@@ -12,25 +12,6 @@
 
 #include "../minishell.h"
 
-t_list	*list_init(t_ms *ms)
-{
-	t_list	*lst;
-
-	lst = malloc(sizeof(t_list));
-	if (!lst)
-	{
-		free(ms);
-		ft_error("Error while allocating the memory\n", ms);
-	}
-	lst = NULL;
-	return (lst);
-}
-
-//char	**envp_names(char **envp)
-//{
-
-//}
-
 char	**envp_init(char **envp)
 {
 	size_t	i;
@@ -59,12 +40,10 @@ char	**envp_init(char **envp)
 t_ms	*minishell_init(char **envp)
 {
 	t_ms	*ms;
-	t_list	*lst;
 
 	ms = malloc(sizeof(t_ms));
 	if (!ms)
 		ft_error("Error while allocating the memory\n", ms);
-	lst = list_init(ms);
 	ms->env_copy = envp_init(envp);
 	ms->split_env = NULL;
 	ms->prompt = NULL;
