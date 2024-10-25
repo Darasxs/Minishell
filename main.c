@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/25 18:33:05 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:48:33 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 		}
 		if (!ms->input)
-			break;
+			return (ms->exit_status);
 		else if (ms->input[0] != '\0' && ms->input[0] != ' ')
 		{
 			add_history(ms->input);
@@ -46,5 +46,5 @@ int	main(int ac, char **av, char **envp)
 			cleanup(ms);
 		}
 	}
-	return (0);
+	return (ms->exit_status);
 }
