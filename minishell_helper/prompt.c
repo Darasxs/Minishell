@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:52:47 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/23 17:02:45 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/25 12:52:07 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	prompt(t_ms *ms)
 	ft_strlcat(ms->prompt, split_cwd[i - 1], ft_strlen(ms->prompt)
 		+ ft_strlen(split_cwd[i - 1]) + 1);
 	ft_strlcat(ms->prompt, " $ ", ft_strlen(ms->prompt) + 4);
+	ms->prompt[ft_strlen(ms->prompt)] = '\0';
 	ms->input = readline(ms->prompt);
 	free(cwd);
 }

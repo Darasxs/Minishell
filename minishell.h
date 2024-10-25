@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/24 16:46:24 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/25 12:50:33 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -24,7 +25,6 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-# include <errno.h>
 
 typedef struct s_token
 {
@@ -79,6 +79,15 @@ char				*ft_strdup(char *s1);
 char				*ft_strchr(char *s, int c);
 void				ft_lstadd_back(t_list **lst, t_list *new);
 int					ft_atoi(char *str);
+char				*ft_strtrim(char *s1, char *set);
+int					ft_check(char c, const char *set);
+
+// get_next_line:
+char				*free_helper(char **s1, char **s2, char c);
+char				*ft_remainder(char *my_buffer);
+char				*extract_line(char *my_buffer);
+char				*read_new_line(int fd, char *my_buffer);
+char				*get_next_line(int fd);
 
 //	builtins:
 void				cd_home(t_ms *ms);
@@ -125,7 +134,8 @@ t_list				*list_init(t_ms *ms);
 char				**envp_init(char **envp);
 t_ms				*minishell_init(char **envp);
 void				handle_builtins(t_ms *ms, int i, int *input_fd, int *fd);
-void				handle_cd_and_unset(t_ms *ms, int i, int *input_fd, int *fd);
+void				handle_cd_and_unset(t_ms *ms, int i, int *input_fd,
+						int *fd);
 void				handle_child_process(t_ms *ms, int i, int *input_fd,
 						int *fd);
 void				handle_parent_process(t_ms *ms, int i, int *input_fd,
