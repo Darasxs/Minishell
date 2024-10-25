@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 18:15:46 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:59:24 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	execute_command(t_ms *ms)
 		ms->env = ft_getenv("PATH", ms);
 		if (!ms->env)
 		{
-			printf("minishell: %s: ", ms->split_commands[0]);
-			ft_error("No such file or directory", ms);
+			print_fd("minishell: ", ms->split_commands[0], ": No such file or directory\n");
+			exit(1);
 		}
 		ms->split_env = ft_split(ms->env, ':');
 		if (!ms->split_env)
@@ -82,8 +82,8 @@ void	execute_command(t_ms *ms)
 					ms->exit_status = 126;
 				else
 					ms->exit_status = 1;
-				printf("minishell: %s: ", ms->split_commands[0]);
-				ft_error("No such file or directory", ms);
+					print_fd("minishell: ", ms->split_commands[0], ": No such file or directory\n");
+				exit(1);
 			}
 		}
 		else if (!ms->path)

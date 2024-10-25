@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/25 18:13:43 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:55:55 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char				*ft_strchr(char *s, int c);
 int					ft_atoi(char *str);
 char				*ft_strtrim(char *s1, char *set);
 int					ft_check(char c, const char *set);
+void				ft_putstr_fd(char *s, int fd);
 
 // get_next_line:
 char				*free_helper(char **s1, char **s2, char c);
@@ -139,6 +140,7 @@ void				replace_exit_status(t_ms *ms, char *exit_status_str,
 void				check_for_sign(t_ms *ms, size_t i, size_t *j, size_t *k);
 void				handle_exit_code(t_ms *ms, size_t i);
 void				check_exit_code(t_ms *ms);
+void				print_fd(char *str1, char *str2, char *str3);
 
 //	parsing:
 t_token				*token_init(t_ms *ms);

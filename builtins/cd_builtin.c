@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:54:20 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 18:14:01 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:57:12 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	cd_builtin(t_ms *ms)
 	}
 	else if (ms->split_commands[1][0] == '?'
 		&& ms->split_commands[1][1] == '\0')
-		printf("minishell: cd: <: Not a directory\n");
+		ft_putstr_fd("minishell: cd: <: Not a directory\n", 2);
 	else
 	{
 		if (ft_strncmp("/", getcwd(NULL, 0), 2) == 0 && ms->split_commands[1][0] == '.')
@@ -109,8 +109,7 @@ void	cd_builtin(t_ms *ms)
 		update_oldpwd(ms);
 		if (chdir(ms->split_commands[1]) != 0)
 		{
-			printf("minishell: cd: %s: No such file or directory\n",
-				ms->split_commands[1]);
+			print_fd("minishell: cd: ", ms->split_commands[1], ": No such file or directory\n");
 			ms->exit_status = 1;
 		}
 		ms->first_iteration = false;

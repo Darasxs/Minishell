@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:57:34 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/23 16:59:14 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:58:37 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ void	unset_builtin(t_ms *ms)
 	if (ms->split_commands[1][0] == '\0' || ms->split_commands[1][0] == '='
 		|| ms->split_commands[1][0] == '$')
 	{
-		printf("minishell: unset: `%s': not a valid identifier\n",
-			ms->split_commands[1]);
+		print_fd("minishell: unset: `", ms->split_commands[1], "': not a valid identifier\n");
 		return ;
 	}
 	while (ms->env_copy[i])

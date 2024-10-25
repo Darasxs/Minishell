@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:04:37 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 18:30:23 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:32:52 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	add_new_env(t_ms *ms, char *env)
 		{
 			free(ms->env_copy[i]);
 			ms->env_copy[i] = ft_strdup(env);
-			printf("%s\n", ms->env_copy[i]);
 			return ;
 		}
 		i++;

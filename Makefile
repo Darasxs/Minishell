@@ -6,7 +6,7 @@
 #    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/10/25 18:12:41 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/10/25 19:38:51 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SOURCE		=	minishell_helper/minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				redirections/handle_double_output.c redirections/handle_single_input.c \
 				redirections/handle_double_input.c minishell_helper/create_split_commands.c \
 				signals/sigint.c signals/signals_helper.c signals/termios.c builtins/pwd_builtin.c \
-				get_next_line/get_next_line.c execution/ft_getenv.c
+				get_next_line/get_next_line.c execution/ft_getenv.c utils/ft_putstr_fd.c
 
 OBJECTS		=	$(SOURCE:.c=.o)
 

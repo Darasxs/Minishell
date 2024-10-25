@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 19:26:45 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 18:17:40 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/25 20:01:02 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ bool	syntax_check(t_ms *ms, t_token *token)
 	{
 		if (!token->next->value || (token->next->value[0] != '<'
 				&& token->next->value[0] != '>'))
-			printf("minishell: syntax error near unexpected token `newline'\n");
+			ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
 		else
-			printf("minishell: syntax error near unexpected token `%s'\n",
-				token->value);
+			print_fd("minishell: syntax error near unexpected token `", token->value, "'\n");
 		ms->exit_status = 2;
 		return (false);
 	}
@@ -29,24 +28,24 @@ bool	syntax_check(t_ms *ms, t_token *token)
 	{
 		if (token->value[0] == '|' && token->next->value
 			&& token->next->value[0] == '|')
-			printf("minishell: syntax error near unexpected token '||'\n");
+			ft_putstr_fd("minishell: syntax error near unexpected token '||'\n", 2);
 		else
-			printf("minishell: syntax error near unexpected token '|'\n");
+			ft_putstr_fd("minishell: syntax error near unexpected token '|'\n", 2);
 		ms->exit_status = 2;
 		return (false);
 	}
 	else if (token->value[0] == '~')
 	{
-		printf("minishell: %s: is a directory\n", ft_getenv("HOME", ms));
+		print_fd("minishell: ", ft_getenv("HOME", ms), ": is a directory\n");
 		ms->exit_status = 126;
 		return (false);
 	}
 	else if (token->value[0] == '.' && !token->value[3])
 	{
 		if (token->value[1] == '.' && !token->value[2])
-			printf("minishell: ..: command not found\n");
+			ft_putstr_fd("minishell: ..: command not found\n", 2);
 		else
-			printf(".: usage: . filename [arguments]\n");
+			ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
 		ms->exit_status = 127;
 		return (false);
 	}
