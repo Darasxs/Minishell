@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 19:59:24 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/26 19:02:28 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,5 +182,5 @@ void	execute_program_name(t_ms *ms)
 		}
 	}
 	else
-		printf("minishell: ./ls: No such file or directory\n");
+		ft_putstr_fd("minishell: ./ls: No such file or directory\n", 2);
 }

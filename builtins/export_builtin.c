@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:04:37 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 19:32:52 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:54:44 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void	export_builtin(t_ms *ms)
 		i = 1;
 		while (ms->split_commands[i])
 		{
-			if (ft_strrchr(ms->split_commands[i], '=') != 0)
+			if (ft_strrchr(ms->split_commands[i], '=') != 0 && ms->split_commands[i][1])
 				add_new_env(ms, ms->split_commands[i]);
 			else
-				printf("export: `%s': not a valid identifier\n", ms->split_commands[i]);
+				print_fd("export: `", ms->split_commands[i], "': not a valid identifier\n");
 			i++;
 		}
 	}

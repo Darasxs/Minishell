@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 22:46:58 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 19:57:57 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/26 19:04:10 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,13 @@ void	check_exit_args(t_ms *ms)
 	if (check_for_int(ms->split_commands[1]))
 	{
 		ms->exit_status = 255;
-		printf("exit\n");
-		print_fd("minishell: exit: ", ms->split_commands[1], ": numeric argument required\n");
+		print_fd("exit\nminishell: exit: ", ms->split_commands[1], ": numeric argument required\n");
 		exit(1);
 	}
 	else if (ms->split_commands[2])
 	{
 		ms->exit_status = 1;
-		printf("exit\n");
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 		exit(1);
 	}
 	else
@@ -64,6 +62,6 @@ void	exit_builtin(t_ms *ms)
 		ms->split_commands[1] = ft_strdup("0");
 	else
 		check_exit_args(ms);
-	printf("exit\n");
+	ft_putstr_fd("exit\n", 1);
 	exit(0);
 }
