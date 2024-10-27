@@ -6,25 +6,9 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:02 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/25 12:15:34 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/27 11:41:10 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//#include "../minishell.h"
-
-//#define BUFFER_SIZE 1024
-
-//void	handle_double_input(t_ms *ms, size_t i)
-//{
-//	char	*temp_filename;
-//	char	*eof_delimiter;
-//	int		file_descriptor;
-
-//	temp_filename = ".termporary_heredoc_file";
-//	eof_delimiter = ms->split_commands[i + 1];
-//	file_descriptor = open(temp_filename, O_CREAT | O_RDONLY, 0644);
-//}
-
 
 #include "../minishell.h"
 

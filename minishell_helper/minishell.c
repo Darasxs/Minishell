@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 18:17:12 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/27 11:58:22 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 {
+	if (check_if_redirections(ms))
+		handle_redirections(ms);
 	if (setup_sigquit() != 0)
 	{
 		free_struct(ms);
@@ -30,8 +32,6 @@ void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 		close(fd[1]);
 	}
 	close(fd[0]);
-	if (check_if_redirections(ms))
-		handle_redirections(ms);
 	if (check_builtin(ms))
 		handle_builtins(ms, i, input_fd, fd);
 	else

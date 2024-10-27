@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/25 20:03:29 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/27 11:09:41 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int ac, char **av, char **envp)
 	if (ac != 1)
 		return (print_fd("minishell: ", av[1], ": No such file or directory\n"), 1);
 	ms = minishell_init(envp);
-	//setup_termios();
+	setup_termios();
 	if (setup_sigint() != 0 || setup_sigquit_ignore() != 0)
 		return (free_struct(ms), 1);
 	while (1)
