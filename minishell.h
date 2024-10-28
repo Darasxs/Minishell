@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/25 19:55:55 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/28 18:15:38 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_minishell
 	t_token			*head;
 	char			**split_commands;
 	char			**split_pipes;
+	bool			heredoc;
+	int				heredoc_file_descriptor;
 }					t_ms;
 
 //	utils:
@@ -166,5 +168,6 @@ int					setup_sigint_ignore(void);
 int					setup_sigquit(void);
 int					setup_sigquit_ignore(void);
 void				setup_termios(void);
+
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/26 19:02:28 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/28 19:35:41 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	execute_command(t_ms *ms)
 				else
 					ms->exit_status = 1;
 					print_fd("minishell: ", ms->split_commands[0], ": No such file or directory\n");
-				exit(1);
+				exit(ms->exit_status);
 			}
 		}
 		else if (!ms->path)

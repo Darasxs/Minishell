@@ -61,5 +61,7 @@ t_ms	*minishell_init(char **envp)
 	ms->split_commands = NULL;
 	ms->split_pipes = NULL;
 	ms->first_iteration = true;
+	ms->heredoc = false;
+	ms->heredoc_file_descriptor = -1;
 	return (ms);
 }

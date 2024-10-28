@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/27 11:58:22 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/28 19:48:49 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,45 @@
 
 void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 {
-	if (check_if_redirections(ms))
-		handle_redirections(ms);
 	if (setup_sigquit() != 0)
 	{
 		free_struct(ms);
 		return ;
 	}
-	if (i > 0)
+	if (ms->heredoc == true)
 	{
-		dup2(*input_fd, STDIN_FILENO);
-		close(*input_fd);
-	}
-	if (ms->split_pipes[i + 1])
-	{
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-	}
-	close(fd[0]);
-	if (check_builtin(ms))
-		handle_builtins(ms, i, input_fd, fd);
-	else
+		dprintf(2, "siema\n");
+		if (dup2(ms->heredoc_file_descriptor, STDIN_FILENO) == -1)
+		{
+			write(STDERR_FILENO,
+				"Error duplicating file descriptor for heredoc\n", 47);
+			close(ms->heredoc_file_descriptor);
+			ms->heredoc_file_descriptor = -1;
+			return ;
+		}
 		execute_command(ms);
+		close(ms->heredoc_file_descriptor);
+		ms->heredoc_file_descriptor = -1;
+	}
+	else
+	{
+		if (i > 0)
+		{
+			dup2(*input_fd, STDIN_FILENO);
+			close(*input_fd);
+		}
+		if (ms->split_pipes[i + 1])
+		{
+			dup2(fd[1], STDOUT_FILENO);
+			close(fd[1]);
+		}
+		close(fd[0]);
+		if (check_builtin(ms))
+			handle_builtins(ms, i, input_fd, fd);
+		else
+			execute_command(ms);
+	}
+
 	exit(0);
 }
 
@@ -64,7 +81,7 @@ void	execute_pipe_commands(t_ms *ms, int *input_fd, int i)
 	if (ms->split_pipes[i + 1] && pipe(fd) == -1)
 		ft_error("Error occurred while creating a pipe\n", ms);
 	check_exit_code(ms);
-	if(check_cd_and_unset(ms))
+	if (check_cd_and_unset(ms))
 		handle_cd_and_unset(ms, i, input_fd, fd);
 	else
 	{
@@ -97,6 +114,18 @@ void	minishell(t_ms *ms)
 		free_struct(ms);
 		return ;
 	}
+	while (ms->split_pipes[i])
+	{
+		token = create_split_commands(ms, token);
+		i++;
+	}
+	i = 0;
+	if (check_if_redirections(ms))
+	{
+		handle_redirections(ms);
+		// free_struct(ms);
+	}
+	token = ms->head;
 	while (ms->split_pipes[i])
 	{
 		token = create_split_commands(ms, token);
