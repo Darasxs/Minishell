@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/28 19:48:49 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/28 21:26:55 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 	}
 	if (ms->heredoc == true)
 	{
-		dprintf(2, "siema\n");
 		if (dup2(ms->heredoc_file_descriptor, STDIN_FILENO) == -1)
 		{
 			write(STDERR_FILENO,
@@ -33,6 +32,7 @@ void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 		execute_command(ms);
 		close(ms->heredoc_file_descriptor);
 		ms->heredoc_file_descriptor = -1;
+		ms->heredoc = false;
 	}
 	else
 	{
@@ -52,7 +52,6 @@ void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 		else
 			execute_command(ms);
 	}
-
 	exit(0);
 }
 
