@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/29 12:13:29 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:13:28 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			add_history(ms->input);
 			ms->token = parsing(ms);
-			if (ms->token && syntax_check(ms, ms->token))
+			if (ms->token)
 				minishell(ms);
 			cleanup(ms);
 		}

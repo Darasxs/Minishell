@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/29 15:49:39 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:14:12 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void				check_exit_code(t_ms *ms);
 t_token				*token_init(t_ms *ms);
 bool				is_space(t_ms *ms);
 t_token				*parsing(t_ms *ms);
-bool				syntax_check(t_ms *ms, t_token *token);
+bool				syntax_check(t_ms *ms);
 int					get_token(t_ms *ms, t_token *token);
 int					get_word_token(t_ms *ms, t_token *token);
 

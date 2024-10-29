@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:02 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/29 15:39:13 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:58:51 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,5 @@ void	handle_double_input(t_ms *ms, size_t i)
 	//}
 	//ms->heredoc = false;
 	unlink(temp_filename);
-
 	//execute_command(ms);
 }

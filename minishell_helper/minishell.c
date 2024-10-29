@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 15:10:07 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:14:17 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ void	minishell(t_ms *ms)
 	while (ms->split_pipes[i])
 	{
 		token = create_split_commands(ms, token);
+		if (!syntax_check(ms))
+			return ;
 		execute_pipe_commands(ms, &input_fd, i);
 		free_split(ms->split_commands);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 16:07:53 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:49:21 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	execute_command(t_ms *ms)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(ms->split_commands[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
+			ms->exit_status = 127;
 			return ;
 		}
 		else if (execve(ms->path, ms->split_commands, ms->env_copy) == -1)
@@ -109,7 +110,7 @@ void	execute_command(t_ms *ms)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(ms->split_commands[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
-			//exit(ms->exit_status + 1);
+			ms->exit_status = 127;
 			exit(ms->exit_status);
 		}
 		free(ms->path);
