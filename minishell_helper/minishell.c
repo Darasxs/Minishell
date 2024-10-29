@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/28 21:26:55 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:07:29 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 		free_struct(ms);
 		return ;
 	}
+	if(check_if_redirections(ms))
+		handle_redirections(ms);
 	if (ms->heredoc == true)
 	{
 		if (dup2(ms->heredoc_file_descriptor, STDIN_FILENO) == -1)
@@ -119,11 +121,13 @@ void	minishell(t_ms *ms)
 		i++;
 	}
 	i = 0;
-	if (check_if_redirections(ms))
+	while (ms->split_commands[i])
 	{
-		handle_redirections(ms);
-		// free_struct(ms);
+		if (ms->split_commands[i][0] == '<' && ms->split_commands[i][1] == '<')
+			handle_double_input(ms, i);
+		i++;
 	}
+	i = 0;
 	token = ms->head;
 	while (ms->split_pipes[i])
 	{
