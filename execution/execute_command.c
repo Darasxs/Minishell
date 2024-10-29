@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 12:16:58 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:07:53 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*find_path(char *path, t_ms *ms)
 		ms->full_path = malloc(ft_strlen(ms->split_env[i]) + ft_strlen(path)
 				+ 2);
 		if (!ms->full_path)
-			return (free(ms->full_path), NULL);
+			return (NULL);
 		ft_strlcpy(ms->full_path, ms->split_env[i], ft_strlen(ms->split_env[i])
 			+ 1);
 		ft_strlcat(ms->full_path, "/", ft_strlen(ms->full_path) + 2);
@@ -68,7 +68,8 @@ void	execute_command(t_ms *ms)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(ms->split_commands[0], 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
-			exit(1);
+			ms->exit_status = 1;
+			exit(ms->exit_status);
 		}
 		ms->split_env = ft_split(ms->env, ':');
 		if (!ms->split_env)
@@ -92,7 +93,9 @@ void	execute_command(t_ms *ms)
 		}
 		else if (!ms->path)
 		{
-			wrong_command(ms->split_commands[0], ms);
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(ms->split_commands[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
 			return ;
 		}
 		else if (execve(ms->path, ms->split_commands, ms->env_copy) == -1)
@@ -103,7 +106,11 @@ void	execute_command(t_ms *ms)
 				ms->exit_status = 126;
 			else
 				ms->exit_status = 1;
-			ft_error("Execution failed", ms);
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(ms->split_commands[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
+			//exit(ms->exit_status + 1);
+			exit(ms->exit_status);
 		}
 		free(ms->path);
 	}
@@ -158,8 +165,6 @@ void	increment_shlvl(t_ms *ms)
 
 void	execute_program_name(t_ms *ms)
 {
-	if (access(ms->split_commands[0], F_OK) == -1)
-		return (ft_putstr_fd("minishell: No such file or directory\n", 2));
 	if (access(ms->split_commands[0], X_OK) == 0)
 	{
 		if (ft_strncmp(ms->split_commands[0], "./minishell", 12) == 0
@@ -174,11 +179,17 @@ void	execute_program_name(t_ms *ms)
 				ms->exit_status = 126;
 			else
 				ms->exit_status = 1;
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(ms->split_commands[0], 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+			exit(ms->exit_status);
 		}
 	}
 	else
 	{
-		ft_putstr_fd("minishell: ./ls: No such file or directory\n", 2);
-		ms->exit_status = 1;
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(ms->split_commands[0], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		ms->exit_status = 127;
 	}
 }

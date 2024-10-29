@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:52:47 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 18:26:15 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:45:31 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@ void	prompt_helper(char **cwd, char **user_name, t_ms *ms)
 	*cwd = getcwd(NULL, 0);
 	if (!*cwd)
 	{
+		ft_putstr_fd("Error while finding the current working directory\n", 2);
 		ms->exit_status = 1;
-		ft_error("Error while finding the current working directory\n", ms);
+		exit(ms->exit_status);
 	}
 	*user_name = ft_getenv("USER", ms);
 	if (!*user_name)
 	{
+		ft_putstr_fd("Error while finding the user name\n", 2);
 		ms->exit_status = 1;
-		ft_error("Error while finding the user name\n", ms);
+		exit(ms->exit_status);
 	}
 }
 

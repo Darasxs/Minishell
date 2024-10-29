@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:04:37 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 12:23:02 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 14:49:26 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,14 @@ void	export_builtin(t_ms *ms)
 			}
 			else
 			{
-				if (ms->split_commands[i][1] == '-')
+				if (ms->split_commands[i][0] == '-')
+				{
 					ft_putstr_fd("minishell: export: --: invalid option\n", 2);
+					ft_putstr_fd("export: usage: export [-nf] [name[=value] ...] or export -p\n", 2);
+					ms->exit_status = 2;
+				}
 				else
-					ft_putstr_fd("minishell: export: -: invalid option\n", 2);
-				ft_putstr_fd("export: usage: export [-nf] [name[=value] ...] or export -p\n", 2);
-				ms->exit_status = 2;
+					ms->exit_status = 0;
 				return ;
 			}
 			//else if (ms->split_commands[i][0] == '-')

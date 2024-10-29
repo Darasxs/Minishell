@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 12:17:32 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:10:07 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 		else
 			execute_command(ms);
 	}
-	exit(0);
+	exit(ms->exit_status);
 }
 
 void	handle_parent_process(t_ms *ms, int i, int *input_fd, int *fd)

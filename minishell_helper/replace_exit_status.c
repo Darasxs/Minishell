@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 17:55:16 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/23 17:03:01 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:25:42 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	handle_exit_code(t_ms *ms, size_t i)
 			check_for_sign(ms, i, &j, &k);
 	}
 	ms->exit_code[k] = '\0';
-	free(ms->split_commands[i]);
+	//free(ms->split_commands[i]);
 	ms->split_commands[i] = ms->exit_code;
 	free(exit_status_str);
 }

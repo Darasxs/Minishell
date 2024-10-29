@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 22:46:58 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 12:14:46 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:18:43 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	check_for_int(char *str)
 	minus = 0;
 	if (str[i] == '\0')
 		return (1);
+	if (str[i] == '+')
+		i++;
 	while (str[i])
 	{
 		if (str[i] == '-')
@@ -64,6 +66,6 @@ void	exit_builtin(t_ms *ms)
 		ms->split_commands[1] = ft_strdup("0");
 	else
 		check_exit_args(ms);
-	ft_putstr_fd("exit\n", 1);
+	ft_putstr_fd("exit\n", 2);
 	exit(ms->exit_status);
 }

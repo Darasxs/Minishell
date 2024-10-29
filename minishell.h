@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/29 12:13:48 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:49:39 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ t_token				*join_pipes(t_ms *ms, t_token *token, int i);
 void				free_split(char **split);
 void				free_struct(t_ms *ms);
 void				ft_error(char *str, t_ms *ms);
-void				wrong_command(char *info, t_ms *ms);
 void				cleanup(t_ms *ms);
 void				free_list(t_ms *ms, t_token *token);
 char				**envp_init(char **envp);

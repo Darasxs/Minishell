@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_double_output.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:05 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/27 11:18:51 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:39:34 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,18 @@ void	handle_double_output(t_ms *ms, size_t i)
 	file_descriptor = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (file_descriptor == -1)
 	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(ms->split_commands[i + 1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		ms->exit_status = 1;
-		ft_error("minishell: syntax error near unexpected token `newline''", ms);
+		exit(ms->exit_status);
 	}
 	if (dup2(file_descriptor, STDOUT_FILENO) == -1)
 	{
 		close(file_descriptor);
+		ft_putstr_fd("Error with file descriptor in '>>'\n", 2);
 		ms->exit_status = 1;
-		ft_error("Error with file descriptor in '>>'", ms);
+		exit(ms->exit_status);
 	}
 	close(file_descriptor);
 }

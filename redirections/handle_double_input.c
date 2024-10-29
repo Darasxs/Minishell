@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_double_input.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:02 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/28 21:27:48 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:39:13 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	handle_double_input(t_ms *ms, size_t i)
 	ms->heredoc_file_descriptor = open(temp_filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (ms->heredoc_file_descriptor == -1)
 	{
-		write(2, "Error openin heredoc temporary file.\n", 38);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(ms->split_commands[i + 1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		ms->exit_status = 1;
 		return ;
 	}
 	while (1)
@@ -39,7 +42,7 @@ void	handle_double_input(t_ms *ms, size_t i)
 		if (ft_strncmp(buffer, eof_delimiter, ft_strlen(eof_delimiter)) == 0
 			&& ft_strlen(buffer) == ft_strlen(eof_delimiter))
 			break ;
-		
+
 		write(ms->heredoc_file_descriptor, buffer, ft_strlen(buffer));
 		write(ms->heredoc_file_descriptor, "\n", 1);
 	}
@@ -47,9 +50,10 @@ void	handle_double_input(t_ms *ms, size_t i)
 	ms->heredoc_file_descriptor = open(temp_filename, O_RDONLY);
 	if (ms->heredoc_file_descriptor == -1)
 	{
-		write(STDERR_FILENO,
-			"Error opening heredoc temporary file for reading\n", 50);
-		return ;
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(ms->split_commands[i + 1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		ms->exit_status = 1;
 	}
 	//if (dup2(ms->heredoc_file_descriptor, STDIN_FILENO) == -1)
 	//{
@@ -60,6 +64,6 @@ void	handle_double_input(t_ms *ms, size_t i)
 	//}
 	//ms->heredoc = false;
 	unlink(temp_filename);
-	
+
 	//execute_command(ms);
 }

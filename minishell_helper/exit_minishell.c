@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 12:17:16 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:49:36 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,6 @@ void	ft_error(char *str, t_ms *ms)
 	printf("%s\n", str);
 	free_struct(ms);
 	exit(ms->exit_status);
-}
-
-void	wrong_command(char *info, t_ms *ms)
-{
-	if (info)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(info, 2);
-	}
-	ft_putstr_fd(": command not found\n", 2);
-	free_struct(ms);
-	ms->exit_status = 127;
 }
 
 void	cleanup(t_ms *ms)

@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 19:26:45 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 12:26:49 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:22:38 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 bool	syntax_check(t_ms *ms, t_token *token)
 {
-	//if (token->value[0] == '>' || token->value[0] == '<')
-	//{
-	//	if (!token->next->value || (token->next->value[0] != '<'
-	//			&& token->next->value[0] != '>'))
-	//		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-	//	else
-	//	{
-	//		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-	//		ft_putstr_fd(token->value, 2);
-	//		ft_putstr_fd("'\n", 2);
-	//	}
-	//	ms->exit_status = 2;
-	//	return (false);
-	//}
-	if (token->value[0] == '|')
+	if ((token->value[0] == '>' || token->value[0] == '<') && (!token->next->value || token->next->value[0] == '>' || token->next->value[0] == '<'))
+	{
+		if (!token->next->value || (token->next->value[0] != '<'
+				&& token->next->value[0] != '>'))
+			ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+		else
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+			ft_putstr_fd(token->value, 2);
+			ft_putstr_fd("'\n", 2);
+		}
+		ms->exit_status = 2;
+		return (false);
+	}
+	else if (token->value[0] == '|')
 	{
 		if (token->value[0] == '|' && token->next->value
 			&& token->next->value[0] == '|')

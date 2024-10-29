@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:54:20 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 12:14:12 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 15:43:41 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,14 @@ void	cd_home(t_ms *ms)
 	if (!ms->env)
 	{
 		ms->exit_status = 1;
-		ft_error("minishell: cd: HOME not set\n", ms);
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		exit(ms->exit_status);
 	}
 	if (chdir(ms->env) != 0)
 	{
 		ms->exit_status = 1;
-		ft_error("minishell: error while finding the HOME directory\n", ms);
+		ft_putstr_fd("minishell: error while finding the HOME directory\n", 2);
+		exit(ms->exit_status);
 	}
 	ms->first_iteration = false;
 }
