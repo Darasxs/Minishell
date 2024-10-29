@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 12:07:29 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:17:32 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	execute_pipe_commands(t_ms *ms, int *input_fd, int i)
 	check_exit_code(ms);
 	if (check_cd_and_unset(ms))
 		handle_cd_and_unset(ms, i, input_fd, fd);
+	else if (ft_strncmp(ms->split_commands[0], "exit", 5) == 0)
+		exit_builtin(ms);
 	else
 	{
 		pid = fork();

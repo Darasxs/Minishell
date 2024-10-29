@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/28 18:15:38 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:13:48 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ void				replace_exit_status(t_ms *ms, char *exit_status_str,
 void				check_for_sign(t_ms *ms, size_t i, size_t *j, size_t *k);
 void				handle_exit_code(t_ms *ms, size_t i);
 void				check_exit_code(t_ms *ms);
-void				print_fd(char *str1, char *str2, char *str3);
 
 //	parsing:
 t_token				*token_init(t_ms *ms);

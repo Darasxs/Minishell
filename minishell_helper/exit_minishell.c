@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 20:00:01 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:17:16 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,4 @@ void	free_list(t_ms *ms, t_token *token)
 			token = token->next;
 	}
 	free(token);
-}
-
-void	print_fd(char *str1, char *str2, char *str3)
-{
-	if (str1)
-		ft_putstr_fd(str1, 2);
-	if (str2)
-		ft_putstr_fd(str1, 2);
-	if (str3)
-		ft_putstr_fd(str3, 2);
 }

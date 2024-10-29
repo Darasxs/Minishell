@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 03:23:28 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 18:14:19 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:14:34 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,20 @@
 
 void	echo_newline(t_ms *ms, t_token *token, size_t i)
 {
-	while (token->value && token->value[0] == '-' && token->value[1] == 'n')
+	size_t	j;
+
+	(void)token;
+	while (ms->split_commands[i])
 	{
+		j = 1;
+		while (ms->split_commands[i][j] && ms->split_commands[i][j] == 'n')
+			j++;
+		if (ms->split_commands[i][j])
+			break;
 		i++;
-		token = token->next;
 	}
+	if (!ms->split_commands[i])
+		return ;
 	while (ms->split_commands[i + 1])
 	{
 		printf("%s ", ms->split_commands[i]);
@@ -79,10 +88,13 @@ void	echo_single_q(t_ms *ms)
 		j = 0;
 		while (ms->split_commands[i][j] && ms->split_commands[i][j] != '>')
 		{
-			if (ms->split_commands[i][j] != '\'')
+			if (ms->split_commands[i][0] == '~')
+				printf("%s", ft_getenv("HOME", ms));
+			else if (ms->split_commands[i][j] != '\'')
 				printf("%c", ms->split_commands[i][j]);
 			j++;
 		}
+		printf(" ");
 		i++;
 	}
 	printf("\n");

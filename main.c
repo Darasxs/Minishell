@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/28 18:32:49 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:13:29 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,12 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 
 	if (ac != 1)
-		return (print_fd("minishell: ", av[1], ": No such file or directory\n"), 1);
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(av[1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (1);
+	}
 	ms = minishell_init(envp);
 	setup_termios();
 	if (setup_sigint() != 0 || setup_sigquit_ignore() != 0)
@@ -36,7 +41,7 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 		}
 		if (!ms->input)
-			return (ms->exit_status);
+			return (printf("exit\n"), ms->exit_status);
 		else if (ms->input[0] != '\0' && ms->input[0] != ' ')
 		{
 			add_history(ms->input);
