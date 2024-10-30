@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:06 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/29 15:38:56 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:47:13 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	handle_single_input(t_ms *ms, size_t i)
 	if (dup2(file_descriptor, STDIN_FILENO) == -1)
 	{
 		close(file_descriptor);
-		ms->exit_status = 1;
+		//ms->exit_status = 1;
 		exit(ms->exit_status);
 	}
 	close(file_descriptor);

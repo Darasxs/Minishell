@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:27:39 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 12:15:46 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:49:54 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	handle_cd_and_unset(t_ms *ms, int i, int *input_fd, int *fd)
 		export_builtin(ms);
 	if (ms->split_pipes[i + 1])
 	{
-		close(fd[1]);
+		if (fd[1] != -1)
+			close(fd[1]);
 		*input_fd = fd[0];
 	}
 }
@@ -43,7 +44,8 @@ void	handle_builtins(t_ms *ms, int i, int *input_fd, int *fd)
 		handle_redirections(ms);
 	if (ms->split_pipes[i + 1])
 	{
-		close(fd[1]);
+		if (fd[1] != -1)
+			close(fd[1]);
 		*input_fd = fd[0];
 	}
 	execute_builtin(ms);

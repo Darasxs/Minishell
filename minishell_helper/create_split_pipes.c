@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 17:06:32 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/23 17:00:03 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:44:14 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,10 @@ t_token	*join_pipes(t_ms *ms, t_token *token, int i)
 	ms->split_pipes[i] = malloc(sizeof(char) * (len + 1));
 	if (!ms->split_pipes[i])
 		ft_error("Error while allocating the memory\n", ms);
+	ms->split_pipes[i][0] = '\0';
 	while (token->value && token->value[0] != '|')
 	{
-		ft_strlcat(ms->split_pipes[i], token->value,
-			ft_strlen(token->value) + ft_strlen(ms->split_pipes[i])
-			+ 1);
+		ft_strlcat(ms->split_pipes[i], token->value, ft_strlen(ms->split_pipes[i]) + 1);
 		if (token->next->value && token->next->value[0] != '|')
 			ft_strlcat(ms->split_pipes[i], " ",
 				ft_strlen(ms->split_pipes[i]) + 2);

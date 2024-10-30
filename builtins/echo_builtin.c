@@ -6,17 +6,16 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 03:23:28 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 14:38:40 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:51:10 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	echo_newline(t_ms *ms, t_token *token, size_t i)
+void	echo_newline(t_ms *ms, size_t i)
 {
 	size_t	j;
 
-	(void)token;
 	while (ms->split_commands[i])
 	{
 		j = 1;
@@ -109,7 +108,7 @@ void	echo_builtin(t_ms *ms, t_token *token)
 		printf("%s\n", ft_getenv("HOME", ms));
 	else if (token->value[0] == '-' && token->value[1] == 'n'
 		&& token->next->value)
-		echo_newline(ms, token, 1);
+		echo_newline(ms, 1);
 	else if (ms->split_commands[1][0] == '$' && token->value[0] != '\'')
 	{
 		echo_env(ms);

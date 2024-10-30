@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:30:13 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 16:15:32 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:42:51 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ char	*ft_getenv(char *env, t_ms *ms)
 		if (ft_strncmp(env_variable, env, len) == 0)
 		{
 			j = 0;
-			while (ms->env_copy[i][j - 1] != '=')
+			while (ms->env_copy[i][j] != '=')
 				j++;
+			j++;
 			len = j;
 			while (ms->env_copy[i][len])
 				len++;
 			value = ft_substr(ms->env_copy[i], j, len);
+			free(env_variable);
 			return (value);
 		}
 		free(env_variable);

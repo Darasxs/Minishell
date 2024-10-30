@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/29 17:14:17 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:49:51 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,13 @@ void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 			dup2(*input_fd, STDIN_FILENO);
 			close(*input_fd);
 		}
-		if (ms->split_pipes[i + 1])
+		if (ms->split_pipes[i + 1] && fd[1] != -1)
 		{
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
 		}
-		close(fd[0]);
+		if (fd[0] != -1)
+			close(fd[0]);
 		if (check_builtin(ms))
 			handle_builtins(ms, i, input_fd, fd);
 		else
@@ -61,7 +62,8 @@ void	handle_parent_process(t_ms *ms, int i, int *input_fd, int *fd)
 {
 	if (ms->split_pipes[i + 1])
 	{
-		close(fd[1]);
+		if (fd[1] != -1)
+			close(fd[1]);
 		if (*input_fd != STDIN_FILENO)
 			close(*input_fd);
 		*input_fd = fd[0];
@@ -70,13 +72,14 @@ void	handle_parent_process(t_ms *ms, int i, int *input_fd, int *fd)
 	{
 		if (*input_fd != STDIN_FILENO)
 			close(*input_fd);
-		close(fd[0]);
+		if (fd[0] != -1)
+			close(fd[0]);
 	}
 }
 
 void	execute_pipe_commands(t_ms *ms, int *input_fd, int i)
 {
-	int		fd[2];
+	int		fd[2] = {-1, -1};
 	pid_t	pid;
 
 	if (ms->split_pipes[i + 1] && pipe(fd) == -1)

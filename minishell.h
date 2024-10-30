@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/29 17:14:12 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:55:16 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_minishell
 	char			**split_pipes;
 	bool			heredoc;
 	int				heredoc_file_descriptor;
+	char			*user_name;
 }					t_ms;
 
 //	utils:
@@ -88,7 +89,7 @@ char				*get_next_line(int fd);
 void				cd_home(t_ms *ms);
 void				cd_builtin(t_ms *ms);
 void				echo_builtin(t_ms *ms, t_token *token);
-void				echo_newline(t_ms *ms, t_token *token, size_t i);
+void				echo_newline(t_ms *ms, size_t i);
 void				echo_env(t_ms *ms);
 void				print_echo_env(t_ms *ms, size_t *k, size_t *l);
 void				echo_single_q(t_ms *ms);
@@ -149,6 +150,8 @@ t_token				*parsing(t_ms *ms);
 bool				syntax_check(t_ms *ms);
 int					get_token(t_ms *ms, t_token *token);
 int					get_word_token(t_ms *ms, t_token *token);
+bool				export_syntax_check(t_ms *ms);
+bool				unset_syntax_check(t_ms *ms);
 
 //	redirections:
 void				handle_single_output(t_ms *ms, size_t i);

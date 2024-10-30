@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 15:28:03 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/25 18:16:42 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:43:46 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	remove_quotes(t_ms *ms, int split)
 		i++;
 	}
 	free(ms->split_commands[split]);
-	new_command[len + 1] = '\0';
+	new_command[len] = '\0';
 	ms->split_commands[split] = new_command;
 }
 
