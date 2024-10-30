@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/30 15:49:51 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/30 20:43:59 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 		free_struct(ms);
 		return ;
 	}
-	if(check_if_redirections(ms))
-		handle_redirections(ms);
+	//if (check_if_redirections(ms))
+	//	handle_redirections(ms);
 	if (ms->heredoc == true)
 	{
+		dprintf(2, "filename: %s\n", ms->temp_filename);
 		if (dup2(ms->heredoc_file_descriptor, STDIN_FILENO) == -1)
 		{
 			write(STDERR_FILENO,
@@ -31,30 +32,25 @@ void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 			ms->heredoc_file_descriptor = -1;
 			return ;
 		}
-		execute_command(ms);
 		close(ms->heredoc_file_descriptor);
 		ms->heredoc_file_descriptor = -1;
 		ms->heredoc = false;
 	}
-	else
+	if (i > 0) // it means if it is the first pipe - but what if there is a heredoc first?
 	{
-		if (i > 0)
-		{
-			dup2(*input_fd, STDIN_FILENO);
-			close(*input_fd);
-		}
-		if (ms->split_pipes[i + 1] && fd[1] != -1)
-		{
-			dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
-		}
-		if (fd[0] != -1)
-			close(fd[0]);
-		if (check_builtin(ms))
-			handle_builtins(ms, i, input_fd, fd);
-		else
-			execute_command(ms);
+		dup2(*input_fd, STDIN_FILENO);
+		close(*input_fd);
 	}
+	if (ms->split_pipes[i + 1])
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+	}
+	close(fd[0]);
+	if (check_builtin(ms))
+		handle_builtins(ms, i, input_fd, fd);
+	else
+		execute_command(ms);
 	exit(ms->exit_status);
 }
 
@@ -62,8 +58,7 @@ void	handle_parent_process(t_ms *ms, int i, int *input_fd, int *fd)
 {
 	if (ms->split_pipes[i + 1])
 	{
-		if (fd[1] != -1)
-			close(fd[1]);
+		close(fd[1]);
 		if (*input_fd != STDIN_FILENO)
 			close(*input_fd);
 		*input_fd = fd[0];
@@ -72,14 +67,13 @@ void	handle_parent_process(t_ms *ms, int i, int *input_fd, int *fd)
 	{
 		if (*input_fd != STDIN_FILENO)
 			close(*input_fd);
-		if (fd[0] != -1)
-			close(fd[0]);
+		close(fd[0]);
 	}
 }
 
 void	execute_pipe_commands(t_ms *ms, int *input_fd, int i)
 {
-	int		fd[2] = {-1, -1};
+	int		fd[2];
 	pid_t	pid;
 
 	if (ms->split_pipes[i + 1] && pipe(fd) == -1)
@@ -129,7 +123,11 @@ void	minishell(t_ms *ms)
 	while (ms->split_commands[i])
 	{
 		if (ms->split_commands[i][0] == '<' && ms->split_commands[i][1] == '<')
+		{
 			handle_double_input(ms, i);
+			ms->heredoc_counter++;
+			dprintf(2, "filename: %s\n", ms->temp_filename);
+		}
 		i++;
 	}
 	i = 0;

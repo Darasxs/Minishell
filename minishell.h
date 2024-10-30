@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/30 17:55:16 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/30 20:46:30 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ typedef struct s_minishell
 	char			**split_pipes;
 	bool			heredoc;
 	int				heredoc_file_descriptor;
+	char			*temp_filename;
+	int				heredoc_counter;
 	char			*user_name;
 }					t_ms;
 
@@ -169,6 +171,5 @@ int					setup_sigint_ignore(void);
 int					setup_sigquit(void);
 int					setup_sigquit_ignore(void);
 void				setup_termios(void);
-
 
 #endif
