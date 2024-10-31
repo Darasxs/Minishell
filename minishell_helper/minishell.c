@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/31 17:59:36 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:27:11 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	execute_pipe_commands(t_ms *ms, int *input_fd, int i)
 	int		fd[2];
 	pid_t	pid;
 
+	fd[0] = -1;
+	fd[1] = -1;
 	if (ms->split_pipes[i + 1] && pipe(fd) == -1)
 		ft_error("Error occurred while creating a pipe\n", ms);
 	check_exit_code(ms);

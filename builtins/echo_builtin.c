@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 03:23:28 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/30 15:51:10 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:17:04 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	echo_newline(t_ms *ms, size_t i)
 		while (ms->split_commands[i][j] && ms->split_commands[i][j] == 'n')
 			j++;
 		if (ms->split_commands[i][j])
-			break;
+			break ;
 		i++;
 	}
 	if (!ms->split_commands[i])
@@ -56,10 +56,11 @@ void	echo_env(t_ms *ms)
 	i = 1;
 	while (ms->split_commands[i] && ms->split_commands[i][0] == '$')
 	{
+		free(ms->split_commands[i]);
 		ms->split_commands[i] = ft_substr(ms->split_commands[i], 1,
 				ft_strlen(ms->split_commands[i]) + 1);
 		k = 0;
-		while (ms->env_copy[k][l])
+		while (ms->env_copy[k])
 		{
 			l = 0;
 			while (ms->env_copy[k][l] != '=')
@@ -69,8 +70,7 @@ void	echo_env(t_ms *ms)
 				print_echo_env(ms, &k, &l);
 				break ;
 			}
-			else
-				k++;
+			k++;
 		}
 		i++;
 	}

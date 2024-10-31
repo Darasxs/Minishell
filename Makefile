@@ -6,7 +6,7 @@
 #    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/10/25 19:38:51 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/10/31 18:15:43 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,8 @@ SOURCE		=	minishell_helper/minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				builtins/exit_builtin.c minishell_helper/create_split_pipes.c \
 				utils/ft_strjoin.c utils/ft_strnstr.c utils/ft_strrchr.c utils/ft_strtrim.c \
 				utils/ft_substr.c utils/ft_itoa.c utils/ft_strdup.c parsing/parsing.c \
-				utils/ft_strchr.c minishell_helper/minishell_init.c \
-				execution/execute_command.c minishell_helper/prompt.c \
+				utils/ft_strchr.c minishell_helper/minishell_init.c parsing/pipes_check.c \
+				execution/execute_command.c minishell_helper/prompt.c minishell_helper/increment_shlvl.c \
 				builtins/echo_builtin.c execution/builtins.c minishell_helper/replace_exit_status.c \
 				utils/ft_atoi.c redirections/redirections.c redirections/handle_single_output.c \
 				redirections/handle_double_output.c redirections/handle_single_input.c \

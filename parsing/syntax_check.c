@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 19:26:45 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/30 18:03:51 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:20:56 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ bool	export_syntax_check(t_ms *ms)
 			ft_putstr_fd("minishell: export: --: invalid option\n", 2);
 		else
 			ft_putstr_fd("minishell: export: -: invalid option\n", 2);
-		ft_putstr_fd("minishell: usage: export [-nf] [name[=value] ...] or export-p\n", 2);
+		ft_putstr_fd("minishell: usage: export [-nf] [name[=value] ...] or export-p\n",
+			2);
 		ms->exit_status = 2;
 		return (false);
 	}
@@ -56,6 +57,28 @@ bool	export_syntax_check(t_ms *ms)
 		}
 		i++;
 	}
+	i = 1;
+	while (ms->split_commands[i])
+	{
+		if ((ms->split_commands[i][0] >= '0' && ms->split_commands[i][0] <= '9')
+			|| ms->split_commands[i][0] == '=')
+		{
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(ms->split_commands[i], 2);
+			ft_putstr_fd("\': not a valid identifier\n", 2);
+			ms->exit_status = 1;
+			return (false);
+		}
+		else if (ms->split_commands[i][0] == '-')
+		{
+			ft_putstr_fd("minishell: export: --: invalid option\n", 2);
+			ft_putstr_fd("export: usage: export [-nf] [name[=value] ...] or export-p\n",
+				2);
+			ms->exit_status = 2;
+			return (false);
+		}
+		i++;
+	}
 	return (true);
 }
 
@@ -63,14 +86,33 @@ bool	unset_syntax_check(t_ms *ms)
 {
 	int	i;
 
+	if (ms->split_commands[1] && (ms->split_commands[1][0] == '\0'
+			|| ms->split_commands[1][0] == '='
+			|| ms->split_commands[1][0] == '$'))
+	{
+		ft_putstr_fd("minishell: unset: `<': not a valid identifier\n", 2);
+		ft_putstr_fd("minishell: unset: `>': not a valid identifier\n", 2);
+		ms->exit_status = 1;
+		return (false);
+	}
+	else if (ms->split_commands[1] && ms->split_commands[1][0] == '?'
+		&& ms->split_commands[1][1] == '\0')
+	{
+		ft_putstr_fd("minishell: unset: `", 2);
+		ft_putstr_fd(ms->split_commands[1], 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		ms->exit_status = 1;
+		return (false);
+	}
 	i = 0;
 	if (ms->split_commands[1][i] == '-')
 	{
 		if (i == 1 && ms->split_commands[1][i] == '-')
-			ft_putstr_fd("minishell: export: --: invalid option\n", 2);
+			ft_putstr_fd("minishell: unset: --: invalid option\n", 2);
 		else
-			ft_putstr_fd("minishell: export: -: invalid option\n", 2);
-		ft_putstr_fd("minishell: usage: export [-nf] [name[=value] ...] or export-p\n", 2);
+			ft_putstr_fd("minishell: unset: -: invalid option\n", 2);
+		ft_putstr_fd("minishell: usage: unset [-nf] [name[=value] ...] or unset-p\n",
+			2);
 		ms->exit_status = 2;
 		return (false);
 	}
@@ -88,7 +130,7 @@ bool	unset_syntax_check(t_ms *ms)
 			|| ms->split_commands[1][i] == '~'
 			|| ms->split_commands[1][i] == '=')
 		{
-			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd("minishell: unset: `", 2);
 			ft_putstr_fd(ms->split_commands[1], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
 			ms->exit_status = 1;
@@ -170,7 +212,10 @@ bool	syntax_check(t_ms *ms)
 		|| (ms->split_commands[0][0] == '>' && ms->split_commands[1]
 			&& ms->split_commands[1][1] == '>'))
 	{
-		ms->exit_status = 0;
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(ms->split_commands[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		ms->exit_status = 127;
 		return (false);
 	}
 	else if (ms->split_commands[0][0] == '>' || ms->split_commands[0][0] == '<')
@@ -186,7 +231,10 @@ bool	syntax_check(t_ms *ms)
 		i--;
 		if (ms->split_commands[i][0] == '>' || ms->split_commands[i][0] == '<')
 		{
-			ms->exit_status = 0;
+			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+			ft_putstr_fd(&ms->split_commands[i][0], 2);
+			ft_putstr_fd("'\n", 2);
+			ms->exit_status = 2;
 			return (false);
 		}
 	}

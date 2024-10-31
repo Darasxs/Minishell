@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:52:47 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/30 14:54:15 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:27:18 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	prompt_helper(char **cwd, char **user_name, t_ms *ms)
 		ms->exit_status = 1;
 		exit(ms->exit_status);
 	}
+	//*user_name = ft_strdup("pawka"); uncomment for checking mem leaks
 	*user_name = ft_getenv("USER", ms);
 	if (!*user_name)
 	{
@@ -44,7 +45,7 @@ void	prompt(t_ms *ms)
 	split_cwd = ft_split(cwd, '/');
 	if (!split_cwd[0])
 	{
-		ms->prompt = malloc(5);
+		ms->prompt = malloc(sizeof(char) * (ft_strlen(user_name) + 8));
 		if (!ms->prompt)
 			ft_error("Error while allocating the memory\n", ms);
 		ft_strlcpy(ms->prompt, user_name, ft_strlen(user_name) + 1);
@@ -54,7 +55,8 @@ void	prompt(t_ms *ms)
 	{
 		while (split_cwd[i])
 			i++;
-		prompt_len = ft_strlen(user_name) + 3 + ft_strlen(split_cwd[i - 1]) + 3 + 1;
+		prompt_len = ft_strlen(user_name) + 3 + ft_strlen(split_cwd[i - 1]) + 3
+			+ 1;
 		ms->prompt = malloc(sizeof(char) * prompt_len);
 		if (!ms->prompt)
 			ft_error("Error while allocating the memory\n", ms);
@@ -65,7 +67,7 @@ void	prompt(t_ms *ms)
 	}
 	ms->input = readline(ms->prompt);
 	free(cwd);
-	//free(ms->prompt);
-	//free(ms->user_name);
-	//free_split(split_cwd);
+	free(ms->prompt);
+	free(ms->user_name);
+	free_split(split_cwd);
 }

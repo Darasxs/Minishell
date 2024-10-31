@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/30 15:45:49 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:15:20 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,7 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 
 	if (ac != 1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(av[1], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (1);
-	}
+		return (printf("minishell: %s: No such file or directory\n", av[1]), 1);
 	ms = minishell_init(envp);
 	setup_termios();
 	if (setup_sigint() != 0 || setup_sigquit_ignore() != 0)
@@ -41,15 +36,16 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 		}
 		if (!ms->input)
-			return (printf("exit\n"), ms->exit_status);
+			break ;
 		else if (ms->input[0] != '\0' && ms->input[0] != ' ')
 		{
 			add_history(ms->input);
 			ms->token = parsing(ms);
-			if (ms->token)
+			if (ms->token && pipes_check(ms, ms->token))
 				minishell(ms);
 			cleanup(ms);
 		}
 	}
+	// free here
 	return (ms->exit_status);
 }

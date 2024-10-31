@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/31 17:04:21 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/31 18:16:21 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ bool					check_builtin(t_ms *ms);
 bool					check_cd_and_unset(t_ms *ms);
 char					*find_path(char *path, t_ms *ms);
 void					execute_command(t_ms *ms);
-void					increment_shlvl(t_ms *ms);
 void					execute_program_name(t_ms *ms);
 char					*ft_getenv(char *env, t_ms *ms);
 
@@ -154,6 +153,8 @@ void					check_for_sign(t_ms *ms, size_t i, size_t *j,
 							size_t *k);
 void					handle_exit_code(t_ms *ms, size_t i);
 void					check_exit_code(t_ms *ms);
+void					increment_shlvl(t_ms *ms);
+void					update_shlvl(t_ms *ms, char *shlvl_str, size_t i);
 
 //	parsing:
 t_token					*token_init(t_ms *ms);
@@ -164,6 +165,7 @@ int						get_token(t_ms *ms, t_token *token);
 int						get_word_token(t_ms *ms, t_token *token);
 bool					export_syntax_check(t_ms *ms);
 bool					unset_syntax_check(t_ms *ms);
+bool					pipes_check(t_ms *ms, t_token *token);
 
 //	redirections:
 void					handle_single_output(t_ms *ms, size_t i);
