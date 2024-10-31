@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/30 20:43:59 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:59:36 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,39 @@
 
 void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 {
+	t_heredoc	*current_heredoc;
+	bool		heredoc_found;
+
 	if (setup_sigquit() != 0)
 	{
 		free_struct(ms);
 		return ;
 	}
-	//if (check_if_redirections(ms))
-	//	handle_redirections(ms);
-	if (ms->heredoc == true)
+	heredoc_found = false;
+	current_heredoc = ms->heredocs;
+	while (current_heredoc)
 	{
-		dprintf(2, "filename: %s\n", ms->temp_filename);
-		if (dup2(ms->heredoc_file_descriptor, STDIN_FILENO) == -1)
+		if (current_heredoc->pipe_index == i)
 		{
-			write(STDERR_FILENO,
-				"Error duplicating file descriptor for heredoc\n", 47);
-			close(ms->heredoc_file_descriptor);
-			ms->heredoc_file_descriptor = -1;
-			return ;
+			if (dup2(current_heredoc->fd, STDIN_FILENO) == -1)
+			{
+				write(STDERR_FILENO,
+					"Error duplicating file descriptor for heredoc\n", 47);
+				return ;
+			}
+			close(current_heredoc->fd);
+			heredoc_found = true;
+			break ;
 		}
-		close(ms->heredoc_file_descriptor);
-		ms->heredoc_file_descriptor = -1;
-		ms->heredoc = false;
+		current_heredoc = current_heredoc->next;
 	}
-	if (i > 0) // it means if it is the first pipe - but what if there is a heredoc first?
+	// Handle pipe input if no heredoc was found for this command
+	if (!heredoc_found && i > 0)
 	{
 		dup2(*input_fd, STDIN_FILENO);
 		close(*input_fd);
 	}
+	// Handle output redirection
 	if (ms->split_pipes[i + 1])
 	{
 		dup2(fd[1], STDOUT_FILENO);
@@ -97,6 +103,22 @@ void	execute_pipe_commands(t_ms *ms, int *input_fd, int i)
 			handle_parent_process(ms, i, input_fd, fd);
 	}
 }
+void	cleanup_heredocs(t_ms *ms)
+{
+	t_heredoc	*current;
+	t_heredoc	*next;
+
+	current = ms->heredocs;
+	while (current)
+	{
+		next = current->next;
+		close(current->fd);
+		free(current->filename);
+		free(current);
+		current = next;
+	}
+	ms->heredocs = NULL;
+}
 
 void	minishell(t_ms *ms)
 {
@@ -104,43 +126,48 @@ void	minishell(t_ms *ms)
 	int		input_fd;
 	size_t	i;
 	t_token	*token;
+	int		pipe_index;
 
 	input_fd = STDIN_FILENO;
-	i = 0;
 	token = ms->token;
+	// Create pipe split
 	create_split_pipes(ms, token);
 	if (setup_sigint_ignore() != 0)
 	{
 		free_struct(ms);
 		return ;
 	}
-	while (ms->split_pipes[i])
+	// Handle heredocs first
+	pipe_index = 0;
+	while (ms->split_pipes[pipe_index])
 	{
 		token = create_split_commands(ms, token);
-		i++;
-	}
-	i = 0;
-	while (ms->split_commands[i])
-	{
-		if (ms->split_commands[i][0] == '<' && ms->split_commands[i][1] == '<')
+		i = 0;
+		while (ms->split_commands[i])
 		{
-			handle_double_input(ms, i);
-			ms->heredoc_counter++;
-			dprintf(2, "filename: %s\n", ms->temp_filename);
+			if (ms->split_commands[i][0] == '<'
+				&& ms->split_commands[i][1] == '<')
+				handle_double_input(ms, i, pipe_index);
+			i++;
 		}
-		i++;
+		free_split(ms->split_commands);
+		pipe_index++;
 	}
+	// Execute commands
 	i = 0;
 	token = ms->head;
 	while (ms->split_pipes[i])
 	{
 		token = create_split_commands(ms, token);
 		if (!syntax_check(ms))
+		{
 			return ;
+		}
 		execute_pipe_commands(ms, &input_fd, i);
 		free_split(ms->split_commands);
 		i++;
 	}
+	// Wait for all processes
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
@@ -148,6 +175,7 @@ void	minishell(t_ms *ms)
 		else if (WIFSIGNALED(status))
 			ms->exit_status = 128 + WTERMSIG(status);
 	}
+	cleanup_heredocs(ms);
 	free_list(ms, ms->token);
 	if (setup_sigint() != 0)
 	{
