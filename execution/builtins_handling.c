@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 17:27:39 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/30 15:49:54 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/04 15:55:02 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	handle_builtins(t_ms *ms, int i, int *input_fd, int *fd)
 	}
 	execute_builtin(ms);
 }
+
 void	execute_builtin(t_ms *ms)
 {
 	if (!ms->split_commands[0])
@@ -60,7 +61,10 @@ void	execute_builtin(t_ms *ms)
 		echo_builtin(ms, ms->token->next);
 	else if (ft_strncmp(ms->split_commands[0], "pwd", 4) == 0)
 		pwd_builtin(ms);
+	else if (ft_strncmp(ms->split_commands[0], "env", 3) == 0)
+		env_builtin(ms);
 }
+
 bool	check_cd_and_unset(t_ms *ms)
 {
 	if (ft_strncmp(ms->split_commands[0], "cd", 3) == 0)
@@ -71,10 +75,13 @@ bool	check_cd_and_unset(t_ms *ms)
 		return (true);
 	return (false);
 }
+
 bool	check_builtin(t_ms *ms)
 {
 	if (!ms->split_commands[0])
 		return (false);
+	else if (ft_strncmp(ms->split_commands[0], "env", 3) == 0)
+		return (true);
 	else if (ft_strncmp(ms->split_commands[0], "unset", 6) == 0)
 		return (true);
 	else if (ft_strncmp(ms->split_commands[0], "exit", 5) == 0)

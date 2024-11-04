@@ -6,7 +6,7 @@
 #    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/10/31 18:15:43 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/11/04 19:02:13 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME		=	minishell
 
 SOURCE		=	minishell_helper/minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				utils/ft_strlcpy.c utils/ft_strlen.c utils/ft_strncmp.c \
-				minishell_helper/exit_minishell.c main.c builtins/cd_builtin.c \
+				minishell_helper/minishell_cleanup.c main.c builtins/cd_builtin.c \
 				builtins/env_builtin.c parsing/tokens.c parsing/syntax_check.c \
 				builtins/unset_builtin.c builtins/export_builtin.c signals/sigquit.c \
 				builtins/exit_builtin.c minishell_helper/create_split_pipes.c \
@@ -27,12 +27,13 @@ SOURCE		=	minishell_helper/minishell.c utils/ft_split.c utils/ft_strlcat.c \
 				utils/ft_substr.c utils/ft_itoa.c utils/ft_strdup.c parsing/parsing.c \
 				utils/ft_strchr.c minishell_helper/minishell_init.c parsing/pipes_check.c \
 				execution/execute_command.c minishell_helper/prompt.c minishell_helper/increment_shlvl.c \
-				builtins/echo_builtin.c execution/builtins.c minishell_helper/replace_exit_status.c \
+				builtins/echo_builtin.c execution/builtins_handling.c minishell_helper/replace_exit_status.c \
 				utils/ft_atoi.c redirections/redirections.c redirections/handle_single_output.c \
 				redirections/handle_double_output.c redirections/handle_single_input.c \
 				redirections/handle_double_input.c minishell_helper/create_split_commands.c \
 				signals/sigint.c signals/signals_helper.c signals/termios.c builtins/pwd_builtin.c \
-				get_next_line/get_next_line.c execution/ft_getenv.c utils/ft_putstr_fd.c
+				utils/get_next_line.c execution/ft_getenv.c utils/ft_putstr_fd.c parsing/syntax_helper.c \
+				parsing/expand_env.c execution/execute_program_name.c minishell_helper/heredoc_helper.c
 
 OBJECTS		=	$(SOURCE:.c=.o)
 
@@ -40,7 +41,7 @@ CC			=	gcc
 
 RM			=	rm -f
 
-FLAGS		=	-Wall -Wextra -Werror -g
+FLAGS		=	-Wall -Wextra -Werror
 
 LFLAGS		=	-lreadline
 

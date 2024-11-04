@@ -12,6 +12,23 @@
 
 #include "../minishell.h"
 
+bool	isatty_helper(t_ms *ms)
+{
+	char	*line;
+
+	if (isatty(fileno(stdin)))
+		prompt(ms);
+	else
+	{
+		line = get_next_line(fileno(stdin));
+		if (!line)
+			return (false);
+		ms->input = ft_strtrim(line, "\n");
+		free(line);
+	}
+	return (true);
+}
+
 char	**envp_init(char **envp)
 {
 	size_t	i;
@@ -49,28 +66,18 @@ t_ms	*minishell_init(char **envp)
 	if (!heredocs)
 		return (NULL);
 	ms->env_copy = envp_init(envp);
-	ms->split_env = NULL;
-	ms->prompt = NULL;
-	ms->input = NULL;
-	ms->path = NULL;
-	ms->env = NULL;
-	ms->full_path = NULL;
-	ms->exit_code = NULL;
 	ms->exit_status = 0;
 	ms->input_pos = 0;
 	ms->input_len = 0;
 	ms->single_q = 0;
 	ms->double_q = 0;
 	ms->token_count = 0;
-	ms->split_commands = NULL;
-	ms->split_pipes = NULL;
+	heredocs->pipe_index = 0;
+	ms->status = 0;
+	ms->heredoc_file_descriptor = -1;
+	heredocs->fd = -1;
 	ms->first_iteration = true;
 	ms->heredoc = false;
-	ms->heredoc_file_descriptor = -1;
-	ms->temp_filename = NULL;
 	ms->heredoc_found = false;
-	heredocs->filename = NULL;
-	heredocs->fd = -1;
-	heredocs->pipe_index = 0;
 	return (ms);
 }

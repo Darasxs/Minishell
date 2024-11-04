@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 15:30:13 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/31 18:18:06 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:11:14 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 char	*ft_getenv(char *env, t_ms *ms)
 {
-	char	*value;
-	char	*equal_pos;
 	int		i;
 	int		j;
 	int		len;
@@ -24,8 +22,7 @@ char	*ft_getenv(char *env, t_ms *ms)
 	i = 0;
 	while (ms->env_copy[i])
 	{
-		equal_pos = ft_strrchr(ms->env_copy[i], '=');
-		len = equal_pos - ms->env_copy[i];
+		len = ft_strrchr(ms->env_copy[i], '=') - ms->env_copy[i];
 		new = ft_substr(ms->env_copy[i], 0, len);
 		if (ft_strncmp(new, env, len) == 0)
 		{
@@ -35,9 +32,7 @@ char	*ft_getenv(char *env, t_ms *ms)
 			len = j + 1;
 			while (ms->env_copy[i][len])
 				len++;
-			value = ft_substr(ms->env_copy[i], j + 1, len);
-			free(new);
-			return (value);
+			return (free(new), ft_substr(ms->env_copy[i], j + 1, len));
 		}
 		free(new);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 15:28:03 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/31 18:18:47 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:14:39 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,13 @@ int	count_split_size(t_token *token)
 	return (word_count);
 }
 
-void	remove_quotes(t_ms *ms, int split)
+int	len_without_quotes(t_ms *ms, int split)
 {
-	int		i;
-	int		len;
-	char	*new_command;
+	int	len;
+	int	i;
 
-	i = 0;
 	len = 0;
+	i = 0;
 	while (ms->split_commands[split][i])
 	{
 		if (ms->split_commands[split][i] != '\"'
@@ -40,10 +39,19 @@ void	remove_quotes(t_ms *ms, int split)
 			len++;
 		i++;
 	}
-	i = 0;
-	new_command = malloc(sizeof(char) * (len + 1));
+	return (len + 1);
+}
+
+void	remove_quotes(t_ms *ms, int split)
+{
+	int		i;
+	int		len;
+	char	*new_command;
+
+	new_command = malloc(sizeof(char) * len_without_quotes(ms, split));
 	if (!new_command)
 		ft_error("Error while allocating the memory for new_env\n", ms);
+	i = 0;
 	len = 0;
 	while (ms->split_commands[split][i])
 	{

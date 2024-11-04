@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/11/04 11:50:51 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/11/04 19:27:34 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_minishell
 	char						*user_name;
 	t_heredoc					*heredocs;
 	bool						heredoc_found;
+	int							status;
 }								t_ms;
 
 //	utils:
@@ -105,7 +106,6 @@ void							cd_builtin(t_ms *ms);
 void							echo_builtin(t_ms *ms, t_token *token);
 void							echo_newline(t_ms *ms, size_t i);
 void							echo_env(t_ms *ms);
-void							print_echo_env(t_ms *ms, size_t *k, size_t *l);
 void							echo_single_q(t_ms *ms);
 void							env_builtin(t_ms *ms);
 void							check_exit_args(t_ms *ms);
@@ -164,6 +164,10 @@ void							check_exit_code(t_ms *ms);
 void							increment_shlvl(t_ms *ms);
 void							update_shlvl(t_ms *ms, char *shlvl_str,
 									size_t i);
+bool							isatty_helper(t_ms *ms);
+void							cleanup_heredocs(t_ms *ms);
+void							heredoc_setup(t_ms *ms, int i);
+void							double_input_check(t_ms *ms);
 
 //	parsing:
 t_token							*token_init(t_ms *ms);
@@ -175,6 +179,12 @@ int								get_word_token(t_ms *ms, t_token *token);
 bool							export_syntax_check(t_ms *ms);
 bool							unset_syntax_check(t_ms *ms);
 bool							pipes_check(t_ms *ms, t_token *token);
+void							expand_env(t_ms *ms);
+void							export_error(t_ms *ms, bool flag);
+void							unset_error(t_ms *ms, bool flag);
+void							syntax_error(t_ms *ms, bool flag);
+bool							export_helper(t_ms *ms, int i);
+bool							unset_helper(t_ms *ms, int i);
 
 //	redirections:
 void							handle_single_output(t_ms *ms, size_t i);

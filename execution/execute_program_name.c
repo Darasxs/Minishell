@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_single_input.c                              :+:      :+:    :+:   */
+/*   execute_program_name.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 12:45:06 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/11/04 18:11:24 by paprzyby         ###   ########.fr       */
+/*   Created: 2024/11/04 16:00:06 by paprzyby          #+#    #+#             */
+/*   Updated: 2024/11/04 16:07:58 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_single_input(t_ms *ms, size_t i)
+void	execute_program_name(t_ms *ms)
 {
-	char	*filename;
-	int		file_descriptor;
-
-	filename = ms->split_commands[i + 1];
-	file_descriptor = open(filename, O_RDONLY);
-	if (file_descriptor == -1)
+	if (ft_strncmp(ms->split_commands[0], "./minishell", 12) == 0
+		|| (ft_strncmp(ms->split_commands[0], "bash", 5) == 0))
+		increment_shlvl(ms);
+	if (execve(ms->split_commands[0], ms->split_commands, ms->env_copy)
+		== -1)
 	{
+		if (errno == ENOENT)
+			ms->exit_status = 127;
+		else if (errno == EACCES)
+			ms->exit_status = 126;
+		else
+			ms->exit_status = 1;
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(ms->split_commands[i + 1], 2);
+		ft_putstr_fd(ms->split_commands[0], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		ms->exit_status = 1;
 		exit(ms->exit_status);
 	}
-	if (dup2(file_descriptor, STDIN_FILENO) == -1)
-	{
-		close(file_descriptor);
-		exit(ms->exit_status);
-	}
-	close(file_descriptor);
 }

@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/31 18:26:32 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:15:33 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	cleanup(t_ms *ms)
 	ms->first_iteration = true;
 	ms->input_pos = 0;
 	ms->token_count = 0;
-	if (ms->split_pipes)
-		free_split(ms->split_pipes);
+	// if (ms->split_pipes)
+	//	free_split(ms->split_pipes);
 }
 
 void	free_list(t_ms *ms, t_token *token)
