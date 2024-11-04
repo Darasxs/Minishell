@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:02 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/31 17:57:34 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:58:39 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@
 
 void	handle_double_input(t_ms *ms, size_t command_index, int pipe_index)
 {
-	t_heredoc	*new_heredoc;
-	char		*eof_delimiter;
-	char		*buffer;
-	char		*temp_base;
-	char		*index_str;
-
+	t_heredoc		*new_heredoc;
+	char			*eof_delimiter;
+	char			*buffer;
+	char			*temp_base;
+	char			*index_str;
 
 	new_heredoc = malloc(sizeof(t_heredoc));
 	if (!new_heredoc)
@@ -56,6 +55,11 @@ void	handle_double_input(t_ms *ms, size_t command_index, int pipe_index)
 		return ;
 	}
 	eof_delimiter = ms->split_commands[command_index + 1];
+	if (setup_sigint_ignore() != 0 || setup_sigquit_ignore() != 0)
+	{
+		free_struct(ms);
+		return ;
+	}
 	while (1)
 	{
 		buffer = readline("> ");

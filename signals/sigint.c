@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sigint.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 18:04:10 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/23 18:04:45 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:51:45 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	setup_sigint(void)
 	}
 	return (0);
 }
-
 int	setup_sigint_ignore(void)
 {
 	struct sigaction	sigint;

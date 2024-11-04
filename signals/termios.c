@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 12:54:08 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/27 11:08:48 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:46:34 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,5 @@ void	setup_termios(void)
 	term.c_lflag &= ~ECHOCTL;
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
 		return ;
+	
 }

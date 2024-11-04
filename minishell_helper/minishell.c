@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/31 18:27:11 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:58:53 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 {
 	t_heredoc	*current_heredoc;
-	bool		heredoc_found;
 
 	if (setup_sigquit() != 0)
 	{
 		free_struct(ms);
 		return ;
 	}
-	heredoc_found = false;
+	ms->heredoc_found = false;
 	current_heredoc = ms->heredocs;
 	while (current_heredoc)
 	{
@@ -35,18 +34,18 @@ void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 				return ;
 			}
 			close(current_heredoc->fd);
-			heredoc_found = true;
+			ms->heredoc_found = true;
 			break ;
 		}
 		current_heredoc = current_heredoc->next;
 	}
-	// Handle pipe input if no heredoc was found for this command
-	if (!heredoc_found && i > 0)
+	if (check_if_redirections(ms))
+		handle_redirections(ms);
+	if (!ms->heredoc_found && i > 0)
 	{
 		dup2(*input_fd, STDIN_FILENO);
 		close(*input_fd);
 	}
-	// Handle output redirection
 	if (ms->split_pipes[i + 1])
 	{
 		dup2(fd[1], STDOUT_FILENO);
@@ -132,14 +131,12 @@ void	minishell(t_ms *ms)
 
 	input_fd = STDIN_FILENO;
 	token = ms->token;
-	// Create pipe split
 	create_split_pipes(ms, token);
 	if (setup_sigint_ignore() != 0)
 	{
 		free_struct(ms);
 		return ;
 	}
-	// Handle heredocs first
 	pipe_index = 0;
 	while (ms->split_pipes[pipe_index])
 	{
@@ -155,21 +152,17 @@ void	minishell(t_ms *ms)
 		free_split(ms->split_commands);
 		pipe_index++;
 	}
-	// Execute commands
 	i = 0;
 	token = ms->head;
 	while (ms->split_pipes[i])
 	{
 		token = create_split_commands(ms, token);
 		if (!syntax_check(ms))
-		{
 			return ;
-		}
 		execute_pipe_commands(ms, &input_fd, i);
 		free_split(ms->split_commands);
 		i++;
 	}
-	// Wait for all processes
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))

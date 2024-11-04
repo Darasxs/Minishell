@@ -68,6 +68,7 @@ t_ms	*minishell_init(char **envp)
 	ms->heredoc = false;
 	ms->heredoc_file_descriptor = -1;
 	ms->temp_filename = NULL;
+	ms->heredoc_found = false;
 	heredocs->filename = NULL;
 	heredocs->fd = -1;
 	heredocs->pipe_index = 0;
