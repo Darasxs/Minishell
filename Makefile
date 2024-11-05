@@ -6,7 +6,7 @@
 #    By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 12:15:39 by paprzyby          #+#    #+#              #
-#    Updated: 2024/11/04 19:02:13 by paprzyby         ###   ########.fr        #
+#    Updated: 2024/11/05 19:42:03 by paprzyby         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ COLOUR_END		=	\033[0m
 NAME		=	minishell
 
 SOURCE		=	minishell_helper/minishell.c utils/ft_split.c utils/ft_strlcat.c \
-				utils/ft_strlcpy.c utils/ft_strlen.c utils/ft_strncmp.c \
+				utils/ft_strlcpy.c utils/ft_strlen.c utils/ft_strncmp.c parsing/syntax_helper2.c \
 				minishell_helper/minishell_cleanup.c main.c builtins/cd_builtin.c \
 				builtins/env_builtin.c parsing/tokens.c parsing/syntax_check.c \
 				builtins/unset_builtin.c builtins/export_builtin.c signals/sigquit.c \

@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/05 19:10:38 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 19:29:13 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,8 @@ void	minishell(t_ms *ms)
 	create_split_pipes(ms, token);
 	if (setup_sigint_ignore() != 0)
 		return ;
-	double_input_check(ms);
+	if (!double_input_check(ms))
+		return ;
 	execution(ms);
 	while (waitpid(-1, &ms->status, 0) > 0)
 	{

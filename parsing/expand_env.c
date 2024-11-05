@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:53:29 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/05 15:14:27 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 20:22:07 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	expand_env(t_ms *ms)
 	char	*env;
 
 	i = 0;
+	if (ft_strncmp(ms->split_commands[i], "echo", 5) == 0)
+		return ;
 	while (ms->split_commands[i])
 	{
 		if (ms->split_commands[i][0] == '$')

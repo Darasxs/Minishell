@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:43:59 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/05 18:32:10 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 20:47:19 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	heredoc_setup(t_ms *ms, int i)
 		if (current_heredoc->pipe_index == i)
 		{
 			if (dup2(current_heredoc->fd, STDIN_FILENO) == -1)
-				return (ft_putstr_fd("Error while duplicating file descriptor\n", 2));
+				return (ft_putstr_fd("Error\n", 2));
 			close(current_heredoc->fd);
 			ms->heredoc_found = true;
 			break ;

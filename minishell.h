@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/11/05 18:28:13 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 19:41:47 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,8 +166,9 @@ void							update_shlvl(t_ms *ms, char *shlvl_str,
 bool							isatty_helper(t_ms *ms);
 void							cleanup_heredocs(t_ms *ms);
 void							heredoc_setup(t_ms *ms, int i);
-void							double_input_check(t_ms *ms);
+bool							double_input_check(t_ms *ms);
 void							exit_minishell(t_ms *ms);
+bool							helper3(t_ms *ms, int i);
 
 //	parsing:
 t_token							*token_init(t_ms *ms);

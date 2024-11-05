@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:02 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/11/05 18:34:36 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 20:45:29 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,13 @@ void	handle_double_input(t_ms *ms, size_t command_index, int pipe_index)
 	ms->heredocs = new_heredoc;
 }
 
-void	double_input_check(t_ms *ms)
+void	double_input_helper(t_ms *ms, int i, int pipe_index)
+{
+	handle_double_input(ms, i, pipe_index);
+	ms->heredoc_found = true;
+}
+
+bool	double_input_check(t_ms *ms)
 {
 	t_token	*token;
 	int		pipe_index;
@@ -104,17 +110,17 @@ void	double_input_check(t_ms *ms)
 	{
 		token = create_split_commands(ms, token);
 		i = 0;
+		if (!syntax_check(ms))
+			return (false);
 		while (ms->split_commands[i])
 		{
 			if (ms->split_commands[i][0] == '<'
 				&& ms->split_commands[i][1] == '<')
-			{
-				handle_double_input(ms, i, pipe_index);
-				ms->heredoc_found = true;
-			}
+				double_input_helper(ms, i, pipe_index);
 			i++;
 		}
 		free_split(ms->split_commands);
 		pipe_index++;
 	}
+	return (true);
 }
