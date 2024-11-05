@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/04 16:18:46 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 14:35:40 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,30 @@ void	set_exit_status(t_ms *ms)
 		ms->exit_status = 1;
 }
 
+void	free_redir(t_ms *ms)
+{
+	size_t j;
+
+	j = 0;
+	while (ms->split_commands[j])
+	{
+		if (ms->split_commands[j][0] == '>'
+			|| ms->split_commands[j][0] == '<')
+		{
+			free(ms->split_commands[j]);
+			ms->split_commands[j] = NULL;
+		}
+		j++;
+	}
+}
+
 void	execute_command(t_ms *ms)
 {
 	if (ms->split_commands[0][0] == '.' && ms->split_commands[0][1] == '/')
 		execute_program_name(ms);
 	else
 	{
+		free_redir(ms);
 		ms->env = ft_getenv("PATH", ms);
 		if (!ms->env)
 			execution_error(ms, true);
