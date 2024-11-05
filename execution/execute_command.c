@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 01:23:56 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/05 14:35:40 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 14:46:16 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	set_exit_status(t_ms *ms)
 
 void	free_redir(t_ms *ms)
 {
-	size_t j;
+	size_t	j;
 
 	j = 0;
 	while (ms->split_commands[j])

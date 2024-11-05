@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:52:24 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/04 20:05:23 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:06:54 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,24 @@ void	unset_error(t_ms *ms, bool flag)
 	ft_putstr_fd("minishell: usage: unset ", 2);
 	ft_putstr_fd("[-nf] [name[=value] ...] or unset-p\n", 2);
 	ms->exit_status = 2;
+}
+
+bool	helper(t_ms *ms)
+{
+	int	i;
+
+	i = 0;
+	while (ms->split_commands[i])
+		i++;
+	i--;
+	if ((ms->split_commands[i][0] == '>' || ms->split_commands[i][0] == '<')
+		&& ft_strncmp(ms->split_commands[0], "echo", 5) != 0)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd(&ms->split_commands[i][0], 2);
+		ft_putstr_fd("'\n", 2);
+		ms->exit_status = 2;
+		return (false);
+	}
+	return (true);
 }

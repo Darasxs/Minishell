@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/11/04 19:27:34 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:08:41 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ char							*find_path(char *path, t_ms *ms);
 void							execute_command(t_ms *ms);
 void							execute_program_name(t_ms *ms);
 char							*ft_getenv(char *env, t_ms *ms);
+void							execution_error(t_ms *ms, bool flag);
 
 //	minishell_helper:
 int								count_split_size(t_token *token);
@@ -195,6 +196,7 @@ void							handle_double_input(t_ms *ms, size_t i,
 void							handle_redirections(t_ms *ms);
 bool							check_if_redirections(t_ms *ms);
 void							cleanup_heredocs(t_ms *ms);
+bool							helper(t_ms *ms);
 
 //	signals:
 void							handle_sigint(int signum, siginfo_t *info,

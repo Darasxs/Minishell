@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 19:26:45 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/04 19:30:11 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:10:18 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	export_syntax_check(t_ms *ms)
 	if (ms->split_commands[1][i] >= '0' && ms->split_commands[1][i] <= '9')
 		return (export_error(ms, true), false);
 	if (ms->split_commands[1][i] == '-')
-			return (export_error(ms, true), false);
+		return (export_error(ms, true), false);
 	while (ms->split_commands[1][i] && ms->split_commands[1][i] != '=')
 	{
 		if (!export_helper(ms, i))
@@ -32,7 +32,7 @@ bool	export_syntax_check(t_ms *ms)
 	{
 		if ((ms->split_commands[i][0] >= '0' && ms->split_commands[i][0] <= '9')
 			|| ms->split_commands[i][0] == '=')
-			return (export_error(ms, true) ,false);
+			return (export_error(ms, true), false);
 		else if (ms->split_commands[i][0] == '-')
 			return (export_error(ms, false), false);
 		i++;
@@ -46,8 +46,8 @@ bool	unset_syntax_check(t_ms *ms)
 
 	i = 0;
 	if (ms->split_commands[1] && (ms->split_commands[1][0] == '\0'
-			|| ms->split_commands[1][0] == '='
-			|| ms->split_commands[1][0] == '$'))
+		|| ms->split_commands[1][0] == '='
+		|| ms->split_commands[1][0] == '$'))
 	{
 		ft_putstr_fd("minishell: unset: `<': not a valid identifier\n", 2);
 		ft_putstr_fd("minishell: unset: `>': not a valid identifier\n", 2);
@@ -68,52 +68,34 @@ bool	unset_syntax_check(t_ms *ms)
 	return (true);
 }
 
-bool	syntax_check(t_ms *ms)
+void	syntax_execution_error(t_ms *ms, bool flag)
 {
-	int	i;
-
-	if (ft_strncmp(ms->split_commands[0], "export", 7) == 0
-		&& ms->split_commands[1] && !export_syntax_check(ms))
-		return (false);
-	if (ft_strncmp(ms->split_commands[0], "unset", 6) == 0
-		&& ms->split_commands[1] && !unset_syntax_check(ms))
-		return (false);
-	else if (ms->split_commands[0][0] == '>' && ms->split_commands[0][1] == '>'
-		&& !ms->split_commands[1])
+	if (flag)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(ms->split_commands[0], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		ms->exit_status = 1;
+	}
+	else
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(ms->split_commands[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		ms->exit_status = 127;
-		return (false);
 	}
-	else if ((ms->split_commands[0][0] == '>'
-			|| ms->split_commands[0][0] == '<') && (!ms->split_commands[1]
+}
+
+bool	helper2(t_ms *ms)
+{
+	if ((ms->split_commands[0][0] == '>' || ms->split_commands[0][0] == '<'
+			|| ms->split_commands[0][0] == '|') && (!ms->split_commands[1]
 			|| ms->split_commands[1][0] == '>'
 			|| ms->split_commands[1][0] == '<'))
 	{
-		if (!ms->split_commands[1] || (ms->split_commands[1][0] != '<'
-				&& ms->split_commands[1][0] != '>'))
-			ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
-				2);
-		else
-		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-			ft_putstr_fd(ms->split_commands[0], 2);
-			ft_putstr_fd("'\n", 2);
-		}
-		ms->exit_status = 2;
-		return (false);
-	}
-	else if (ms->split_commands[0][0] == '|')
-	{
-		if (ms->split_commands[0][0] == '|' && ms->split_commands[1]
-			&& ms->split_commands[1][0] == '|')
-			ft_putstr_fd("minishell: syntax error near unexpected token '||'\n",
-				2);
-		else
-			ft_putstr_fd("minishell: syntax error near unexpected token '|'\n",
-				2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd(ms->split_commands[0], 2);
+		ft_putstr_fd("'\n", 2);
 		ms->exit_status = 2;
 		return (false);
 	}
@@ -125,46 +107,30 @@ bool	syntax_check(t_ms *ms)
 		ms->exit_status = 126;
 		return (false);
 	}
+	return (true);
+}
+
+bool	syntax_check(t_ms *ms)
+{
+	if (ft_strncmp(ms->split_commands[0], "export", 7) == 0
+		&& ms->split_commands[1] && !export_syntax_check(ms))
+		return (false);
+	if (ft_strncmp(ms->split_commands[0], "unset", 6) == 0
+		&& ms->split_commands[1] && !unset_syntax_check(ms))
+		return (false);
+	else if (ms->split_commands[0][0] == '>' && ms->split_commands[0][1] == '>'
+		&& !ms->split_commands[1])
+		return (syntax_execution_error(ms, false), false);
+	else if (!helper2(ms))
+		return (false);
 	else if (ms->split_commands[0][0] == '.' && !ms->split_commands[0][3])
-	{
-		if (ms->split_commands[0][1] == '.' && !ms->split_commands[0][2])
-			ft_putstr_fd("minishell: ..: command not found\n", 2);
-		else
-			ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
-		ms->exit_status = 127;
-		return (false);
-	}
+		return (syntax_execution_error(ms, false), false);
 	else if ((ms->split_commands[0][0] == '>'
-			&& ms->split_commands[0][1] == '>')
+		&& ms->split_commands[0][1] == '>')
 		|| (ms->split_commands[0][0] == '>' && ms->split_commands[1]
-			&& ms->split_commands[1][1] == '>'))
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(ms->split_commands[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		ms->exit_status = 127;
+		&& ms->split_commands[1][1] == '>'))
+		return (syntax_execution_error(ms, false), false);
+	else if (!helper(ms))
 		return (false);
-	}
-	else if (ms->split_commands[0][0] == '>' && !ms->split_commands[1])
-	{
-		ms->exit_status = 127;
-		return (false);
-	}
-	else
-	{
-		i = 0;
-		while (ms->split_commands[i])
-			i++;
-		i--;
-		if ((ms->split_commands[i][0] == '>' || ms->split_commands[i][0] == '<')
-			&& ft_strncmp(ms->split_commands[0], "echo", 5) != 0)
-		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-			ft_putstr_fd(&ms->split_commands[i][0], 2);
-			ft_putstr_fd("'\n", 2);
-			ms->exit_status = 2;
-			return (false);
-		}
-	}
 	return (true);
 }
