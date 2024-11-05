@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/05 18:33:37 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 19:10:38 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 {
 	if (setup_sigquit() != 0)
-		return (ft_putstr_fd("Error\n", 2));
+		return ;
 	if (ms->heredoc_found == true)
 		heredoc_setup(ms, i);
 	if (check_if_redirections(ms))
@@ -116,7 +116,7 @@ void	minishell(t_ms *ms)
 	token = ms->head;
 	create_split_pipes(ms, token);
 	if (setup_sigint_ignore() != 0)
-		return (ft_putstr_fd("Error\n", 2));
+		return ;
 	double_input_check(ms);
 	execution(ms);
 	while (waitpid(-1, &ms->status, 0) > 0)
@@ -130,5 +130,5 @@ void	minishell(t_ms *ms)
 		cleanup_heredocs(ms);
 	free_split(ms->split_pipes);
 	if (setup_sigint() != 0)
-		return (ft_putstr_fd("Error\n", 2));
+		return ;
 }
