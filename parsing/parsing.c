@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 10:55:55 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/10/23 17:03:16 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:19:06 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_token	*token_init(t_ms *ms)
 	if (!token)
 		ft_error("Error while allocating the memory\n", ms);
 	token->value = NULL;
+	token->next = NULL;
 	return (token);
 }
 
@@ -64,8 +65,8 @@ t_token	*parsing(t_ms *ms)
 			token = token->next;
 		}
 	}
-	token = NULL;
+	token->next = NULL;
+	ms->head = head;
 	token = head;
-	ms->head = token;
 	return (token);
 }

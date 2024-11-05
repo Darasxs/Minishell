@@ -77,7 +77,6 @@ t_ms	*minishell_init(char **envp)
 	ms->status = 0;
 	ms->heredoc_file_descriptor = -1;
 	ms->first_iteration = true;
-	ms->heredoc = false;
 	ms->heredoc_found = false;
 	return (ms);
 }

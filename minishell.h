@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/11/05 15:08:41 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:28:13 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct s_minishell
 	t_token						*head;
 	char						**split_commands;
 	char						**split_pipes;
-	bool						heredoc;
 	int							heredoc_file_descriptor;
 	char						*temp_filename;
 	char						*user_name;
@@ -135,7 +134,6 @@ void							create_split_pipes(t_ms *ms, t_token *token);
 int								count_pipes(t_token *token);
 t_token							*join_pipes(t_ms *ms, t_token *token, int i);
 void							free_split(char **split);
-void							free_struct(t_ms *ms);
 void							ft_error(char *str, t_ms *ms);
 void							cleanup(t_ms *ms);
 void							free_list(t_ms *ms, t_token *token);
@@ -169,6 +167,7 @@ bool							isatty_helper(t_ms *ms);
 void							cleanup_heredocs(t_ms *ms);
 void							heredoc_setup(t_ms *ms, int i);
 void							double_input_check(t_ms *ms);
+void							exit_minishell(t_ms *ms);
 
 //	parsing:
 t_token							*token_init(t_ms *ms);

@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 15:29:15 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/05 14:46:25 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:28:11 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,15 @@ void	free_split(char **split)
 	}
 }
 
-void	free_struct(t_ms *ms)
+void	exit_minishell(t_ms *ms)
 {
 	free_split(ms->env_copy);
-	if (ms->prompt)
-		free(ms->prompt);
-	if (ms->input)
-		free(ms->input);
-	if (ms->path)
-		free(ms->path);
-	if (ms->full_path)
-		free(ms->full_path);
-	if (ms->exit_code)
-		free(ms->exit_code);
-	if (ms)
-		free(ms);
+	free(ms);
 }
 
 void	ft_error(char *str, t_ms *ms)
 {
 	printf("%s\n", str);
-	free_struct(ms);
 	exit(ms->exit_status);
 }
 
@@ -59,17 +47,23 @@ void	cleanup(t_ms *ms)
 	ms->first_iteration = true;
 	ms->input_pos = 0;
 	ms->token_count = 0;
+	free_list(ms, ms->token);
 }
 
 void	free_list(t_ms *ms, t_token *token)
 {
-	token = ms->head;
-	while (token->value)
+	t_token	*current;
+	t_token	*next;
+
+	(void)token;
+	current = ms->head;
+	while (current)
 	{
-		free(token->value);
-		token->value = NULL;
-		if (token->next)
-			token = token->next;
+		next = current->next;
+		if (current->value)
+			free(current->value);
+		free(current);
+		current = next;
 	}
-	free(token);
+	ms->head = NULL;
 }

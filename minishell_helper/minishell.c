@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/05 15:23:21 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:33:37 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 {
 	if (setup_sigquit() != 0)
-		return (free_struct(ms));
-	heredoc_setup(ms, i);
+		return (ft_putstr_fd("Error\n", 2));
+	if (ms->heredoc_found == true)
+		heredoc_setup(ms, i);
 	if (check_if_redirections(ms))
 		handle_redirections(ms);
 	if (!ms->heredoc_found && i > 0)
@@ -115,7 +116,7 @@ void	minishell(t_ms *ms)
 	token = ms->head;
 	create_split_pipes(ms, token);
 	if (setup_sigint_ignore() != 0)
-		return (free_struct(ms));
+		return (ft_putstr_fd("Error\n", 2));
 	double_input_check(ms);
 	execution(ms);
 	while (waitpid(-1, &ms->status, 0) > 0)
@@ -125,8 +126,9 @@ void	minishell(t_ms *ms)
 		else if (WIFSIGNALED(ms->status))
 			ms->exit_status = 128 + WTERMSIG(ms->status);
 	}
-	cleanup_heredocs(ms);
-	free_list(ms, ms->token);
+	if (ms->heredoc_found == true)
+		cleanup_heredocs(ms);
+	free_split(ms->split_pipes);
 	if (setup_sigint() != 0)
-		free_struct(ms);
+		return (ft_putstr_fd("Error\n", 2));
 }

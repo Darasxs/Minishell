@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:02 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/11/05 15:43:09 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:34:36 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	handle_double_input(t_ms *ms, size_t command_index, int pipe_index)
 	}
 	eof_delimiter = ms->split_commands[command_index + 1];
 	if (setup_sigint_ignore() != 0 || setup_sigquit_ignore() != 0)
-		return (free_struct(ms));
+		return (ft_putstr_fd("Error\n", 2));
 	heredoc_while_loop(new_heredoc, eof_delimiter);
 	close(new_heredoc->fd);
 	new_heredoc->fd = open(new_heredoc->filename, O_RDONLY);
@@ -108,7 +108,10 @@ void	double_input_check(t_ms *ms)
 		{
 			if (ms->split_commands[i][0] == '<'
 				&& ms->split_commands[i][1] == '<')
+			{
 				handle_double_input(ms, i, pipe_index);
+				ms->heredoc_found = true;
+			}
 			i++;
 		}
 		free_split(ms->split_commands);
