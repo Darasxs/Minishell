@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 20:52:47 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/04 16:55:46 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:16:10 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	prompt_helper(char **cwd, char **user_name, t_ms *ms)
 		ms->exit_status = 1;
 		exit(ms->exit_status);
 	}
-	//*user_name = ft_strdup("pawka"); uncomment for checking mem leaks
-	*user_name = ft_getenv("USER", ms);
-	if (!*user_name)
-	{
-		ft_putstr_fd("Error while finding the user name\n", 2);
-		ms->exit_status = 1;
-		exit(ms->exit_status);
-	}
+	*user_name = ft_strdup("pawka");
+	//*user_name = ft_getenv("USER", ms);
+	//if (!*user_name)
+	//{
+	//	ft_putstr_fd("Error while finding the user name\n", 2);
+	//	ms->exit_status = 1;
+	//	exit(ms->exit_status);
+	//}
 }
 
 void	prompt_root(t_ms *ms, char *user_name)

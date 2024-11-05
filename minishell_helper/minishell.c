@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/04 16:44:41 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:23:21 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ void	handle_child_process(t_ms *ms, int i, int *input_fd, int *fd)
 	if (ms->split_pipes[i + 1])
 	{
 		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
+		if (fd[1] != -1)
+			close(fd[1]);
 	}
-	close(fd[0]);
+	if (fd[0] != -1)
+		close(fd[0]);
 	if (check_builtin(ms))
 		handle_builtins(ms, i, input_fd, fd);
 	else
@@ -41,7 +43,8 @@ void	handle_parent_process(t_ms *ms, int i, int *input_fd, int *fd)
 {
 	if (ms->split_pipes[i + 1])
 	{
-		close(fd[1]);
+		if (fd[1] != -1)
+			close(fd[1]);
 		if (*input_fd != STDIN_FILENO)
 			close(*input_fd);
 		*input_fd = fd[0];
@@ -50,7 +53,8 @@ void	handle_parent_process(t_ms *ms, int i, int *input_fd, int *fd)
 	{
 		if (*input_fd != STDIN_FILENO)
 			close(*input_fd);
-		close(fd[0]);
+		if (fd[0] != -1)
+			close(fd[0]);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:53:29 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/04 16:59:07 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:14:27 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,9 @@ void	expand_env_helper(t_ms *ms, char *env, size_t i)
 void	expand_env(t_ms *ms)
 {
 	size_t	i;
-	size_t	j;
 	char	*env;
 
 	i = 0;
-	j = 0;
 	while (ms->split_commands[i])
 	{
 		if (ms->split_commands[i][0] == '$')

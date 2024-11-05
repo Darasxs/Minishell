@@ -57,14 +57,16 @@ char	**envp_init(char **envp)
 t_ms	*minishell_init(char **envp)
 {
 	t_ms		*ms;
-	t_heredoc	*heredocs;
+	//t_heredoc	*heredocs;
 
 	ms = malloc(sizeof(t_ms));
 	if (!ms)
 		ft_error("Error while allocating the memory\n", ms);
-	heredocs = malloc(sizeof(t_heredoc));
-	if (!heredocs)
-		return (NULL);
+	//heredocs = malloc(sizeof(t_heredoc));
+	//if (!heredocs)
+	//	return (NULL);
+	//heredocs->fd = -1;
+	//heredocs->pipe_index = 0;
 	ms->env_copy = envp_init(envp);
 	ms->exit_status = 0;
 	ms->input_pos = 0;
@@ -72,10 +74,8 @@ t_ms	*minishell_init(char **envp)
 	ms->single_q = 0;
 	ms->double_q = 0;
 	ms->token_count = 0;
-	heredocs->pipe_index = 0;
 	ms->status = 0;
 	ms->heredoc_file_descriptor = -1;
-	heredocs->fd = -1;
 	ms->first_iteration = true;
 	ms->heredoc = false;
 	ms->heredoc_found = false;

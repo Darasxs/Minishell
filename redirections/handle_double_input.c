@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:02 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/11/05 14:25:43 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 15:43:09 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ t_heredoc	*heredoc_init(int pipe_index)
 		return (NULL);
 	}
 	new_heredoc->filename = ft_strjoin(temp_base, index_str);
+	new_heredoc->pipe_index = 0;
+	new_heredoc->fd = -1;
 	free(temp_base);
 	free(index_str);
 	if (!new_heredoc->filename)

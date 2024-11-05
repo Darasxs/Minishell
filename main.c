@@ -6,7 +6,7 @@
 /*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 12:33:16 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/11/04 16:48:34 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/05 16:11:53 by paprzyby         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ int	main(int ac, char **av, char **envp)
 			cleanup(ms);
 		}
 	}
-	// free here
+	//int	i;
+	//i = ms->exit_status;
+	//free(ms);
+	//return (i);
 	return (ms->exit_status);
 }
