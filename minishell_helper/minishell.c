@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 07:19:57 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/05 19:29:13 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/06 17:59:27 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,8 @@ void	minishell(t_ms *ms)
 	t_token	*token;
 
 	token = ms->head;
-	create_split_pipes(ms, token);
+	if (!create_split_pipes(ms, token))
+		return ;
 	if (setup_sigint_ignore() != 0)
 		return ;
 	if (!double_input_check(ms))

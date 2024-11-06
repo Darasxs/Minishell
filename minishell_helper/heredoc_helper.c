@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 16:43:59 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/06 15:24:19 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:33:01 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	heredoc_setup(t_ms *ms, int i)
 		current_heredoc = current_heredoc->next;
 	}
 }
+
 t_heredoc	*heredoc_init_helper(t_heredoc *new_heredoc)
 {
 	new_heredoc->pipe_index = 0;

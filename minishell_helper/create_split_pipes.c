@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_split_pipes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 17:06:32 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/10/31 18:18:55 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/06 18:39:25 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,10 @@ t_token	*join_pipes(t_ms *ms, t_token *token, int i)
 	return (token);
 }
 
-void	create_split_pipes(t_ms *ms, t_token *token)
+bool	split_pipes_helper(t_ms *ms, t_token *token, int pipes_count)
 {
-	t_token	*head;
-	int		i;
-	int		pipes_count;
+	int	i;
 
-	head = token;
-	pipes_count = count_pipes(head);
-	ms->split_pipes = malloc(sizeof(char *) * (pipes_count + 1));
-	if (!ms->split_pipes)
-		ft_error("Error while allocating the memory\n", ms);
 	i = 0;
 	while (i < pipes_count && token->value)
 	{
@@ -98,9 +91,31 @@ void	create_split_pipes(t_ms *ms, t_token *token)
 			token = join_pipes(ms, token, i);
 			i++;
 		}
+		else if (token->value[0] == '|' && token->next->value
+			&& token->next->value[0] == '|')
+		{
+			ms->exit_status = 2;
+			return (ft_putstr_fd("minishell: syntax error\n", 2), false);
+		}
 		else
 			token = token->next;
 	}
 	ms->split_pipes[i] = NULL;
-	token = head;
+	token = ms->head;
+	return (true);
+}
+
+bool	create_split_pipes(t_ms *ms, t_token *token)
+{
+	t_token	*head;
+	int		pipes_count;
+
+	head = token;
+	pipes_count = count_pipes(head);
+	ms->split_pipes = malloc(sizeof(char *) * (pipes_count + 1));
+	if (!ms->split_pipes)
+		ft_error("Error while allocating the memory\n", ms);
+	if (!split_pipes_helper(ms, token, pipes_count))
+		return (false);
+	return (true);
 }

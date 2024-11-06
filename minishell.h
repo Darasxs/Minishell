@@ -6,7 +6,7 @@
 /*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:45:00 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/11/06 15:25:43 by dpaluszk         ###   ########.fr       */
+/*   Updated: 2024/11/06 18:00:15 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void					execution_error(t_ms *ms, bool flag);
 int						count_split_size(t_token *token);
 void					remove_quotes(t_ms *ms, int split);
 t_token					*create_split_commands(t_ms *ms, t_token *token);
-void					create_split_pipes(t_ms *ms, t_token *token);
+bool					create_split_pipes(t_ms *ms, t_token *token);
 int						count_pipes(t_token *token);
 t_token					*join_pipes(t_ms *ms, t_token *token, int i);
 void					free_split(char **split);
@@ -187,7 +187,6 @@ void					handle_double_input(t_ms *ms, size_t i, int pipe_index);
 void					handle_redirections(t_ms *ms);
 bool					check_if_redirections(t_ms *ms);
 void					cleanup_heredocs(t_ms *ms);
-bool					helper(t_ms *ms);
 t_heredoc				*heredoc_init(int pipe_index);
 t_heredoc				*heredoc_init_helper(t_heredoc *new_heredoc);
 void					heredoc_while_loop(t_heredoc *new_heredoc,

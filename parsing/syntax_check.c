@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 19:26:45 by paprzyby          #+#    #+#             */
-/*   Updated: 2024/11/05 19:31:07 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/06 18:00:06 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,5 @@ bool	syntax_check(t_ms *ms)
 		|| (ms->split_commands[0][0] == '>' && ms->split_commands[1]
 		&& ms->split_commands[1][1] == '>'))
 		return (syntax_execution_error(ms, false), false);
-	else if (!helper(ms))
-		return (false);
 	return (true);
 }
