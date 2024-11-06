@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_double_input.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: paprzyby <paprzyby@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dpaluszk <dpaluszk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:45:02 by dpaluszk          #+#    #+#             */
-/*   Updated: 2024/11/05 20:45:29 by paprzyby         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:24:35 by dpaluszk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ t_heredoc	*heredoc_init(int pipe_index)
 		return (NULL);
 	}
 	new_heredoc->filename = ft_strjoin(temp_base, index_str);
-	new_heredoc->pipe_index = 0;
-	new_heredoc->fd = -1;
+	new_heredoc = heredoc_init_helper(new_heredoc);
 	free(temp_base);
 	free(index_str);
 	if (!new_heredoc->filename)
